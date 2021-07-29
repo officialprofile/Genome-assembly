@@ -1,0 +1,19 @@
+# Introduction {#intro}
+
+Description
+
+```{r nice-fig, fig.cap='Some description!', out.width='80%', fig.asp=.75, fig.align='center'}
+par(mar = c(4, 4, .1, .1))
+plot(pressure, type = 'b', pch = 19)
+```
+
+Reference figure \@ref(fig:nice-fig). Reference table \@ref(tab:nice-tab).
+
+```{r nice-tab, tidy=FALSE}
+knitr::kable(
+  head(iris, 20), caption = 'Description!',
+  booktabs = TRUE
+)
+```
+
+Description
