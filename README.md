@@ -1,1 +1,3 @@
-This is a minimal example of a book based on R Markdown and **bookdown** (https://github.com/rstudio/bookdown). Please see the page "Get Started" at https://bookdown.org/home/about/ for how to compile this example.
+ **Genome Assembly** (https://officialprofile.github.io/Genome-assembly/). 
+ 
+ This textbook will be devoted to the most important algorithms in the wide field of genome assembly related problems.
