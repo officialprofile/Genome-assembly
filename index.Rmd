@@ -1,7 +1,7 @@
 --- 
 title: "Genome Assembly"
 subtitle: "Low-level approach with R"
-author: "Jane Doe"
+author: ""
 date: "`r Sys.Date()`"
 site: bookdown::bookdown_site
 documentclass: book
@@ -11,15 +11,16 @@ link-citations: yes
 description: "Low-level approach to genome assembly"
 ---
 
-# Prerequisites
+# Introduction
 
-Description
+This mini textbook describes (or perhaps one should say "will describe") selected algorithms that play key role in the *de novo* genome assembly. Some algorithms that are being used in a bit different areas are also presented, e.g. Burrows-Wheeler transform.
+
+The premise of this work is to construct this algorithms from the very bottom. By default the code is in R, but python and shell can also somewhere appear.
 
 ```{r eval=FALSE}
 
 ```
 
-Description
 
 ```{r include=FALSE}
 # automatically create a bib database for R packages
