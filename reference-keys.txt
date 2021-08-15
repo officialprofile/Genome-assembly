@@ -1,5 +1,7 @@
-fig:nice-fig
-tab:nice-tab
+introduction
 prerequisites
-intro
-literature
+bwt
+introduction-1
+burrows-wheeler-matrix
+inverse-transform
+applications
