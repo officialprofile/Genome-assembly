@@ -50,7 +50,7 @@ cat(sequences, sep = '\n')
 #> $GATTACA
 ```
 
-Then we sort these sequences with the assumption that the dollar sign precedes lexicographically every ohter symbol.
+Then we sort these sequences with the assumption that the dollar sign precedes lexicographically every other symbol.
 
 
 ```r
@@ -66,7 +66,7 @@ cat(sequences, sep = '\n')
 #> TTACA$GA
 ```
 
-For our convenience lets these permutations into single characters 
+For our convenience let's split these permutations into vectors of single characters.
 
 
 ```r
@@ -93,7 +93,7 @@ knitr::kable(bw.matrix)
 |T  |A  |C  |A  |$  |G  |A  |T  |
 |T  |T  |A  |C  |A  |$  |G  |A  |
 
-Thus we have created a **Burrows-Wheeler matrix**.  Sequence in the last column is called **Burrows-Wheeler transform**.
+Thus we have created the **Burrows-Wheeler matrix**.  Sequence in the last column is called the **Burrows-Wheeler transform**.
 
 
 ```r
@@ -143,7 +143,7 @@ knitr::kable(bw.inverse)
 |T  |T  |
 |A  |T  |
 
-Also keep in mind that the characters from last and the first column are adjacent.  In other words, at this point we have a set of 2-mers.
+Also keep in mind that the characters from last and the first column are adjacent. In other words, at this point we have a set of 2-mers.
 
 
 ```r
@@ -162,7 +162,7 @@ kmers
 #> [1] "$G" "A$" "AC" "AT" "CA" "GA" "TA" "TT"
 ```
 
-2-mers (k-mers in general) represent first two columns of the Burrows-Wheeler matrix. We can derive last characters of the 2-mers in the following way.
+The 2-mers (k-mers in general) that we sorted lexicographically represent first two columns of the Burrows-Wheeler matrix. We can extract last character of each 2-mer in the following way:
 
 
 ```r
@@ -171,7 +171,7 @@ sapply(kmers, function(x) str_sub(x, 2, 2),
 #> [1] "G" "$" "C" "T" "A" "A" "A" "T"
 ```
 
-By inserting this set of characters we obtained the second column, and by iterating the proccess of building substrings, sorting then, and retrieving last characters we can fill the whole Burrows-Wheeler matrix.
+By inserting this set of characters we obtained the second column, and by iterating the proccess of building substrings, sorting them, and retrieving last characters we can fill the whole Burrows-Wheeler matrix.
 
 
 ```r
@@ -243,7 +243,7 @@ knitr::kable(bw.inverse == bw.matrix)
 |TRUE |TRUE |TRUE |TRUE |TRUE |TRUE |TRUE |TRUE |
 |TRUE |TRUE |TRUE |TRUE |TRUE |TRUE |TRUE |TRUE |
 
-Additionally we can encapsulate Burrows-Wheeler transform in a form of a single function.
+Additionally we can encapsulate the Burrows-Wheeler transform in a form of a single function.
 
 
 ```r

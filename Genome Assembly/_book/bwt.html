@@ -47,7 +47,7 @@
 </ul>
 
         <div class="book-extra">
-          <p><a id="book-repo" href="https://github.com/rstudio/bookdown-demo">View book source <i class="fab fa-github"></i></a></p>
+          <p><a id="book-repo" href="https://officialprofile.github.io/Genome-assembly">View book source <i class="fab fa-gitlab"></i></a></p>
         </div>
       </nav>
 </div>
@@ -94,7 +94,7 @@
 <span class="co">#&gt; CA$GATTA</span>
 <span class="co">#&gt; A$GATTAC</span>
 <span class="co">#&gt; $GATTACA</span></code></pre></div>
-<p>Then we sort these sequences with the assumption that the dollar sign precedes lexicographically every ohter symbol.</p>
+<p>Then we sort these sequences with the assumption that the dollar sign precedes lexicographically every other symbol.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">sequences</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sort.html">sort</a></span><span class="op">(</span><span class="va">sequences</span><span class="op">)</span> 
 <span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span><span class="op">(</span><span class="va">sequences</span>, sep <span class="op">=</span> <span class="st">'\n'</span><span class="op">)</span>
@@ -106,7 +106,7 @@
 <span class="co">#&gt; GATTACA$</span>
 <span class="co">#&gt; TACA$GAT</span>
 <span class="co">#&gt; TTACA$GA</span></code></pre></div>
-<p>For our convenience lets these permutations into single characters</p>
+<p>For our convenience let’s split these permutations into vectors of single characters.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">bw.matrix</span>           <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/matrix.html">matrix</a></span><span class="op">(</span>, <span class="va">n</span>, <span class="va">n</span><span class="op">)</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">bw.matrix</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fl">1</span><span class="op">:</span><span class="va">n</span>
@@ -210,7 +210,7 @@
 </tr>
 </tbody>
 </table></div>
-<p>Thus we have created a <strong>Burrows-Wheeler matrix</strong>. Sequence in the last column is called <strong>Burrows-Wheeler transform</strong>.</p>
+<p>Thus we have created the <strong>Burrows-Wheeler matrix</strong>. Sequence in the last column is called the <strong>Burrows-Wheeler transform</strong>.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">transform</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste</a></span><span class="op">(</span><span class="va">bw.matrix</span><span class="op">[</span>,<span class="va">n</span><span class="op">]</span>, collapse <span class="op">=</span> <span class="st">''</span><span class="op">)</span>
 
@@ -288,12 +288,12 @@
 <code class="sourceCode R"><span class="va">kmers</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sort.html">sort</a></span><span class="op">(</span><span class="va">kmers</span><span class="op">)</span>
 <span class="va">kmers</span>
 <span class="co">#&gt; [1] "$G" "A$" "AC" "AT" "CA" "GA" "TA" "TT"</span></code></pre></div>
-<p>2-mers (k-mers in general) represent first two columns of the Burrows-Wheeler matrix. We can derive last characters of the 2-mers in the following way.</p>
+<p>The 2-mers (k-mers in general) that we sorted lexicographically represent first two columns of the Burrows-Wheeler matrix. We can extract last character of each 2-mer in the following way:</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/lapply.html">sapply</a></span><span class="op">(</span><span class="va">kmers</span>, <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu"><a href="https://stringr.tidyverse.org/reference/str_sub.html">str_sub</a></span><span class="op">(</span><span class="va">x</span>, <span class="fl">2</span>, <span class="fl">2</span><span class="op">)</span>, 
        simplify <span class="op">=</span> <span class="cn">TRUE</span>, USE.NAMES <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
 <span class="co">#&gt; [1] "G" "$" "C" "T" "A" "A" "A" "T"</span></code></pre></div>
-<p>By inserting this set of characters we obtained the second column, and by iterating the proccess of building substrings, sorting then, and retrieving last characters we can fill the whole Burrows-Wheeler matrix.</p>
+<p>By inserting this set of characters we obtained the second column, and by iterating the proccess of building substrings, sorting them, and retrieving last characters we can fill the whole Burrows-Wheeler matrix.</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw">for</span> <span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fl">2</span><span class="op">:</span><span class="op">(</span><span class="va">n</span><span class="op">-</span><span class="fl">1</span><span class="op">)</span><span class="op">)</span><span class="op">{</span>
   <span class="va">kmers</span>             <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/apply.html">apply</a></span><span class="op">(</span><span class="va">bw.inverse</span>, <span class="fl">1</span>, 
@@ -596,7 +596,7 @@
 </tr>
 </tbody>
 </table></div>
-<p>Additionally we can encapsulate Burrows-Wheeler transform in a form of a single function.</p>
+<p>Additionally we can encapsulate the Burrows-Wheeler transform in a form of a single function.</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">BWT</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">sequence</span><span class="op">)</span><span class="op">{</span>
   <span class="va">sequence</span>  <span class="op">&lt;-</span> <span class="fu"><a href="https://stringr.tidyverse.org/reference/str_c.html">str_c</a></span><span class="op">(</span><span class="va">sequence</span>, <span class="st">'$'</span><span class="op">)</span>
@@ -645,8 +645,8 @@
 
       <div class="book-extra">
         <ul class="list-unstyled">
-<li><a id="book-source" href="https://github.com/rstudio/bookdown-demo/blob/master/01-Burrows-Wheeler-Transform.Rmd">View source <i class="fab fa-github"></i></a></li>
-          <li><a id="book-edit" href="https://github.com/rstudio/bookdown-demo/edit/master/01-Burrows-Wheeler-Transform.Rmd">Edit this page <i class="fab fa-github"></i></a></li>
+<li><a id="book-source" href="https://officialprofile.github.io/Genome-assembly/blob/master/01-Burrows-Wheeler-Transform.Rmd">View source <i class="fab fa-gitlab"></i></a></li>
+          <li><a id="book-edit" href="https://officialprofile.github.io/Genome-assembly/edit/master/01-Burrows-Wheeler-Transform.Rmd">Edit this page <i class="fab fa-gitlab"></i></a></li>
         </ul>
 </div>
     </nav>

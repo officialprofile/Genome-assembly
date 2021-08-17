@@ -223,7 +223,7 @@ Afterwards we perform a series of circular shift permutations.
 \end{Highlighting}
 \end{Shaded}
 
-Then we sort these sequences with the assumption that the dollar sign precedes lexicographically every ohter symbol.
+Then we sort these sequences with the assumption that the dollar sign precedes lexicographically every other symbol.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -240,7 +240,7 @@ Then we sort these sequences with the assumption that the dollar sign precedes l
 \end{Highlighting}
 \end{Shaded}
 
-For our convenience lets these permutations into single characters
+For our convenience let's split these permutations into vectors of single characters.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -277,7 +277,7 @@ T & T & A & C & A & \$ & G & A\\
 \hline
 \end{tabular}
 
-Thus we have created a \textbf{Burrows-Wheeler matrix}. Sequence in the last column is called \textbf{Burrows-Wheeler transform}.
+Thus we have created the \textbf{Burrows-Wheeler matrix}. Sequence in the last column is called the \textbf{Burrows-Wheeler transform}.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -361,7 +361,7 @@ The reconstruction process strictly relies on the fact that Burrows-Wheeler matr
 \end{Highlighting}
 \end{Shaded}
 
-2-mers (k-mers in general) represent first two columns of the Burrows-Wheeler matrix. We can derive last characters of the 2-mers in the following way.
+The 2-mers (k-mers in general) that we sorted lexicographically represent first two columns of the Burrows-Wheeler matrix. We can extract last character of each 2-mer in the following way:
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -371,7 +371,7 @@ The reconstruction process strictly relies on the fact that Burrows-Wheeler matr
 \end{Highlighting}
 \end{Shaded}
 
-By inserting this set of characters we obtained the second column, and by iterating the proccess of building substrings, sorting then, and retrieving last characters we can fill the whole Burrows-Wheeler matrix.
+By inserting this set of characters we obtained the second column, and by iterating the proccess of building substrings, sorting them, and retrieving last characters we can fill the whole Burrows-Wheeler matrix.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -473,7 +473,7 @@ TRUE & TRUE & TRUE & TRUE & TRUE & TRUE & TRUE & TRUE\\
 \hline
 \end{tabular}
 
-Additionally we can encapsulate Burrows-Wheeler transform in a form of a single function.
+Additionally we can encapsulate the Burrows-Wheeler transform in a form of a single function.
 
 \begin{Shaded}
 \begin{Highlighting}[]
