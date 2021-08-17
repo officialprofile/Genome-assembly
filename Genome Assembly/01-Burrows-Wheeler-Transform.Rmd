@@ -5,8 +5,13 @@ library(stringr)
 library(dplyr)
 ```
 
+The Burrows-Wheeler transform is one of the most effective lossless text compression method available. It provides a reversible transformation for text that makes it easier to compress. Of course, one may wonder what text compression has to do with genome assembly. As a matter of fact these two issues are closely related. But we should to be more precise here - text compression is closely related to pattern matching which in turn is crucial for the genome assembly. In a broad sense compression algorithms look for patterns and try to remove repetitions. We want to take advantage of this feature, especially because repetitive patterns tend to be very abundant in genomic sequences.
+
+It is worth mentioning that the Burrows-Wheeler transform is also closely related to suffix trees and suffix arrays, which are commonly used within pattern matching. This relationship will be studied later but perhaps reader should already keep the trivia in mind. [@bw1]
+
 ## Introduction
-[Description]
+
+The Burrows-Wheeler transform method is often referred to as “block sorting”, because it takes a block of text and permutes it. By permuting a block of text we mean rearranging the order of its symbols. Once again, we should be more precise here because Burrows-Wheeler transform performes a specific type of permutation, namely *circural shift permutation*: all of the characters are moved one position to the left, and first character moves to the last position.
 
 ## Burrows-Wheeler matrix
 
@@ -15,13 +20,14 @@ Consider the following sequence:
 sequence <- 'GATTACA'
 ```
 
-In order to create the Burrows-Wheeler matrix for the given string we at first add the dollar sign $ at the end of the sequence.
+In order to create the Burrows-Wheeler matrix, from which the transform itself can be obtained, for the given string we at first add the dollar sign $ at the end of the sequence.
 
 ```{r}
 sequence  <- str_c(sequence, '$')
 ```
 
-Afterwards we perform a series of shifts 
+Afterwards we perform a series of circular shift permutations.
+
 ```{r}
 sequences <- c(sequence)
 n         <- nchar(sequence)
@@ -36,14 +42,14 @@ for (i in 1:(n-1)){
 cat(sequences, sep = '\n')
 ```
 
-Then we sort these sequences with the assumption that the dollar sign precedes lexicographically every symbol.
+Then we sort these sequences with the assumption that the dollar sign precedes lexicographically every ohter symbol.
 
 ```{r}
 sequences <- sort(sequences) 
 cat(sequences, sep = '\n')
 ```
 
-By putting every letter 
+For our convenience lets these permutations into single characters 
 
 ```{r}
 bw.matrix           <- data.frame(matrix(, n, n))
@@ -56,25 +62,27 @@ for (i in 1:n){
 knitr::kable(bw.matrix)
 ```
 
-Sequence at the very bottom of the Burrows-Wheeler matrix is called **Burrows-Wheeler transform**.
+Thus we have created a **Burrows-Wheeler matrix**.  Sequence in the last column is called **Burrows-Wheeler transform**.
 
 ```{r}
 transform <- paste(bw.matrix[,n], collapse = '')
 
 cat('The Burrows-Wheeler transform of', 
-    str_sub(sequence, 2, n), 'is', transform)
+    sequence, 'is', transform)
 ```
 
 ## Inverse transform
 
-We are going to reconstruct the Burrows-Wheeler matrix and initial sequence itself. In order to do so one as first has to sort the transformed sequence.
+As we said at the very beginning the transform is reversible. Having only the transformed sequence we are going to reconstruct the Burrows-Wheeler matrix and initial sequence itself. 
+
+Firstly let's sort the characters of the transformed sequence.
 
 ```{r}
 first.sequence <- strsplit(transform, split = '')[[1]] %>% sort
 paste(first.sequence, collapse = '')
 ```
 
-Note that this string is equal to the first column of the Burrrows-Wheeler transform. Also keep in mind that the characters from last and the first column are adjacent. 
+Note that this string is equivalent to the first column of the Burrrows-Wheeler transform.
 
 ```{r}
 bw.inverse           <- data.frame(matrix(, n, 2))
@@ -86,7 +94,7 @@ bw.inverse[ ,2] <- first.sequence
 knitr::kable(bw.inverse)
 ```
 
-In other words, a this point we have a set of 2-mers.
+Also keep in mind that the characters from last and the first column are adjacent.  In other words, at this point we have a set of 2-mers.
 
 ```{r}
 kmers <- apply(bw.inverse, 1, 
@@ -94,21 +102,21 @@ kmers <- apply(bw.inverse, 1,
 kmers
 ```
 
-Once again, we strictly rely on the fact that Burrows-Wheeler matrix is sorted lexicographically. This allows us to reconstruct the remaining columns.
+The reconstruction process strictly relies on the fact that Burrows-Wheeler matrix is sorted lexicographically. This property will allow us to retrieve the remaining columns.
 
 ```{r}
 kmers <- sort(kmers)
 kmers
 ```
 
-These 2-mers (k-mers in general) represent first two columns of the Burrows-Wheeler matrix.
+2-mers (k-mers in general) represent first two columns of the Burrows-Wheeler matrix. We can derive last characters of the 2-mers in the following way.
 
-We can derive last characters of the 2-mers in the following way:
 ```{r}
 sapply(kmers, function(x) str_sub(x, 2, 2), 
        simplify = TRUE, USE.NAMES = FALSE)
 ```
 
+By inserting this set of characters we obtained the second column, and by iterating the proccess of building substrings, sorting then, and retrieving last characters we can fill the whole Burrows-Wheeler matrix.
 
 ```{r}
 for (i in 2:(n-1)){
@@ -131,13 +139,14 @@ colnames(bw.inverse)[n] = n
 
 knitr::kable(bw.inverse)
 ```
+
 One can also verify that bw.matrix and bw.inverse are in fact the same. 
 
 ```{r}
 knitr::kable(bw.inverse == bw.matrix)
 ```
 
-Additionally we can encapsulate Burrows-Wheeler transform in a function
+Additionally we can encapsulate Burrows-Wheeler transform in a form of a single function.
 
 ```{r}
 BWT <- function(sequence){
@@ -165,13 +174,13 @@ BWT <- function(sequence){
 ```{r}
 BWT('GATTACA')
 ```
-One can verify that this output is equal to result we obteined earlier.
+
+One can verify that this output is equal to result we obtained earlier.
 
 Out of pure curiosity lets check the Burrows-Wheeler transform for a longer sequence.
 
 ```{r}
 BWT('ATGCTCGTGCCATCATATAGCGCGCGCGCGATCTCTACGCGCG')
 ```
-Please note that the input string has no identical characters at adjacent positions whereas in the transformed sequence such situation appears quite often. These substrings of identical characters will allow us represent the sequence in a more condensed manner.
 
-## Applications
+Please note that the input string has no identical characters at adjacent positions, whereas in the transformed sequence such situation appears quite often. These substrings of identical characters will allow us represent the sequence in a more condensed manner and expediate pattern matching.
