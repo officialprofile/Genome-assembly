@@ -1,13 +1,12 @@
 --- 
 title: "Genome Assembly"
-subtitle: "Low-level approach with R"
 author: "officialprofile"
 date: "2021-08-17"
 site: bookdown::bookdown_site
 documentclass: book
 bibliography: [book.bib, packages.bib]
-url: https://officialprofile.github.io/Genome-assembly/
-description: "Low-level approach to genome assembly"
+url: https://github.com/officialprofile/Genome-assembly/
+description: "Low-level approach to genome de novo assembly"
 biblio-style: apalike
 csl: chicago-fullnote-bibliography.csl
 ---
@@ -19,6 +18,9 @@ This mini textbook describes (or perhaps one should say "will describe") selecte
 The premise of this book is to construct these algorithms from the very bottom along with brief explanation of their gists. Naturally, the applications are included as well.
 
 By default the code is written in R, but python and shell can appear at some point as well  (not very likely though).
+
+<img src="img/cover.png" width="80%" style="display: block; margin: auto;" />
+<font size="1">A HiFi De Bruijn graph for a pile of reads from Drosophila genome sequencing. Each dot represents a k-mer (k=23), the edges denote neighboring k-mers. The larger red dots mark the head of heterozygous bubbles. Source: pacb.com.</font> 
 
 ## Prerequisites
 

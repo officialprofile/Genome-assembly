@@ -116,13 +116,6 @@
 \bibliographystyle{apalike}
 
 \title{Genome Assembly}
-\usepackage{etoolbox}
-\makeatletter
-\providecommand{\subtitle}[1]{% add subtitle to \maketitle
-  \apptocmd{\@title}{\par {\large #1 \par}}{}{}
-}
-\makeatother
-\subtitle{Low-level approach with R}
 \author{officialprofile}
 \date{2021-08-17}
 
@@ -141,6 +134,10 @@ This mini textbook describes (or perhaps one should say ``will describe'') selec
 The premise of this book is to construct these algorithms from the very bottom along with brief explanation of their gists. Naturally, the applications are included as well.
 
 By default the code is written in R, but python and shell can appear at some point as well (not very likely though).
+
+\begin{center}\includegraphics[width=0.8\linewidth]{img/cover} \end{center}
+
+A HiFi De Bruijn graph for a pile of reads from Drosophila genome sequencing. Each dot represents a k-mer (k=23), the edges denote neighboring k-mers. The larger red dots mark the head of heterozygous bubbles. Source: pacb.com.
 
 \hypertarget{prerequisites}{%
 \section{Prerequisites}\label{prerequisites}}
@@ -184,7 +181,7 @@ The Burrows-Wheeler transform method is often referred to as ``block sorting'', 
 Consider the following sequence:
 
 \begin{Shaded}
-\begin{Highlighting}[]
+\begin{Highlighting}[numbers=left,,]
 \NormalTok{sequence }\OtherTok{\textless{}{-}} \StringTok{\textquotesingle{}GATTACA\textquotesingle{}}
 \end{Highlighting}
 \end{Shaded}
@@ -192,7 +189,7 @@ Consider the following sequence:
 In order to create the Burrows-Wheeler matrix, from which the transform itself can be obtained, for the given string we at first add the dollar sign \$ at the end of the sequence.
 
 \begin{Shaded}
-\begin{Highlighting}[]
+\begin{Highlighting}[numbers=left,,]
 \NormalTok{sequence  }\OtherTok{\textless{}{-}} \FunctionTok{str\_c}\NormalTok{(sequence, }\StringTok{\textquotesingle{}$\textquotesingle{}}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
@@ -200,7 +197,7 @@ In order to create the Burrows-Wheeler matrix, from which the transform itself c
 Afterwards we perform a series of circular shift permutations.
 
 \begin{Shaded}
-\begin{Highlighting}[]
+\begin{Highlighting}[numbers=left,,]
 \NormalTok{sequences }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(sequence)}
 \NormalTok{n         }\OtherTok{\textless{}{-}} \FunctionTok{nchar}\NormalTok{(sequence)}
 
@@ -226,7 +223,7 @@ Afterwards we perform a series of circular shift permutations.
 Then we sort these sequences with the assumption that the dollar sign precedes lexicographically every other symbol.
 
 \begin{Shaded}
-\begin{Highlighting}[]
+\begin{Highlighting}[numbers=left,,]
 \NormalTok{sequences }\OtherTok{\textless{}{-}} \FunctionTok{sort}\NormalTok{(sequences) }
 \FunctionTok{cat}\NormalTok{(sequences, }\AttributeTok{sep =} \StringTok{\textquotesingle{}}\SpecialCharTok{\textbackslash{}n}\StringTok{\textquotesingle{}}\NormalTok{)}
 \CommentTok{\#\textgreater{} $GATTACA}
@@ -243,7 +240,7 @@ Then we sort these sequences with the assumption that the dollar sign precedes l
 For our convenience let's split these permutations into vectors of single characters.
 
 \begin{Shaded}
-\begin{Highlighting}[]
+\begin{Highlighting}[numbers=left,,]
 \NormalTok{bw.matrix           }\OtherTok{\textless{}{-}} \FunctionTok{data.frame}\NormalTok{(}\FunctionTok{matrix}\NormalTok{(, n, n))}
 \FunctionTok{colnames}\NormalTok{(bw.matrix) }\OtherTok{\textless{}{-}} \DecValTok{1}\SpecialCharTok{:}\NormalTok{n}
 
@@ -280,7 +277,7 @@ T & T & A & C & A & \$ & G & A\\
 Thus we have created the \textbf{Burrows-Wheeler matrix}. Sequence in the last column is called the \textbf{Burrows-Wheeler transform}.
 
 \begin{Shaded}
-\begin{Highlighting}[]
+\begin{Highlighting}[numbers=left,,]
 \NormalTok{transform }\OtherTok{\textless{}{-}} \FunctionTok{paste}\NormalTok{(bw.matrix[,n], }\AttributeTok{collapse =} \StringTok{\textquotesingle{}\textquotesingle{}}\NormalTok{)}
 
 \FunctionTok{cat}\NormalTok{(}\StringTok{\textquotesingle{}The Burrows{-}Wheeler transform of\textquotesingle{}}\NormalTok{, }
@@ -297,7 +294,7 @@ As we said at the very beginning the transform is reversible. Having only the tr
 Firstly let's sort the characters of the transformed sequence.
 
 \begin{Shaded}
-\begin{Highlighting}[]
+\begin{Highlighting}[numbers=left,,]
 \NormalTok{first.sequence }\OtherTok{\textless{}{-}} \FunctionTok{strsplit}\NormalTok{(transform, }\AttributeTok{split =} \StringTok{\textquotesingle{}\textquotesingle{}}\NormalTok{)[[}\DecValTok{1}\NormalTok{]] }\SpecialCharTok{\%\textgreater{}\%}\NormalTok{ sort}
 \FunctionTok{paste}\NormalTok{(first.sequence, }\AttributeTok{collapse =} \StringTok{\textquotesingle{}\textquotesingle{}}\NormalTok{)}
 \CommentTok{\#\textgreater{} [1] "$AAACGTT"}
@@ -307,7 +304,7 @@ Firstly let's sort the characters of the transformed sequence.
 Note that this string is equivalent to the first column of the Burrrows-Wheeler transform.
 
 \begin{Shaded}
-\begin{Highlighting}[]
+\begin{Highlighting}[numbers=left,,]
 \NormalTok{bw.inverse           }\OtherTok{\textless{}{-}} \FunctionTok{data.frame}\NormalTok{(}\FunctionTok{matrix}\NormalTok{(, n, }\DecValTok{2}\NormalTok{))}
 \FunctionTok{colnames}\NormalTok{(bw.inverse) }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(n, }\DecValTok{1}\NormalTok{)}
 
@@ -343,7 +340,7 @@ A & T\\
 Also keep in mind that the characters from last and the first column are adjacent. In other words, at this point we have a set of 2-mers.
 
 \begin{Shaded}
-\begin{Highlighting}[]
+\begin{Highlighting}[numbers=left,,]
 \NormalTok{kmers }\OtherTok{\textless{}{-}} \FunctionTok{apply}\NormalTok{(bw.inverse, }\DecValTok{1}\NormalTok{, }
                \ControlFlowTok{function}\NormalTok{(x) }\FunctionTok{paste}\NormalTok{(x, }\AttributeTok{collapse =} \StringTok{\textquotesingle{}\textquotesingle{}}\NormalTok{))}
 \NormalTok{kmers}
@@ -354,7 +351,7 @@ Also keep in mind that the characters from last and the first column are adjacen
 The reconstruction process strictly relies on the fact that Burrows-Wheeler matrix is sorted lexicographically. This property will allow us to retrieve the remaining columns.
 
 \begin{Shaded}
-\begin{Highlighting}[]
+\begin{Highlighting}[numbers=left,,]
 \NormalTok{kmers }\OtherTok{\textless{}{-}} \FunctionTok{sort}\NormalTok{(kmers)}
 \NormalTok{kmers}
 \CommentTok{\#\textgreater{} [1] "$G" "A$" "AC" "AT" "CA" "GA" "TA" "TT"}
@@ -364,7 +361,7 @@ The reconstruction process strictly relies on the fact that Burrows-Wheeler matr
 The 2-mers (k-mers in general) that we sorted lexicographically represent first two columns of the Burrows-Wheeler matrix. We can extract last character of each 2-mer in the following way:
 
 \begin{Shaded}
-\begin{Highlighting}[]
+\begin{Highlighting}[numbers=left,,]
 \FunctionTok{sapply}\NormalTok{(kmers, }\ControlFlowTok{function}\NormalTok{(x) }\FunctionTok{str\_sub}\NormalTok{(x, }\DecValTok{2}\NormalTok{, }\DecValTok{2}\NormalTok{), }
        \AttributeTok{simplify =} \ConstantTok{TRUE}\NormalTok{, }\AttributeTok{USE.NAMES =} \ConstantTok{FALSE}\NormalTok{)}
 \CommentTok{\#\textgreater{} [1] "G" "$" "C" "T" "A" "A" "A" "T"}
@@ -374,7 +371,7 @@ The 2-mers (k-mers in general) that we sorted lexicographically represent first 
 By inserting this set of characters we obtained the second column, and by iterating the proccess of building substrings, sorting them, and retrieving last characters we can fill the whole Burrows-Wheeler matrix.
 
 \begin{Shaded}
-\begin{Highlighting}[]
+\begin{Highlighting}[numbers=left,,]
 \ControlFlowTok{for}\NormalTok{ (i }\ControlFlowTok{in} \DecValTok{2}\SpecialCharTok{:}\NormalTok{(n}\DecValTok{{-}1}\NormalTok{))\{}
 \NormalTok{  kmers             }\OtherTok{\textless{}{-}} \FunctionTok{apply}\NormalTok{(bw.inverse, }\DecValTok{1}\NormalTok{, }
                              \ControlFlowTok{function}\NormalTok{(x) }\FunctionTok{paste}\NormalTok{(x, }\AttributeTok{collapse =} \StringTok{\textquotesingle{}\textquotesingle{}}\NormalTok{))}
@@ -412,7 +409,7 @@ A & T & T & A & C & A & \$ & G\\
 Finally we move first column to the very end
 
 \begin{Shaded}
-\begin{Highlighting}[]
+\begin{Highlighting}[numbers=left,,]
 \NormalTok{bw.inverse[,n}\SpecialCharTok{+}\DecValTok{1}\NormalTok{] }\OtherTok{\textless{}{-}}\NormalTok{ bw.inverse[, }\DecValTok{1}\NormalTok{]}
 \NormalTok{bw.inverse       }\OtherTok{\textless{}{-}}\NormalTok{ bw.inverse[,}\DecValTok{2}\SpecialCharTok{:}\NormalTok{(n}\SpecialCharTok{+}\DecValTok{1}\NormalTok{)]}
 \FunctionTok{colnames}\NormalTok{(bw.inverse)[n] }\OtherTok{=}\NormalTok{ n}
@@ -446,7 +443,7 @@ T & T & A & C & A & \$ & G & A\\
 One can also verify that bw.matrix and bw.inverse are in fact the same.
 
 \begin{Shaded}
-\begin{Highlighting}[]
+\begin{Highlighting}[numbers=left,,]
 \NormalTok{knitr}\SpecialCharTok{::}\FunctionTok{kable}\NormalTok{(bw.inverse }\SpecialCharTok{==}\NormalTok{ bw.matrix)}
 \end{Highlighting}
 \end{Shaded}
@@ -476,7 +473,7 @@ TRUE & TRUE & TRUE & TRUE & TRUE & TRUE & TRUE & TRUE\\
 Additionally we can encapsulate the Burrows-Wheeler transform in a form of a single function.
 
 \begin{Shaded}
-\begin{Highlighting}[]
+\begin{Highlighting}[numbers=left,,]
 \NormalTok{BWT }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(sequence)\{}
 \NormalTok{  sequence  }\OtherTok{\textless{}{-}} \FunctionTok{str\_c}\NormalTok{(sequence, }\StringTok{\textquotesingle{}$\textquotesingle{}}\NormalTok{)}
 \NormalTok{  sequences }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(sequence)}
@@ -501,7 +498,7 @@ Additionally we can encapsulate the Burrows-Wheeler transform in a form of a sin
 \end{Shaded}
 
 \begin{Shaded}
-\begin{Highlighting}[]
+\begin{Highlighting}[numbers=left,,]
 \FunctionTok{BWT}\NormalTok{(}\StringTok{\textquotesingle{}GATTACA\textquotesingle{}}\NormalTok{)}
 \CommentTok{\#\textgreater{} [1] "ACTGA$TA"}
 \end{Highlighting}
@@ -512,7 +509,7 @@ One can verify that this output is equal to result we obtained earlier.
 Out of pure curiosity lets check the Burrows-Wheeler transform for a longer sequence.
 
 \begin{Shaded}
-\begin{Highlighting}[]
+\begin{Highlighting}[numbers=left,,]
 \FunctionTok{BWT}\NormalTok{(}\StringTok{\textquotesingle{}ATGCTCGTGCCATCATATAGCGCGCGCGCGATCTCTACGCGCG\textquotesingle{}}\NormalTok{)}
 \CommentTok{\#\textgreater{} [1] "GTTTCCG$TCGGGGGAGGGTTGTCCTCCCCCCATCCAAACCAGA"}
 \end{Highlighting}

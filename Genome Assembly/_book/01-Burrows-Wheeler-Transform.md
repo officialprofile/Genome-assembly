@@ -14,21 +14,21 @@ The Burrows-Wheeler transform method is often referred to as “block sorting”
 
 Consider the following sequence:
 
-```r
+```{.r .numberLines}
 sequence <- 'GATTACA'
 ```
 
 In order to create the Burrows-Wheeler matrix, from which the transform itself can be obtained, for the given string we at first add the dollar sign $ at the end of the sequence.
 
 
-```r
+```{.r .numberLines}
 sequence  <- str_c(sequence, '$')
 ```
 
 Afterwards we perform a series of circular shift permutations.
 
 
-```r
+```{.r .numberLines}
 sequences <- c(sequence)
 n         <- nchar(sequence)
 
@@ -53,7 +53,7 @@ cat(sequences, sep = '\n')
 Then we sort these sequences with the assumption that the dollar sign precedes lexicographically every other symbol.
 
 
-```r
+```{.r .numberLines}
 sequences <- sort(sequences) 
 cat(sequences, sep = '\n')
 #> $GATTACA
@@ -69,7 +69,7 @@ cat(sequences, sep = '\n')
 For our convenience let's split these permutations into vectors of single characters.
 
 
-```r
+```{.r .numberLines}
 bw.matrix           <- data.frame(matrix(, n, n))
 colnames(bw.matrix) <- 1:n
 
@@ -96,7 +96,7 @@ knitr::kable(bw.matrix)
 Thus we have created the **Burrows-Wheeler matrix**.  Sequence in the last column is called the **Burrows-Wheeler transform**.
 
 
-```r
+```{.r .numberLines}
 transform <- paste(bw.matrix[,n], collapse = '')
 
 cat('The Burrows-Wheeler transform of', 
@@ -111,7 +111,7 @@ As we said at the very beginning the transform is reversible. Having only the tr
 Firstly let's sort the characters of the transformed sequence.
 
 
-```r
+```{.r .numberLines}
 first.sequence <- strsplit(transform, split = '')[[1]] %>% sort
 paste(first.sequence, collapse = '')
 #> [1] "$AAACGTT"
@@ -120,7 +120,7 @@ paste(first.sequence, collapse = '')
 Note that this string is equivalent to the first column of the Burrrows-Wheeler transform.
 
 
-```r
+```{.r .numberLines}
 bw.inverse           <- data.frame(matrix(, n, 2))
 colnames(bw.inverse) <- c(n, 1)
 
@@ -146,7 +146,7 @@ knitr::kable(bw.inverse)
 Also keep in mind that the characters from last and the first column are adjacent. In other words, at this point we have a set of 2-mers.
 
 
-```r
+```{.r .numberLines}
 kmers <- apply(bw.inverse, 1, 
                function(x) paste(x, collapse = ''))
 kmers
@@ -156,7 +156,7 @@ kmers
 The reconstruction process strictly relies on the fact that Burrows-Wheeler matrix is sorted lexicographically. This property will allow us to retrieve the remaining columns.
 
 
-```r
+```{.r .numberLines}
 kmers <- sort(kmers)
 kmers
 #> [1] "$G" "A$" "AC" "AT" "CA" "GA" "TA" "TT"
@@ -165,7 +165,7 @@ kmers
 The 2-mers (k-mers in general) that we sorted lexicographically represent first two columns of the Burrows-Wheeler matrix. We can extract last character of each 2-mer in the following way:
 
 
-```r
+```{.r .numberLines}
 sapply(kmers, function(x) str_sub(x, 2, 2), 
        simplify = TRUE, USE.NAMES = FALSE)
 #> [1] "G" "$" "C" "T" "A" "A" "A" "T"
@@ -174,7 +174,7 @@ sapply(kmers, function(x) str_sub(x, 2, 2),
 By inserting this set of characters we obtained the second column, and by iterating the proccess of building substrings, sorting them, and retrieving last characters we can fill the whole Burrows-Wheeler matrix.
 
 
-```r
+```{.r .numberLines}
 for (i in 2:(n-1)){
   kmers             <- apply(bw.inverse, 1, 
                              function(x) paste(x, collapse = ''))
@@ -202,7 +202,7 @@ knitr::kable(bw.inverse)
 Finally we move first column to the very end
 
 
-```r
+```{.r .numberLines}
 bw.inverse[,n+1] <- bw.inverse[, 1]
 bw.inverse       <- bw.inverse[,2:(n+1)]
 colnames(bw.inverse)[n] = n
@@ -226,7 +226,7 @@ knitr::kable(bw.inverse)
 One can also verify that bw.matrix and bw.inverse are in fact the same. 
 
 
-```r
+```{.r .numberLines}
 knitr::kable(bw.inverse == bw.matrix)
 ```
 
@@ -246,7 +246,7 @@ knitr::kable(bw.inverse == bw.matrix)
 Additionally we can encapsulate the Burrows-Wheeler transform in a form of a single function.
 
 
-```r
+```{.r .numberLines}
 BWT <- function(sequence){
   sequence  <- str_c(sequence, '$')
   sequences <- c(sequence)
@@ -270,7 +270,7 @@ BWT <- function(sequence){
 ```
 
 
-```r
+```{.r .numberLines}
 BWT('GATTACA')
 #> [1] "ACTGA$TA"
 ```
@@ -280,7 +280,7 @@ One can verify that this output is equal to result we obtained earlier.
 Out of pure curiosity lets check the Burrows-Wheeler transform for a longer sequence.
 
 
-```r
+```{.r .numberLines}
 BWT('ATGCTCGTGCCATCATATAGCGCGCGCGCGATCTCTACGCGCG')
 #> [1] "GTTTCCG$TCGGGGGAGGGTTGTCCTCCCCCCATCCAAACCAGA"
 ```
