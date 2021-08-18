@@ -4,16 +4,16 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>Chapter 1 Preface | Genome Assembly</title>
+<title>Chapter 2 Introduction to genome assembly | Genome Assembly</title>
 <meta name="author" content="officialprofile">
 <meta name="description" content="Low-level approach to genome de novo assembly">
 <meta name="generator" content="bookdown 0.23.1 with bs4_book()">
-<meta property="og:title" content="Chapter 1 Preface | Genome Assembly">
+<meta property="og:title" content="Chapter 2 Introduction to genome assembly | Genome Assembly">
 <meta property="og:type" content="book">
-<meta property="og:url" content="https://github.com/officialprofile/Genome-assembly/">
+<meta property="og:url" content="https://github.com/officialprofile/Genome-assembly/introduction.html">
 <meta property="og:description" content="Low-level approach to genome de novo assembly">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Chapter 1 Preface | Genome Assembly">
+<meta name="twitter:title" content="Chapter 2 Introduction to genome assembly | Genome Assembly">
 <meta name="twitter:description" content="Low-level approach to genome de novo assembly">
 <!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/header-attrs-2.10/header-attrs.js"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
@@ -40,8 +40,8 @@
 
       <nav aria-label="Table of contents"><h2>Table of contents</h2>
         <ul class="book-toc list-unstyled">
-<li><a class="active" href="index.html"><span class="header-section-number">1</span> Preface</a></li>
-<li><a class="" href="introduction.html"><span class="header-section-number">2</span> Introduction to genome assembly</a></li>
+<li><a class="" href="index.html"><span class="header-section-number">1</span> Preface</a></li>
+<li><a class="active" href="introduction.html"><span class="header-section-number">2</span> Introduction to genome assembly</a></li>
 <li><a class="" href="bwt.html"><span class="header-section-number">3</span> Burrows-Wheeler transform</a></li>
 <li><a class="" href="references.html">References</a></li>
 </ul>
@@ -51,44 +51,23 @@
         </div>
       </nav>
 </div>
-  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><!--bookdown:title:end--><!--bookdown:title:start--><div id="preface" class="section level1" number="1">
+  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="introduction" class="section level1" number="2">
 <h1>
-<span class="header-section-number">1</span> Preface<a class="anchor" aria-label="anchor" href="#preface"><i class="fas fa-link"></i></a>
+<span class="header-section-number">2</span> Introduction to genome assembly<a class="anchor" aria-label="anchor" href="#introduction"><i class="fas fa-link"></i></a>
 </h1>
-<p>This mini textbook describes selected algorithms that play a vital role in the <em>de novo</em> genome assembly or in some related areas. The premise of this book is to construct these algorithms from the very bottom along with brief explanation of their gists. Naturally, the applications are included as well.</p>
-<p>By default the code is written in R, but python and shell can appear at some point as well (not very likely though).</p>
-<p><img src="img/cover.png" width="80%" style="display: block; margin: auto;"><font size="1">A HiFi De Bruijn graph for a pile of reads from Drosophila genome sequencing. Each dot represents a k-mer (k=23), the edges denote neighboring k-mers. The larger red dots mark the head of heterozygous bubbles. Source: pacb.com.</font></p>
-<div id="prerequisites" class="section level2" number="1.1">
-<h2>
-<span class="header-section-number">1.1</span> Prerequisites<a class="anchor" aria-label="anchor" href="#prerequisites"><i class="fas fa-link"></i></a>
-</h2>
-<p>It is assumed that the reader:</p>
-<ol style="list-style-type: decimal">
-<li><p>Has a basic understanding of genetics.</p></li>
-<li><p>Has some experience with programming in R (is familiar with pipe syntax, etc.)</p></li>
-<li><p>Had some contact with higher mathematics, e.g. statistics, graph theory.</p></li>
-</ol>
-<p>Throughout the book the following libraries are being used and it is assumed that the reader has them loaded.</p>
-<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://stringr.tidyverse.org">stringr</a></span><span class="op">)</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org">dplyr</a></span><span class="op">)</span></code></pre></div>
 
 </div>
-</div>
   <div class="chapter-nav">
-<div class="empty"></div>
-<div class="next"><a href="introduction.html"><span class="header-section-number">2</span> Introduction to genome assembly</a></div>
+<div class="prev"><a href="index.html"><span class="header-section-number">1</span> Preface</a></div>
+<div class="next"><a href="bwt.html"><span class="header-section-number">3</span> Burrows-Wheeler transform</a></div>
 </div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
     <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
-      <ul class="nav navbar-nav">
-<li><a class="nav-link" href="#preface"><span class="header-section-number">1</span> Preface</a></li>
-<li><a class="nav-link" href="#prerequisites"><span class="header-section-number">1.1</span> Prerequisites</a></li>
-</ul>
+      <ul class="nav navbar-nav"><li><a class="nav-link" href="#introduction"><span class="header-section-number">2</span> Introduction to genome assembly</a></li></ul>
 
       <div class="book-extra">
         <ul class="list-unstyled">
-<li><a id="book-source" href="https://github.com/officialprofile/Genome-assembly//blob/master/index.Rmd">View source <i class="fab fa-github"></i></a></li>
-          <li><a id="book-edit" href="https://github.com/officialprofile/Genome-assembly//edit/master/index.Rmd">Edit this page <i class="fab fa-github"></i></a></li>
+<li><a id="book-source" href="https://github.com/officialprofile/Genome-assembly//blob/master/01-Introduction.Rmd">View source <i class="fab fa-github"></i></a></li>
+          <li><a id="book-edit" href="https://github.com/officialprofile/Genome-assembly//edit/master/01-Introduction.Rmd">Edit this page <i class="fab fa-github"></i></a></li>
         </ul>
 </div>
     </nav>

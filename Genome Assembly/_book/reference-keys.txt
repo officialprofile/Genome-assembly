@@ -1,5 +1,6 @@
-introduction
+preface
 prerequisites
+introduction
 bwt
 introduction-1
 burrows-wheeler-matrix
