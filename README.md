@@ -1,6 +1,6 @@
 ## Genome assembly. Low-level approach with R 
 
-[**Read the textbook online**](https://officialprofile.github.io/GenomeAssembly/) | **Download** [**PDF**](https://github.com/officialprofile/GenomeAssembly/raw/main/GenomeAssembly.pdf) **or** [**epub**](https://github.com/officialprofile/GenomeAssembly/raw/main/GenomeAssembly.epub) **version** | [Track the progress of this project](https://github.com/users/officialprofile/projects/2)
+[**Read the textbook online**](https://officialprofile.github.io/GenomeAssembly/) | **Download** [**PDF**](https://raw.githubusercontent.com/officialprofile/GenomeAssembly/main/Genome-Assembly.pdf) **or** [**epub**](https://raw.githubusercontent.com/officialprofile/GenomeAssembly/main/Genome-Assembly.epub) **version** | [Track the progress of this project](https://github.com/users/officialprofile/projects/2)
 
 <p align = 'center'><img src="img/cover.png" width="500px"></p>
 
