@@ -1,7 +1,7 @@
 --- 
 title: "Genome Assembly"
 author: "officialprofile"
-date: "2021-08-18"
+date: "2021-08-31"
 site: bookdown::bookdown_site
 documentclass: book
 bibliography: [book.bib, packages.bib]

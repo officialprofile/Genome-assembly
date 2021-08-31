@@ -1,3 +1,11 @@
-# Introduction to genome assembly {#introduction}
+# Introduction {#introduction}
 
+Genome assembly has been regarded as one of the most important and the most challenging problems in bioinformatics, at least since the late 80's when the Human Genome Project was announced. Although genome tend to be almost inconceivably long, the algorithmic part of the problem arises not mainly because of its length. The core of this problem is located deeper. 
 
+Usually, at this point an example of shredded newspaper is being provided. Namely, de novo assembly is very similar to reconstruction of the original document from a set of its unordered fragments. 
+
+<img src="img/intro_assembly.png" width="80%" style="display: block; margin: auto;" />
+
+As one can imagine the problem is difficult, but not because the newspaper has twenty pages instead of just one. The length of the genome, although far from being irrelevant, is more of a second-tier issue. Reader will perhaps come up with the very similar conclusion as the succeeding problems will be uncovered. 
+
+One should also underline the fact that transcriptome assembly is not the same as the genome assembly. Read coverage of the latter is relatively uniform, whereas transcriptome can be differentially expressed and therefore frequency of its reads can vary a lot. In genome assembly non-uniform abundance of reads simply indicates existence of repetitions. In the case of RNA it is much less straightforward. Methods that overcome this issue exist but are beyond of the scope of this textbook.
