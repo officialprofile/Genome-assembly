@@ -1,6 +1,9 @@
 preface
 prerequisites
 introduction
+basic
+graph
+bruijn
 bwt
 introduction-1
 burrows-wheeler-matrix

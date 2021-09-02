@@ -117,7 +117,7 @@
 
 \title{Genome Assembly}
 \author{officialprofile}
-\date{2021-08-31}
+\date{2021-09-02}
 
 \begin{document}
 \maketitle
@@ -162,17 +162,26 @@ Throughout the book the following libraries are being used and it is assumed tha
 \end{Shaded}
 
 \hypertarget{introduction}{%
-\chapter{Introduction}\label{introduction}}
+\chapter{Introduction to genome assembly}\label{introduction}}
 
-Genome assembly has been regarded as one of the most important and the most challenging problems in bioinformatics, at least since the late 80's when the Human Genome Project was announced. Although genome tend to be almost inconceivably long, the algorithmic part of the problem arises not mainly because of its length. The core of this problem is located deeper.
+Genome assembly has been regarded as one of the most important and most challenging problems in bioinformatics, at least since the late 80's, when the Human Genome Project was announced.
 
-Usually, at this point an example of shredded newspaper is being provided. Namely, de novo assembly is very similar to reconstruction of the original document from a set of its unordered fragments.
+Genomes tend to be almost inconceivably long. Human DNA for example is approximately thousand times longer than the Bible, and some species have their genome even dozens times longer than ours. Yet the algorithmic part of the problem arises not mainly because of their length. This was definitely the case for the biotechnologicians, who few decades ago were constrained within insufficiently effective sequencing techniques. From bioinformaticians perspective though the core of the problem is located deeper.
 
-\begin{center}\includegraphics[width=0.8\linewidth]{img/intro_assembly} \end{center}
+A good analogy, explaining the nature of the challenge, is a schredded newspaper. De novo assembly resembles reconstruction of the original document from a set of its unarranged pieces, like on the figure below.
 
-As one can imagine the problem is difficult, but not because the newspaper has twenty pages instead of just one. The length of the genome, although far from being irrelevant, is more of a second-tier issue. Reader will perhaps come up with the very similar conclusion as the succeeding problems will be uncovered.
+As one can imagine the problem is difficult, but not because the newspaper has twenty or fourty pages. If we had just one the assembly still wouldn't be easy. The length of the genome, although far from being irrelevant, is for us more of a secondary issue. On the other hand, repetitive patterns, which for biotechnologicians are not a problem at all, will complicate our journey substantially. Reader will perhaps come up to the very similar conclusions as the succeeding topics will uncover.
 
-One should also underline the fact that transcriptome assembly is not the same as the genome assembly. Read coverage of the latter is relatively uniform, whereas transcriptome can be differentially expressed and therefore frequency of its reads can vary a lot. In genome assembly non-uniform abundance of reads simply indicates existence of repetitions. In the case of RNA it is much less straightforward. Methods that overcome this issue exist but are beyond of the scope of this textbook.
+One should also underline the fact that transcriptome assembly is not the same as the genome assembly. Read coverage of the latter is relatively uniform, whereas transcriptome can be differentially expressed and therefore the frequency of its reads can vary a lot. In genome assembly non-uniform abundance of the reads simply indicates existence of repetitions. In the case of transcription product it is much less straightforward. Methods that overcome this issue exist but they are beyond of the scope of this textbook.
+
+\hypertarget{basic}{%
+\chapter{Basic string manipulations}\label{basic}}
+
+\hypertarget{graph}{%
+\chapter{Graph theory}\label{graph}}
+
+\hypertarget{bruijn}{%
+\chapter{De Bruijn graph}\label{bruijn}}
 
 \hypertarget{bwt}{%
 \chapter{Burrows-Wheeler transform}\label{bwt}}
