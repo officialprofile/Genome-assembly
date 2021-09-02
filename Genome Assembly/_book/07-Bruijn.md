@@ -1,3 +1,0 @@
-# De Bruijn graph {#bruijn}
-
-

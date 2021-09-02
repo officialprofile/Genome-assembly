@@ -1,3 +1,0 @@
-# Basic string manipulations {#basic}
-
-
