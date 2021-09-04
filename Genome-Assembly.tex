@@ -117,7 +117,7 @@
 
 \title{Genome Assembly}
 \author{officialprofile}
-\date{2021-09-02}
+\date{2021-09-04}
 
 \begin{document}
 \maketitle
@@ -176,6 +176,116 @@ One should also underline the fact that transcriptome assembly is not the same a
 
 \hypertarget{basic}{%
 \chapter{Basic string manipulations}\label{basic}}
+
+Before we dive into the main topics let's warm up with few basic exercises. On the one hand some of these problems might be regarded as a form of general familiarization with string manipulations. Being able to get through them is in a sense a must, at least from a perspective of algorithms that will be discussed later. On the other hand some of the problems, like generating k-mers or suffixes, are absolutely crucial in genome assembly and one has to know them to a tee. So, without further ado, let's do the warm up.
+
+\hypertarget{generating-random-dna-sequence}{%
+\section{Generating random DNA sequence}\label{generating-random-dna-sequence}}
+
+Let's start with writing a function that, for a given integer n \textgreater{} 0, returns randomly generated DNA sequence.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{random\_sequence }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(n)\{}
+  \FunctionTok{return}\NormalTok{(}\FunctionTok{sample}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\StringTok{\textquotesingle{}A\textquotesingle{}}\NormalTok{,}\StringTok{\textquotesingle{}C\textquotesingle{}}\NormalTok{,}\StringTok{\textquotesingle{}G\textquotesingle{}}\NormalTok{,}\StringTok{\textquotesingle{}T\textquotesingle{}}\NormalTok{), n, }\AttributeTok{replace =} \ConstantTok{TRUE}\NormalTok{))}
+\NormalTok{\}}
+
+\FunctionTok{random\_sequence}\NormalTok{(}\DecValTok{10}\NormalTok{)}
+\CommentTok{\#\textgreater{}  [1] "C" "C" "T" "C" "C" "G" "T" "C" "G" "C"}
+\end{Highlighting}
+\end{Shaded}
+
+If we want our returned sequence to be in a form of a single string we can use \texttt{paste()} function with collapse parameter equal to \texttt{\textquotesingle{}\textquotesingle{}}.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{paste}\NormalTok{(}\FunctionTok{random\_sequence}\NormalTok{(}\DecValTok{10}\NormalTok{), }\AttributeTok{collapse =} \StringTok{\textquotesingle{}\textquotesingle{}}\NormalTok{)}
+\CommentTok{\#\textgreater{} [1] "GATGAGCCAT"}
+\end{Highlighting}
+\end{Shaded}
+
+For now we will try to stick to the first form, mainly because base R is not that good at manipulating strings (at this point we try to not employ any additional libraries like stringr). If a \texttt{DNA} is equal to \texttt{\textquotesingle{}ACGTG\textquotesingle{}} then we won't get a substring \texttt{\textquotesingle{}CG\textquotesingle{}} simply by writing \texttt{DNA{[}2:3{]}} (one could to this in python). On the other hand, if DNA is a vector \texttt{c(\textquotesingle{}A\textquotesingle{},\ \textquotesingle{}C\textquotesingle{},\ \textquotesingle{}G\textquotesingle{},\ \textquotesingle{}T\textquotesingle{},\ \textquotesingle{}G\textquotesingle{})} then \texttt{DNA{[}2:3{]}} will return \texttt{c(\textquotesingle{}C\textquotesingle{},\ \textquotesingle{}G\textquotesingle{})} that in turn can be easily merged into \texttt{\textquotesingle{}CG\textquotesingle{}}.
+
+\hypertarget{finding-cdna}{%
+\section{Finding cDNA}\label{finding-cdna}}
+
+One must know that C (cytosine) is complementary to G (guanine), and A (adenine) is complementary to T (thymine). In order to create a cDNA we will at first construct a list (in Python it would be a dictionary) of complementary nucleobases.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{c\_bases }\OtherTok{\textless{}{-}} \FunctionTok{list}\NormalTok{(}\StringTok{\textquotesingle{}A\textquotesingle{}} \OtherTok{=} \StringTok{\textquotesingle{}T\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}C\textquotesingle{}} \OtherTok{=} \StringTok{\textquotesingle{}G\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}G\textquotesingle{}} \OtherTok{=} \StringTok{\textquotesingle{}C\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}T\textquotesingle{}} \OtherTok{=} \StringTok{\textquotesingle{}A\textquotesingle{}}\NormalTok{)}
+
+\NormalTok{c\_bases[}\StringTok{\textquotesingle{}A\textquotesingle{}}\NormalTok{][[}\DecValTok{1}\NormalTok{]]}
+\CommentTok{\#\textgreater{} [1] "T"}
+\end{Highlighting}
+\end{Shaded}
+
+This data structure will allows us to directly pull out complementary bases. Let's build a function utilizes this.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{complementary\_sequence }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(sequence)\{}
+\NormalTok{  complementary }\OtherTok{=} \FunctionTok{c}\NormalTok{()}
+  \ControlFlowTok{for}\NormalTok{ (base }\ControlFlowTok{in}\NormalTok{ sequence)\{}
+\NormalTok{    complementary }\OtherTok{=} \FunctionTok{c}\NormalTok{(complementary, c\_bases[base][[}\DecValTok{1}\NormalTok{]])}
+\NormalTok{  \}}
+  \FunctionTok{return}\NormalTok{(complementary)}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+Please note that we append complementary nucleobase in a seemingly non-optimal way, namely \texttt{sequence\ =\ c(sequence,\ new\_nucleobase)}. One could argue that this should be done with \texttt{append()}, i. e. \texttt{sequence\ =\ append(sequence,\ new\_nucleobase)}, but in fact the append in R is regarded as a relatively slow function and our solution is usually more recommended.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{seq }\OtherTok{\textless{}{-}} \FunctionTok{random\_sequence}\NormalTok{(}\DecValTok{20}\NormalTok{)}
+\FunctionTok{cat}\NormalTok{(}\StringTok{\textquotesingle{} DNA =\textquotesingle{}}\NormalTok{, seq, }\StringTok{\textquotesingle{}}\SpecialCharTok{\textbackslash{}n}\StringTok{\textquotesingle{}}\NormalTok{)}
+\CommentTok{\#\textgreater{}  DNA = T G G A G A T C C T G C T A G G T G T G}
+\NormalTok{cseq }\OtherTok{\textless{}{-}} \FunctionTok{complementary\_sequence}\NormalTok{(seq)}
+\FunctionTok{cat}\NormalTok{(}\StringTok{\textquotesingle{}cDNA =\textquotesingle{}}\NormalTok{, cseq)}
+\CommentTok{\#\textgreater{} cDNA = A C C T C T A G G A C G A T C C A C A C}
+\end{Highlighting}
+\end{Shaded}
+
+There is also a neater way to compute, and in a way avoid, these kind of loops. One can achieve this though functions like \texttt{apply()}, \texttt{sapply()} or \texttt{lapply()}.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{complementary\_sequence }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(sequence)\{}
+  \FunctionTok{sapply}\NormalTok{(seq, }\ControlFlowTok{function}\NormalTok{(base) c\_bases[base][[}\DecValTok{1}\NormalTok{]])}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+The clear downside of using functions like the one above is loss of legibility. Applying them can also be not as straightforward and intuitive as writing a conventional loop. Advanced programmers though find these functions very handy, fast and as readable as standard for or while loop. For that reason we will try to balance these two approaches out. We don't want our code to be too hermetic, but also we should not limit ourselves by deliberately avoiding legitimate solutions.
+
+\hypertarget{finding-reverse-complementary}{%
+\section{Finding reverse complementary}\label{finding-reverse-complementary}}
+
+Obtaining reverse complementary is very similar. The only difference is that instead of appending complementary nucleobases we will prepend them.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{reverse\_complementary }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(sequence)\{}
+\NormalTok{  reverse }\OtherTok{=} \FunctionTok{c}\NormalTok{()}
+  \ControlFlowTok{for}\NormalTok{ (base }\ControlFlowTok{in}\NormalTok{ sequence)\{}
+\NormalTok{    reverse }\OtherTok{=} \FunctionTok{c}\NormalTok{(c\_bases[base][[}\DecValTok{1}\NormalTok{]], reverse)}
+\NormalTok{  \}}
+  \FunctionTok{return}\NormalTok{(reverse)}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{seq }\OtherTok{\textless{}{-}} \FunctionTok{random\_sequence}\NormalTok{(}\DecValTok{20}\NormalTok{)}
+\FunctionTok{cat}\NormalTok{(}\StringTok{\textquotesingle{} DNA =\textquotesingle{}}\NormalTok{, seq, }\StringTok{\textquotesingle{}}\SpecialCharTok{\textbackslash{}n}\StringTok{\textquotesingle{}}\NormalTok{)}
+\CommentTok{\#\textgreater{}  DNA = G T T T T A T G T T T A G C G A A G T A}
+\NormalTok{rcseq }\OtherTok{\textless{}{-}} \FunctionTok{reverse\_complementary}\NormalTok{(seq)}
+\FunctionTok{cat}\NormalTok{(}\StringTok{\textquotesingle{}cDNA =\textquotesingle{}}\NormalTok{, rcseq)}
+\CommentTok{\#\textgreater{} cDNA = T A C T T C G C T A A A C A T A A A A C}
+\end{Highlighting}
+\end{Shaded}
 
 \hypertarget{graph}{%
 \chapter{Graph theory}\label{graph}}

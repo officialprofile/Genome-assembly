@@ -2,6 +2,9 @@ preface
 prerequisites
 introduction
 basic
+generating-random-dna-sequence
+finding-cdna
+finding-reverse-complementary
 graph
 bruijn
 bwt

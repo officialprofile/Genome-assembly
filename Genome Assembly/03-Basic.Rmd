@@ -1,3 +1,89 @@
 # Basic string manipulations {#basic}
 
+Before we dive into the main topics let's warm up with few basic exercises. On the one hand some of these problems might be regarded as a form of general familiarization with string manipulations. Being able to get through them is in a sense a must, at least from a perspective of algorithms that will be discussed later. On the other hand some of the problems, like generating k-mers or suffixes, are absolutely crucial in genome assembly and one has to know them to a tee. So, without further ado, let's do the warm up.
+
+## Generating random DNA sequence
+
+Let's start with writing a function that, for a given integer n > 0, returns randomly generated DNA sequence.
+
+```{r}
+random_sequence <- function(n){
+  return(sample(c('A','C','G','T'), n, replace = TRUE))
+}
+
+random_sequence(10)
+```
+If we want our returned sequence to be in a form of a single string we can use `paste()` function with collapse parameter equal to `''`.
+
+```{r}
+paste(random_sequence(10), collapse = '')
+```
+
+For now we will try to stick to the first form, mainly because base R is not that good at manipulating strings (at this point we try to not employ any additional libraries like stringr). If a `DNA` is equal to `'ACGTG'` then we won't get a substring `'CG'` simply by writing `DNA[2:3]` (one could to this in python). On the other hand, if DNA is a vector `c('A', 'C', 'G', 'T', 'G')` then `DNA[2:3]` will return `c('C', 'G')` that in turn can be easily merged into `'CG'`.
+
+## Finding cDNA
+
+One must know that C (cytosine) is complementary to G (guanine), and A (adenine) is complementary to T (thymine). In order to create a cDNA we will at first construct a list (in Python it would be a dictionary) of complementary nucleobases.
+
+```{r}
+c_bases <- list('A' = 'T', 'C' = 'G', 'G' = 'C', 'T' = 'A')
+
+c_bases['A'][[1]]
+```
+This data structure will allows us to directly pull out complementary bases. Let's build a function utilizes this.
+
+```{r}
+complementary_sequence <- function(sequence){
+  complementary = c()
+  for (base in sequence){
+    complementary = c(complementary, c_bases[base][[1]])
+  }
+  return(complementary)
+}
+```
+
+Please note that we append complementary nucleobase in a seemingly non-optimal way, namely `sequence = c(sequence, new_nucleobase)`. One could argue that this should be done with `append()`, i. e. `sequence = append(sequence, new_nucleobase)`, but in fact the append in R is regarded as a relatively slow function and our solution is usually more recommended. 
+
+```{r}
+seq <- random_sequence(20)
+cat(' DNA =', seq, '\n')
+cseq <- complementary_sequence(seq)
+cat('cDNA =', cseq)
+```
+
+There is also a neater way to compute, and in a way avoid, these kind of loops. One can achieve this though functions like `apply()`, `sapply()` or `lapply()`.
+
+```{r}
+complementary_sequence <- function(sequence){
+  sapply(seq, function(base) c_bases[base][[1]])
+}
+```
+
+The clear downside of using functions like the one above is loss of legibility. Applying them can also be not as straightforward and intuitive as writing a conventional loop. Advanced programmers though find these functions very handy, fast and as readable as standard for or while loop. For that reason we will try to balance these two approaches out. We don't want our code to be too hermetic, but also we should not limit ourselves by deliberately avoiding legitimate solutions.
+
+## Finding reverse complementary
+
+Obtaining reverse complementary is very similar. The only difference is that instead of appending complementary nucleobases we will prepend them.
+
+```{r}
+reverse_complementary <- function(sequence){
+  reverse = c()
+  for (base in sequence){
+    reverse = c(c_bases[base][[1]], reverse)
+  }
+  return(reverse)
+}
+```
+
+```{r}
+seq <- random_sequence(20)
+cat(' DNA =', seq, '\n')
+rcseq <- reverse_complementary(seq)
+cat('cDNA =', rcseq)
+```
+
+
+
+
+
 
