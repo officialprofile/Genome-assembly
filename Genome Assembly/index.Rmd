@@ -13,9 +13,9 @@ csl: chicago-fullnote-bibliography.csl
 
 # Preface
 
-This mini textbook describes selected algorithms that play a main role in the de novo (i.e. without reference) genome assembly. The premise of this book is to construct these algorithms from the very bottom and explain step by step main ideas that stand behind them.
+This mini textbook describes selected algorithms that play a main role in the de novo genome assembly. The premise of this book is to construct these algorithms from the very bottom and explain step by step main ideas that stand behind them.
 
-We will try to avoid as much as possible ready-to-use implementations, which are of course available, but their use wouldn't serve the educational purpose. Naturally, many applications are included as well.
+We will try to avoid as much as possible ready-to-use implementations, which are of course available and of great quality, but their use wouldn't serve the educational purpose. Naturally, many applications are included as well.
 
 By default the code is written in R, but at certain points python is also mentioned.
 

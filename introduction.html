@@ -4,20 +4,20 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>Chapter 2 Introduction to genome assembly | Genome Assembly</title>
+<title>Chapter 2 Introduction | Genome Assembly</title>
 <meta name="author" content="officialprofile">
-<meta name="description" content="Genome assembly has been regarded as one of the most important and most challenging problems in bioinformatics, at least since the late 80’s, when the Human Genome Project was announced. Genomes...">
-<meta name="generator" content="bookdown 0.23 with bs4_book()">
-<meta property="og:title" content="Chapter 2 Introduction to genome assembly | Genome Assembly">
+<meta name="description" content="Genome assembly has been regarded as one of the most important and most challenging problems in bioinformatics, perhaps at least since the late 80’s, when the Human Genome Project was announced....">
+<meta name="generator" content="bookdown 0.24 with bs4_book()">
+<meta property="og:title" content="Chapter 2 Introduction | Genome Assembly">
 <meta property="og:type" content="book">
 <meta property="og:url" content="https://github.com/officialprofile/Genome-assembly/introduction.html">
-<meta property="og:description" content="Genome assembly has been regarded as one of the most important and most challenging problems in bioinformatics, at least since the late 80’s, when the Human Genome Project was announced. Genomes...">
+<meta property="og:description" content="Genome assembly has been regarded as one of the most important and most challenging problems in bioinformatics, perhaps at least since the late 80’s, when the Human Genome Project was announced....">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Chapter 2 Introduction to genome assembly | Genome Assembly">
-<meta name="twitter:description" content="Genome assembly has been regarded as one of the most important and most challenging problems in bioinformatics, at least since the late 80’s, when the Human Genome Project was announced. Genomes...">
+<meta name="twitter:title" content="Chapter 2 Introduction | Genome Assembly">
+<meta name="twitter:description" content="Genome assembly has been regarded as one of the most important and most challenging problems in bioinformatics, perhaps at least since the late 80’s, when the Human Genome Project was announced....">
 <!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/header-attrs-2.10/header-attrs.js"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
-<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.2.5.1/tabs.js"></script><script src="libs/bs3compat-0.2.5.1/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
+<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.3.0/transition.js"></script><script src="libs/bs3compat-0.3.0/tabs.js"></script><script src="libs/bs3compat-0.3.0/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
 <script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- CSS --><link rel="stylesheet" href="bs4_style.css">
 </head>
 <body data-spy="scroll" data-target="#toc">
@@ -41,7 +41,7 @@
       <nav aria-label="Table of contents"><h2>Table of contents</h2>
         <ul class="book-toc list-unstyled">
 <li><a class="" href="index.html"><span class="header-section-number">1</span> Preface</a></li>
-<li><a class="active" href="introduction.html"><span class="header-section-number">2</span> Introduction to genome assembly</a></li>
+<li><a class="active" href="introduction.html"><span class="header-section-number">2</span> Introduction</a></li>
 <li><a class="" href="basic.html"><span class="header-section-number">3</span> Basic string manipulations</a></li>
 <li><a class="" href="graph.html"><span class="header-section-number">4</span> Graph theory</a></li>
 <li><a class="" href="bruijn.html"><span class="header-section-number">5</span> De Bruijn graph</a></li>
@@ -56,13 +56,13 @@
 </div>
   </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="introduction" class="section level1" number="2">
 <h1>
-<span class="header-section-number">2</span> Introduction to genome assembly<a class="anchor" aria-label="anchor" href="#introduction"><i class="fas fa-link"></i></a>
+<span class="header-section-number">2</span> Introduction<a class="anchor" aria-label="anchor" href="#introduction"><i class="fas fa-link"></i></a>
 </h1>
-<p>Genome assembly has been regarded as one of the most important and most challenging problems in bioinformatics, at least since the late 80’s, when the Human Genome Project was announced.</p>
-<p>Genomes tend to be almost inconceivably long. Human DNA for example is approximately thousand times longer than the Bible, and some species have their genome even dozens times longer than ours. Yet the algorithmic part of the problem arises not mainly because of their length. This was definitely the case for the biotechnologicians, who few decades ago were constrained within insufficiently effective sequencing techniques. From bioinformaticians perspective though the core of the problem is located deeper.</p>
-<p>A good analogy, explaining the nature of the challenge, is a schredded newspaper. De novo assembly resembles reconstruction of the original document from a set of its unarranged pieces, like on the figure below.</p>
+<p>Genome assembly has been regarded as one of the most important and most challenging problems in bioinformatics, perhaps at least since the late 80’s, when the Human Genome Project was announced.</p>
+<p>Genomes tend to be almost inconceivably long. Human DNA for example is approximately thousand times longer than the Bible (letter-wise), and some species have their genomes even orders of magnitude longer. Yet the algorithmic part of the problem arises not mainly because of the length. This was definitely the case for the biotechnologicians, who few decades ago were constrained within low-thorughput sequencing techniques. For bioinformaticians though the core of the problem is located a bit deeper.</p>
+<p>A good analogy that explains the nature of our challenge is a shredded newspaper (some authors call it the newspaper problem, other use book as example). Namely, de novo genome assembly resembles reconstruction of the original document from a set of unarranged newspaper pieces, like on the figure below.</p>
 <div class="inline-figure"><img src="img/intro_assembly.png" width="80%" style="display: block; margin: auto;"></div>
-<p>As one can imagine the problem is difficult, but not because the newspaper has twenty or fourty pages. If we had just one the assembly still wouldn’t be easy. The length of the genome, although far from being irrelevant, is for us more of a secondary issue. On the other hand, repetitive patterns, which for biotechnologicians are not a problem at all, will complicate our journey substantially. Reader will perhaps come up to the very similar conclusions as the succeeding topics will uncover.</p>
+<p>As one can imagine the problem is difficult, but not because the newspaper has twenty or forty pages. If we had just one the assembly still wouldn’t be easy. The length of the genome, although far from being irrelevant, is for us more of a secondary issue. On the other hand, repetitive patterns, which for biotechnologicians are not a problem at all, will complicate our journey substantially. Reader will perhaps come to the very similar conclusions as the succeeding topics will uncover.</p>
 <p>One should also underline the fact that transcriptome assembly is not the same as the genome assembly. Read coverage of the latter is relatively uniform, whereas transcriptome can be differentially expressed and therefore the frequency of its reads can vary a lot. In genome assembly non-uniform abundance of the reads simply indicates existence of repetitions. In the case of transcription product it is much less straightforward. Methods that overcome this issue exist but they are beyond of the scope of this textbook.</p>
 
 </div>
@@ -71,7 +71,7 @@
 <div class="next"><a href="basic.html"><span class="header-section-number">3</span> Basic string manipulations</a></div>
 </div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
     <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
-      <ul class="nav navbar-nav"><li><a class="nav-link" href="#introduction"><span class="header-section-number">2</span> Introduction to genome assembly</a></li></ul>
+      <ul class="nav navbar-nav"><li><a class="nav-link" href="#introduction"><span class="header-section-number">2</span> Introduction</a></li></ul>
 
       <div class="book-extra">
         <ul class="list-unstyled">
@@ -88,7 +88,7 @@
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Genome Assembly</strong>" was written by officialprofile. It was last built on 2021-09-04.</p>
+    <p>"<strong>Genome Assembly</strong>" was written by officialprofile. It was last built on 2021-09-07.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">
