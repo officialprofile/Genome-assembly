@@ -2,10 +2,10 @@ preface
 prerequisites
 introduction
 basic
-generae-random-dna-sequence
+random-dna-sequence
 find-cdna
-find-reverse-complementary
-calculate-frequency-of-the-nucleobases
+reverse-complementary
+frequency-of-the-nucleobases
 longest-common-prefix
 graph
 bruijn

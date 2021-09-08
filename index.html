@@ -58,19 +58,19 @@
 <h1>
 <span class="header-section-number">1</span> Preface<a class="anchor" aria-label="anchor" href="#preface"><i class="fas fa-link"></i></a>
 </h1>
-<p>This mini textbook describes selected algorithms that play a main role in the de novo genome assembly. The premise of this book is to construct these algorithms from the very bottom and explain step by step main ideas that stand behind them.</p>
-<p>We will try to avoid as much as possible ready-to-use implementations, which are of course available and of great quality, but their use wouldn’t serve the educational purpose. Naturally, many applications are included as well.</p>
-<p>By default the code is written in R, but at certain points python is also mentioned.</p>
+<p>This mini textbook describes selected algorithms that play a fundamental role in genome assembly. The premise of this book is to construct the algorithms from the very bottom and explain step by step main ideas that stand behind them.</p>
+<p>We will try to avoid as much as possible ready-to-use implementations, which are of course available and of good quality, but their use wouldn’t serve the educational purpose. Naturally, many applications are included as well.</p>
+<p>By default the code is written in R, but at certain points python is also being mentioned.</p>
 <p><img src="img/cover.png" width="80%" style="display: block; margin: auto;"><font size="1">A HiFi De Bruijn graph for a pile of reads from Drosophila genome sequencing. Each dot represents a k-mer (k=23), the edges denote neighboring k-mers. The larger red dots mark the head of heterozygous bubbles. Source: pacb.com.</font></p>
 <div id="prerequisites" class="section level2" number="1.1">
 <h2>
 <span class="header-section-number">1.1</span> Prerequisites<a class="anchor" aria-label="anchor" href="#prerequisites"><i class="fas fa-link"></i></a>
 </h2>
-<p>It is assumed that the reader</p>
+<p>It is assumed that the reader:</p>
 <ol style="list-style-type: decimal">
-<li><p>has a basic understanding of genetics;</p></li>
-<li><p>has some experience with programming in R (is familiar with loops, data structures, etc.)</p></li>
-<li><p>had some contact with higher mathematics, e.g. statistics, graph theory.</p></li>
+<li><p>Has a basic understanding of genetics;</p></li>
+<li><p>Has some experience with programming in R (is familiar with loops, data structures, etc.).</p></li>
+<li><p>Had some contact with higher mathematics, e.g. statistics, graph theory. Expertise in this field is by no means required though.</p></li>
 </ol>
 <p>Throughout the book the following libraries are being used and it is assumed that the reader has them loaded.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
@@ -105,7 +105,7 @@
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Genome Assembly</strong>" was written by officialprofile. It was last built on 2021-09-07.</p>
+    <p>"<strong>Genome Assembly</strong>" was written by officialprofile. It was last built on 2021-09-08.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">

@@ -6,15 +6,15 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>Chapter 3 Basic string manipulations | Genome Assembly</title>
 <meta name="author" content="officialprofile">
-<meta name="description" content="Before we dive into the main topics let’s warm up with few basic exercises. On the one hand some of these problems might be regarded as a form of general familiarization with string manipulations....">
+<meta name="description" content="Before we dive into the main topics let’s warm up with few basic exercises. Some of these problems may be regarded as a form of general familiarization with string manipulations. Having them in...">
 <meta name="generator" content="bookdown 0.24 with bs4_book()">
 <meta property="og:title" content="Chapter 3 Basic string manipulations | Genome Assembly">
 <meta property="og:type" content="book">
 <meta property="og:url" content="https://github.com/officialprofile/Genome-assembly/basic.html">
-<meta property="og:description" content="Before we dive into the main topics let’s warm up with few basic exercises. On the one hand some of these problems might be regarded as a form of general familiarization with string manipulations....">
+<meta property="og:description" content="Before we dive into the main topics let’s warm up with few basic exercises. Some of these problems may be regarded as a form of general familiarization with string manipulations. Having them in...">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Chapter 3 Basic string manipulations | Genome Assembly">
-<meta name="twitter:description" content="Before we dive into the main topics let’s warm up with few basic exercises. On the one hand some of these problems might be regarded as a form of general familiarization with string manipulations....">
+<meta name="twitter:description" content="Before we dive into the main topics let’s warm up with few basic exercises. Some of these problems may be regarded as a form of general familiarization with string manipulations. Having them in...">
 <!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/header-attrs-2.10/header-attrs.js"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
 <script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.3.0/transition.js"></script><script src="libs/bs3compat-0.3.0/tabs.js"></script><script src="libs/bs3compat-0.3.0/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
@@ -58,10 +58,10 @@
 <h1>
 <span class="header-section-number">3</span> Basic string manipulations<a class="anchor" aria-label="anchor" href="#basic"><i class="fas fa-link"></i></a>
 </h1>
-<p>Before we dive into the main topics let’s warm up with few basic exercises. On the one hand some of these problems might be regarded as a form of general familiarization with string manipulations. Being able to get through them is in a sense a must, at least from a perspective of algorithms that will be discussed later. On the other hand some of the problems, like generating k-mers or suffixes, are absolutely crucial in genome assembly and one has to know them to a tee. So, without further ado, let’s do the warm up.</p>
-<div id="generae-random-dna-sequence" class="section level2" number="3.1">
+<p>Before we dive into the main topics let’s warm up with few basic exercises. Some of these problems may be regarded as a form of general familiarization with string manipulations. Having them in the bioinformatics repertoire is in a sense required. From a perspective of the algorithms that will be discussed later some of the problems, like generating k-mers or suffixes, are absolutely crucial and one has to know them like the back of one’s hand. So, without further ado, let’s do the warm up.</p>
+<div id="random-dna-sequence" class="section level2" number="3.1">
 <h2>
-<span class="header-section-number">3.1</span> Generae random DNA sequence<a class="anchor" aria-label="anchor" href="#generae-random-dna-sequence"><i class="fas fa-link"></i></a>
+<span class="header-section-number">3.1</span> Random DNA sequence<a class="anchor" aria-label="anchor" href="#random-dna-sequence"><i class="fas fa-link"></i></a>
 </h2>
 <p>Let’s start with writing a function that, for a given integer n &gt; 0, returns randomly generated DNA sequence.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
@@ -70,12 +70,12 @@
 <span class="op">}</span>
 
 <span class="fu">random_sequence</span><span class="op">(</span><span class="fl">10</span><span class="op">)</span>
-<span class="co">#&gt;  [1] "C" "C" "T" "A" "G" "C" "C" "G" "T" "T"</span></code></pre></div>
+<span class="co">#&gt;  [1] "A" "T" "A" "G" "A" "G" "C" "C" "T" "C"</span></code></pre></div>
 <p>If we want our returned sequence to be in a form of a single string we can use <code><a href="https://rdrr.io/r/base/paste.html">paste()</a></code> function with collapse parameter equal to <code>''</code>.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste</a></span><span class="op">(</span><span class="fu">random_sequence</span><span class="op">(</span><span class="fl">10</span><span class="op">)</span>, collapse <span class="op">=</span> <span class="st">''</span><span class="op">)</span>
-<span class="co">#&gt; [1] "CTCACGGAAA"</span></code></pre></div>
-<p>Unfortunately, there is no a convenient way of retrieving a substring. If a <code>DNA</code> variable is equal to <code>'ACGTG'</code> then we won’t get a substring <code>'CG'</code> simply by writing <code>DNA[2:3]</code> (one could to this in python). One could do this by employing the <code><a href="https://rdrr.io/r/base/substr.html">substr()</a></code> function, i.e. <code><a href="https://rdrr.io/r/base/substr.html">substr(DNA, 2, 3)</a></code>. On the other hand, if DNA is a vector <code><a href="https://rdrr.io/r/base/c.html">c('A', 'C', 'G', 'T', 'G')</a></code> then <code>DNA[2:3]</code> will return <code><a href="https://rdrr.io/r/base/c.html">c('C', 'G')</a></code> that in turn can be merged into <code>'CG'</code> by <code><a href="https://rdrr.io/r/base/paste.html">paste()</a></code>. Either way, one must use a certain function in order to glue the letters or to split the sequence.</p>
+<span class="co">#&gt; [1] "ACGTCTTTAA"</span></code></pre></div>
+<p>Unfortunately, there is no convenient way to retrieve a substring. If a <code>DNA</code> variable is equal to <code>'ACGTG'</code> then we won’t get a substring <code>'CG'</code> simply by writing <code>DNA[2:3]</code> (one could to this in python). One could do this by employing the <code><a href="https://rdrr.io/r/base/substr.html">substr()</a></code> function, i.e. <code><a href="https://rdrr.io/r/base/substr.html">substr(DNA, 2, 3)</a></code>. On the other hand, if DNA is a vector <code><a href="https://rdrr.io/r/base/c.html">c('A', 'C', 'G', 'T', 'G')</a></code> then <code>DNA[2:3]</code> will return <code><a href="https://rdrr.io/r/base/c.html">c('C', 'G')</a></code> that in turn can be merged into <code>'CG'</code> by <code><a href="https://rdrr.io/r/base/paste.html">paste()</a></code>. Either way, one must use a certain function in order to glue the letters or to split the sequence.</p>
 </div>
 <div id="find-cdna" class="section level2" number="3.2">
 <h2>
@@ -100,22 +100,22 @@
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">seq</span> <span class="op">&lt;-</span> <span class="fu">random_sequence</span><span class="op">(</span><span class="fl">20</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span><span class="op">(</span><span class="st">' DNA ='</span>, <span class="va">seq</span>, <span class="st">'\n'</span><span class="op">)</span>
-<span class="co">#&gt;  DNA = A A T G C A G C T G T T A T C A A G G G</span>
+<span class="co">#&gt;  DNA = G A T T G T C T C G G A G T C A A A A T</span>
 <span class="va">cseq</span> <span class="op">&lt;-</span> <span class="fu">complementary_sequence</span><span class="op">(</span><span class="va">seq</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span><span class="op">(</span><span class="st">'cDNA ='</span>, <span class="va">cseq</span><span class="op">)</span>
-<span class="co">#&gt; cDNA = T T A C G T C G A C A A T A G T T C C C</span></code></pre></div>
+<span class="co">#&gt; cDNA = C T A A C A G A G C C T C A G T T T T A</span></code></pre></div>
 <p>There is also a neater way to compute, and in a way avoid, these kind of loops. One can achieve this though functions like <code><a href="https://rdrr.io/r/base/apply.html">apply()</a></code>, <code><a href="https://rdrr.io/r/base/lapply.html">sapply()</a></code> or <code><a href="https://rdrr.io/r/base/lapply.html">lapply()</a></code>.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">complementary_sequence</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">sequence</span><span class="op">)</span><span class="op">{</span>
   <span class="fu"><a href="https://rdrr.io/r/base/lapply.html">sapply</a></span><span class="op">(</span><span class="va">seq</span>, <span class="kw">function</span><span class="op">(</span><span class="va">base</span><span class="op">)</span> <span class="va">c_bases</span><span class="op">[</span><span class="va">base</span><span class="op">]</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">)</span>
 <span class="op">}</span></code></pre></div>
-<p>The clear downside of using functions like the one above is loss of legibility. Applying them can also be not as straightforward and intuitive as writing a conventional loop. Advanced programmers though find these functions very handy, fast and as readable as standard for or while loop. For that reason we will try to balance these two approaches out. We don’t want our code to be too hermetic, but also we should not limit ourselves by deliberately avoiding legitimate solutions.</p>
+<p>The clear downside of using functions like the one above is loss of legibility. Applying them can also be not as straightforward and intuitive as writing a conventional loop. However, more advanced programmers find these functions very handy, fast and as readable as standard for or while loop. For that reason we will try to balance these two approaches out. We don’t want our code to be too hermetic, but also we should not limit ourselves by deliberately avoiding legitimate solutions.</p>
 </div>
-<div id="find-reverse-complementary" class="section level2" number="3.3">
+<div id="reverse-complementary" class="section level2" number="3.3">
 <h2>
-<span class="header-section-number">3.3</span> Find reverse complementary<a class="anchor" aria-label="anchor" href="#find-reverse-complementary"><i class="fas fa-link"></i></a>
+<span class="header-section-number">3.3</span> Reverse complementary<a class="anchor" aria-label="anchor" href="#reverse-complementary"><i class="fas fa-link"></i></a>
 </h2>
-<p>Obtaining reverse complementary is very similar. The only difference is that instead of appending complementary nucleobases we will prepend them.</p>
+<p>Obtaining reverse complementary is very similar to the previous excercise. The only difference is that instead of appending complementary nucleobases we will prepend them.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">reverse_complementary</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">sequence</span><span class="op">)</span><span class="op">{</span>
   <span class="va">reverse</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="op">)</span>
@@ -127,14 +127,14 @@
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">seq</span> <span class="op">&lt;-</span> <span class="fu">random_sequence</span><span class="op">(</span><span class="fl">20</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span><span class="op">(</span><span class="st">' DNA ='</span>, <span class="va">seq</span>, <span class="st">'\n'</span><span class="op">)</span>
-<span class="co">#&gt;  DNA = C G G G C T T G G C T T C T A C T C G T</span>
+<span class="co">#&gt;  DNA = G A G A A T T T T A G C T C G A A C C T</span>
 <span class="va">rcseq</span> <span class="op">&lt;-</span> <span class="fu">reverse_complementary</span><span class="op">(</span><span class="va">seq</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span><span class="op">(</span><span class="st">'cDNA ='</span>, <span class="va">rcseq</span><span class="op">)</span>
-<span class="co">#&gt; cDNA = A C G A G T A G A A G C C A A G C C C G</span></code></pre></div>
+<span class="co">#&gt; cDNA = A G G T T C G A G C T A A A A T T C T C</span></code></pre></div>
 </div>
-<div id="calculate-frequency-of-the-nucleobases" class="section level2" number="3.4">
+<div id="frequency-of-the-nucleobases" class="section level2" number="3.4">
 <h2>
-<span class="header-section-number">3.4</span> Calculate frequency of the nucleobases<a class="anchor" aria-label="anchor" href="#calculate-frequency-of-the-nucleobases"><i class="fas fa-link"></i></a>
+<span class="header-section-number">3.4</span> Frequency of the nucleobases<a class="anchor" aria-label="anchor" href="#frequency-of-the-nucleobases"><i class="fas fa-link"></i></a>
 </h2>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">frequency</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">sequence</span>, <span class="va">percents</span> <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span><span class="op">{</span>
@@ -145,8 +145,8 @@
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/stats/time.html">frequency</a></span><span class="op">(</span><span class="va">seq</span>, percents <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
 <span class="co">#&gt; sequence</span>
-<span class="co">#&gt;    A    C    G    T </span>
-<span class="co">#&gt; 0.05 0.30 0.30 0.35</span></code></pre></div>
+<span class="co">#&gt;   A   C   G   T </span>
+<span class="co">#&gt; 0.3 0.2 0.2 0.3</span></code></pre></div>
 </div>
 <div id="longest-common-prefix" class="section level2" number="3.5">
 <h2>
@@ -216,10 +216,10 @@
     <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
       <ul class="nav navbar-nav">
 <li><a class="nav-link" href="#basic"><span class="header-section-number">3</span> Basic string manipulations</a></li>
-<li><a class="nav-link" href="#generae-random-dna-sequence"><span class="header-section-number">3.1</span> Generae random DNA sequence</a></li>
+<li><a class="nav-link" href="#random-dna-sequence"><span class="header-section-number">3.1</span> Random DNA sequence</a></li>
 <li><a class="nav-link" href="#find-cdna"><span class="header-section-number">3.2</span> Find cDNA</a></li>
-<li><a class="nav-link" href="#find-reverse-complementary"><span class="header-section-number">3.3</span> Find reverse complementary</a></li>
-<li><a class="nav-link" href="#calculate-frequency-of-the-nucleobases"><span class="header-section-number">3.4</span> Calculate frequency of the nucleobases</a></li>
+<li><a class="nav-link" href="#reverse-complementary"><span class="header-section-number">3.3</span> Reverse complementary</a></li>
+<li><a class="nav-link" href="#frequency-of-the-nucleobases"><span class="header-section-number">3.4</span> Frequency of the nucleobases</a></li>
 <li><a class="nav-link" href="#longest-common-prefix"><span class="header-section-number">3.5</span> Longest common prefix</a></li>
 </ul>
 
@@ -238,7 +238,7 @@
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Genome Assembly</strong>" was written by officialprofile. It was last built on 2021-09-07.</p>
+    <p>"<strong>Genome Assembly</strong>" was written by officialprofile. It was last built on 2021-09-08.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">

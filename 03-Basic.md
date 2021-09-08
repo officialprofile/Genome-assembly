@@ -1,8 +1,8 @@
 # Basic string manipulations {#basic}
 
-Before we dive into the main topics let's warm up with few basic exercises. On the one hand some of these problems might be regarded as a form of general familiarization with string manipulations. Being able to get through them is in a sense a must, at least from a perspective of algorithms that will be discussed later. On the other hand some of the problems, like generating k-mers or suffixes, are absolutely crucial in genome assembly and one has to know them to a tee. So, without further ado, let's do the warm up.
+Before we dive into the main topics let's warm up with few basic exercises. Some of these problems may be regarded as a form of general familiarization with string manipulations. Having them in the bioinformatics repertoire is in a sense required. From a perspective of the algorithms that will be discussed later some of the problems, like generating k-mers or suffixes, are absolutely crucial and one has to know them like the back of one's hand. So, without further ado, let's do the warm up.
 
-## Generae random DNA sequence
+## Random DNA sequence
 
 Let's start with writing a function that, for a given integer n > 0, returns randomly generated DNA sequence.
 
@@ -13,17 +13,18 @@ random_sequence <- function(n){
 }
 
 random_sequence(10)
-#>  [1] "A" "A" "G" "C" "C" "G" "G" "A" "T" "G"
+#>  [1] "A" "A" "C" "T" "A" "G" "A" "C" "T" "A"
 ```
+
 If we want our returned sequence to be in a form of a single string we can use `paste()` function with collapse parameter equal to `''`.
 
 
 ```r
 paste(random_sequence(10), collapse = '')
-#> [1] "GTTGAGTTAC"
+#> [1] "CGTCATGGTC"
 ```
 
-Unfortunately, there is no a convenient way of retrieving a substring. If a `DNA` variable is equal to `'ACGTG'` then we won't get a substring `'CG'` simply by writing `DNA[2:3]` (one could to this in python). One could do this by employing the `substr()` function, i.e. `substr(DNA, 2, 3)`. On the other hand, if DNA is a vector `c('A', 'C', 'G', 'T', 'G')` then `DNA[2:3]` will return `c('C', 'G')` that in turn can be merged into `'CG'` by `paste()`. Either way, one must use a certain function in order to glue the letters or to split the sequence.
+Unfortunately, there is no convenient way to retrieve a substring. If a `DNA` variable is equal to `'ACGTG'` then we won't get a substring `'CG'` simply by writing `DNA[2:3]` (one could to this in python). One could do this by employing the `substr()` function, i.e. `substr(DNA, 2, 3)`. On the other hand, if DNA is a vector `c('A', 'C', 'G', 'T', 'G')` then `DNA[2:3]` will return `c('C', 'G')` that in turn can be merged into `'CG'` by `paste()`. Either way, one must use a certain function in order to glue the letters or to split the sequence.
 
 ## Find cDNA
 
@@ -56,10 +57,10 @@ Please note that we append complementary nucleobase in a seemingly non-optimal w
 ```r
 seq <- random_sequence(20)
 cat(' DNA =', seq, '\n')
-#>  DNA = C G G A C A A T G A A C G A G A T G G G
+#>  DNA = A C A C G G G A T G T T C T C G G A A G
 cseq <- complementary_sequence(seq)
 cat('cDNA =', cseq)
-#> cDNA = G C C T G T T A C T T G C T C T A C C C
+#> cDNA = T G T G C C C T A C A A G A G C C T T C
 ```
 
 There is also a neater way to compute, and in a way avoid, these kind of loops. One can achieve this though functions like `apply()`, `sapply()` or `lapply()`.
@@ -71,11 +72,11 @@ complementary_sequence <- function(sequence){
 }
 ```
 
-The clear downside of using functions like the one above is loss of legibility. Applying them can also be not as straightforward and intuitive as writing a conventional loop. Advanced programmers though find these functions very handy, fast and as readable as standard for or while loop. For that reason we will try to balance these two approaches out. We don't want our code to be too hermetic, but also we should not limit ourselves by deliberately avoiding legitimate solutions.
+The clear downside of using functions like the one above is loss of legibility. Applying them can also be not as straightforward and intuitive as writing a conventional loop. However, more advanced programmers find these functions very handy, fast and as readable as standard for or while loop. For that reason we will try to balance these two approaches out. We don't want our code to be too hermetic, but also we should not limit ourselves by deliberately avoiding legitimate solutions.
 
-## Find reverse complementary
+## Reverse complementary
 
-Obtaining reverse complementary is very similar. The only difference is that instead of appending complementary nucleobases we will prepend them.
+Obtaining reverse complementary is very similar to the previous excercise. The only difference is that instead of appending complementary nucleobases we will prepend them.
 
 
 ```r
@@ -89,17 +90,16 @@ reverse_complementary <- function(sequence){
 ```
 
 
-
 ```r
 seq <- random_sequence(20)
 cat(' DNA =', seq, '\n')
-#>  DNA = T A G G C A G G C C G A A G G C G A T C
+#>  DNA = A G T T A C T T T G T T T A A T G G G A
 rcseq <- reverse_complementary(seq)
 cat('cDNA =', rcseq)
-#> cDNA = G A T C G C C T T C G G C C T G C C T A
+#> cDNA = T C C C A T T A A A C A A A G T A A C T
 ```
 
-## Calculate frequency of the nucleobases
+## Frequency of the nucleobases
 
 
 ```r
@@ -115,7 +115,7 @@ frequency <- function(sequence, percents = FALSE){
 frequency(seq, percents = TRUE)
 #> sequence
 #>    A    C    G    T 
-#> 0.25 0.25 0.40 0.10
+#> 0.25 0.05 0.25 0.45
 ```
 
 ## Longest common prefix
