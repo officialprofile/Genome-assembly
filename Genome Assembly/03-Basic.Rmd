@@ -1,6 +1,6 @@
 # Basic string manipulations {#basic}
 
-Before we dive into the main topics let's warm up with few basic exercises. Some of these problems may be regarded as a form of general familiarization with string manipulations. Having them in the bioinformatics repertoire is in a sense required. From a perspective of the algorithms that will be discussed later some of the problems, like generating k-mers or suffixes, are absolutely crucial and one has to know them like the back of one's hand. So, without further ado, let's do the warm up.
+Before we dive into the main topics let's warm up with few basic exercises. Some of these problems may be regarded as a form of general familiarization with string manipulations. Having them in the bioinformatics repertoire is here in a sense required. From a perspective of the algorithms that will be discussed later some of the problems, like generating k-mers or suffixes, are absolutely essential and one has to know them like the back of one's hand.
 
 ## Random DNA sequence
 
@@ -134,7 +134,7 @@ length(c('A', 'C', 'G', 'T'))
 length('ACGT')
 ```
 
-On this account we will simply add new boolean argument `glued` to our function.  This solution is far from perfect, but for now is good enough.
+On this account we will simply add new boolean argument `glued` to our function (by default equal to FALSE).  This solution is far from perfect, but for now is good enough.
 
 ```{r}
 longest_common_prefix <- function(sequence1, sequence2, glued = FALSE){
@@ -145,7 +145,7 @@ longest_common_prefix <- function(sequence1, sequence2, glued = FALSE){
   min_length = min(length(sequence1), length(sequence2))
   index = 0
   if (sequence1[1] != sequence2[1]){
-    return ('No common prefix')
+    return ('')
   }
   for (i in 2:min_length){
     if (sequence1[i] != sequence2[i]){
@@ -156,8 +156,14 @@ longest_common_prefix <- function(sequence1, sequence2, glued = FALSE){
 }
 ```
 
-
 ```{r}
 longest_common_prefix('ACTG', 'ACCC', glued = TRUE)
+
+longest_common_prefix('TCTG', 'ACCC', glued = TRUE)
 ```
+
+
+
+
+
 

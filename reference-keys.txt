@@ -7,6 +7,8 @@ find-cdna
 reverse-complementary
 frequency-of-the-nucleobases
 longest-common-prefix
+advanced
+read-fasta-file
 graph
 bruijn
 bwt

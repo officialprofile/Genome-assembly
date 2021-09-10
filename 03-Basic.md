@@ -1,6 +1,6 @@
 # Basic string manipulations {#basic}
 
-Before we dive into the main topics let's warm up with few basic exercises. Some of these problems may be regarded as a form of general familiarization with string manipulations. Having them in the bioinformatics repertoire is in a sense required. From a perspective of the algorithms that will be discussed later some of the problems, like generating k-mers or suffixes, are absolutely crucial and one has to know them like the back of one's hand. So, without further ado, let's do the warm up.
+Before we dive into the main topics let's warm up with few basic exercises. Some of these problems may be regarded as a form of general familiarization with string manipulations. Having them in the bioinformatics repertoire is here in a sense required. From a perspective of the algorithms that will be discussed later some of the problems, like generating k-mers or suffixes, are absolutely essential and one has to know them like the back of one's hand.
 
 ## Random DNA sequence
 
@@ -13,7 +13,7 @@ random_sequence <- function(n){
 }
 
 random_sequence(10)
-#>  [1] "A" "A" "C" "T" "A" "G" "A" "C" "T" "A"
+#>  [1] "A" "C" "G" "C" "A" "C" "C" "A" "G" "G"
 ```
 
 If we want our returned sequence to be in a form of a single string we can use `paste()` function with collapse parameter equal to `''`.
@@ -21,7 +21,7 @@ If we want our returned sequence to be in a form of a single string we can use `
 
 ```r
 paste(random_sequence(10), collapse = '')
-#> [1] "CGTCATGGTC"
+#> [1] "TCGGCACAAC"
 ```
 
 Unfortunately, there is no convenient way to retrieve a substring. If a `DNA` variable is equal to `'ACGTG'` then we won't get a substring `'CG'` simply by writing `DNA[2:3]` (one could to this in python). One could do this by employing the `substr()` function, i.e. `substr(DNA, 2, 3)`. On the other hand, if DNA is a vector `c('A', 'C', 'G', 'T', 'G')` then `DNA[2:3]` will return `c('C', 'G')` that in turn can be merged into `'CG'` by `paste()`. Either way, one must use a certain function in order to glue the letters or to split the sequence.
@@ -57,10 +57,10 @@ Please note that we append complementary nucleobase in a seemingly non-optimal w
 ```r
 seq <- random_sequence(20)
 cat(' DNA =', seq, '\n')
-#>  DNA = A C A C G G G A T G T T C T C G G A A G
+#>  DNA = C T C C C G G T G G G G T G A C C C T A
 cseq <- complementary_sequence(seq)
 cat('cDNA =', cseq)
-#> cDNA = T G T G C C C T A C A A G A G C C T T C
+#> cDNA = G A G G G C C A C C C C A C T G G G A T
 ```
 
 There is also a neater way to compute, and in a way avoid, these kind of loops. One can achieve this though functions like `apply()`, `sapply()` or `lapply()`.
@@ -93,10 +93,10 @@ reverse_complementary <- function(sequence){
 ```r
 seq <- random_sequence(20)
 cat(' DNA =', seq, '\n')
-#>  DNA = A G T T A C T T T G T T T A A T G G G A
+#>  DNA = C C G G C G A T C G T G A A T G T C G T
 rcseq <- reverse_complementary(seq)
 cat('cDNA =', rcseq)
-#> cDNA = T C C C A T T A A A C A A A G T A A C T
+#> cDNA = A C G A C A T T C A C G A T C G C C G G
 ```
 
 ## Frequency of the nucleobases
@@ -115,7 +115,7 @@ frequency <- function(sequence, percents = FALSE){
 frequency(seq, percents = TRUE)
 #> sequence
 #>    A    C    G    T 
-#> 0.25 0.05 0.25 0.45
+#> 0.15 0.25 0.35 0.25
 ```
 
 ## Longest common prefix
@@ -163,7 +163,7 @@ length('ACGT')
 #> [1] 1
 ```
 
-On this account we will simply add new boolean argument `glued` to our function.  This solution is far from perfect, but for now is good enough.
+On this account we will simply add new boolean argument `glued` to our function (by default equal to FALSE).  This solution is far from perfect, but for now is good enough.
 
 
 ```r
@@ -175,7 +175,7 @@ longest_common_prefix <- function(sequence1, sequence2, glued = FALSE){
   min_length = min(length(sequence1), length(sequence2))
   index = 0
   if (sequence1[1] != sequence2[1]){
-    return ('No common prefix')
+    return ('')
   }
   for (i in 2:min_length){
     if (sequence1[i] != sequence2[i]){
@@ -187,9 +187,16 @@ longest_common_prefix <- function(sequence1, sequence2, glued = FALSE){
 ```
 
 
-
 ```r
 longest_common_prefix('ACTG', 'ACCC', glued = TRUE)
 #> [1] "A" "C"
+
+longest_common_prefix('TCTG', 'ACCC', glued = TRUE)
+#> [1] ""
 ```
+
+
+
+
+
 

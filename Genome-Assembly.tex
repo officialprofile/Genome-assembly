@@ -117,7 +117,7 @@
 
 \title{Genome Assembly}
 \author{officialprofile}
-\date{2021-09-08}
+\date{2021-09-10}
 
 \begin{document}
 \maketitle
@@ -180,7 +180,7 @@ One should also underline the fact that transcriptome assembly is not the same a
 \hypertarget{basic}{%
 \chapter{Basic string manipulations}\label{basic}}
 
-Before we dive into the main topics let's warm up with few basic exercises. Some of these problems may be regarded as a form of general familiarization with string manipulations. Having them in the bioinformatics repertoire is in a sense required. From a perspective of the algorithms that will be discussed later some of the problems, like generating k-mers or suffixes, are absolutely crucial and one has to know them like the back of one's hand. So, without further ado, let's do the warm up.
+Before we dive into the main topics let's warm up with few basic exercises. Some of these problems may be regarded as a form of general familiarization with string manipulations. Having them in the bioinformatics repertoire is here in a sense required. From a perspective of the algorithms that will be discussed later some of the problems, like generating k-mers or suffixes, are absolutely essential and one has to know them like the back of one's hand.
 
 \hypertarget{random-dna-sequence}{%
 \section{Random DNA sequence}\label{random-dna-sequence}}
@@ -194,7 +194,7 @@ Let's start with writing a function that, for a given integer n \textgreater{} 0
 \NormalTok{\}}
 
 \FunctionTok{random\_sequence}\NormalTok{(}\DecValTok{10}\NormalTok{)}
-\CommentTok{\#\textgreater{}  [1] "G" "T" "G" "T" "C" "A" "A" "C" "G" "A"}
+\CommentTok{\#\textgreater{}  [1] "C" "T" "C" "T" "C" "T" "G" "C" "G" "A"}
 \end{Highlighting}
 \end{Shaded}
 
@@ -203,7 +203,7 @@ If we want our returned sequence to be in a form of a single string we can use \
 \begin{Shaded}
 \begin{Highlighting}[]
 \FunctionTok{paste}\NormalTok{(}\FunctionTok{random\_sequence}\NormalTok{(}\DecValTok{10}\NormalTok{), }\AttributeTok{collapse =} \StringTok{\textquotesingle{}\textquotesingle{}}\NormalTok{)}
-\CommentTok{\#\textgreater{} [1] "CTGTCAAGAG"}
+\CommentTok{\#\textgreater{} [1] "AAACCTTGTT"}
 \end{Highlighting}
 \end{Shaded}
 
@@ -243,10 +243,10 @@ Please note that we append complementary nucleobase in a seemingly non-optimal w
 \begin{Highlighting}[]
 \NormalTok{seq }\OtherTok{\textless{}{-}} \FunctionTok{random\_sequence}\NormalTok{(}\DecValTok{20}\NormalTok{)}
 \FunctionTok{cat}\NormalTok{(}\StringTok{\textquotesingle{} DNA =\textquotesingle{}}\NormalTok{, seq, }\StringTok{\textquotesingle{}}\SpecialCharTok{\textbackslash{}n}\StringTok{\textquotesingle{}}\NormalTok{)}
-\CommentTok{\#\textgreater{}  DNA = A C A G A G C A T A C C C T A C C C T G}
+\CommentTok{\#\textgreater{}  DNA = C T G A A T C G A C A C G C T A G C A C}
 \NormalTok{cseq }\OtherTok{\textless{}{-}} \FunctionTok{complementary\_sequence}\NormalTok{(seq)}
 \FunctionTok{cat}\NormalTok{(}\StringTok{\textquotesingle{}cDNA =\textquotesingle{}}\NormalTok{, cseq)}
-\CommentTok{\#\textgreater{} cDNA = T G T C T C G T A T G G G A T G G G A C}
+\CommentTok{\#\textgreater{} cDNA = G A C T T A G C T G T G C G A T C G T G}
 \end{Highlighting}
 \end{Shaded}
 
@@ -283,10 +283,10 @@ Obtaining reverse complementary is very similar to the previous excercise. The o
 \begin{Highlighting}[]
 \NormalTok{seq }\OtherTok{\textless{}{-}} \FunctionTok{random\_sequence}\NormalTok{(}\DecValTok{20}\NormalTok{)}
 \FunctionTok{cat}\NormalTok{(}\StringTok{\textquotesingle{} DNA =\textquotesingle{}}\NormalTok{, seq, }\StringTok{\textquotesingle{}}\SpecialCharTok{\textbackslash{}n}\StringTok{\textquotesingle{}}\NormalTok{)}
-\CommentTok{\#\textgreater{}  DNA = A C C G C C C C C G C A A T C T A G A C}
+\CommentTok{\#\textgreater{}  DNA = G A C C C G G A A T A T T C G C G G G G}
 \NormalTok{rcseq }\OtherTok{\textless{}{-}} \FunctionTok{reverse\_complementary}\NormalTok{(seq)}
 \FunctionTok{cat}\NormalTok{(}\StringTok{\textquotesingle{}cDNA =\textquotesingle{}}\NormalTok{, rcseq)}
-\CommentTok{\#\textgreater{} cDNA = G T C T A G A T T G C G G G G G C G G T}
+\CommentTok{\#\textgreater{} cDNA = C C C C G C G A A T A T T C C G G G T C}
 \end{Highlighting}
 \end{Shaded}
 
@@ -308,7 +308,7 @@ Obtaining reverse complementary is very similar to the previous excercise. The o
 \FunctionTok{frequency}\NormalTok{(seq, }\AttributeTok{percents =} \ConstantTok{TRUE}\NormalTok{)}
 \CommentTok{\#\textgreater{} sequence}
 \CommentTok{\#\textgreater{}    A    C    G    T }
-\CommentTok{\#\textgreater{} 0.25 0.50 0.15 0.10}
+\CommentTok{\#\textgreater{} 0.20 0.25 0.40 0.15}
 \end{Highlighting}
 \end{Shaded}
 
@@ -361,7 +361,7 @@ Unfortunately, R does not differentiates between \texttt{c(\textquotesingle{}a\t
 \end{Highlighting}
 \end{Shaded}
 
-On this account we will simply add new boolean argument \texttt{glued} to our function. This solution is far from perfect, but for now is good enough.
+On this account we will simply add new boolean argument \texttt{glued} to our function (by default equal to FALSE). This solution is far from perfect, but for now is good enough.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -373,7 +373,7 @@ On this account we will simply add new boolean argument \texttt{glued} to our fu
 \NormalTok{  min\_length }\OtherTok{=} \FunctionTok{min}\NormalTok{(}\FunctionTok{length}\NormalTok{(sequence1), }\FunctionTok{length}\NormalTok{(sequence2))}
 \NormalTok{  index }\OtherTok{=} \DecValTok{0}
   \ControlFlowTok{if}\NormalTok{ (sequence1[}\DecValTok{1}\NormalTok{] }\SpecialCharTok{!=}\NormalTok{ sequence2[}\DecValTok{1}\NormalTok{])\{}
-    \FunctionTok{return}\NormalTok{ (}\StringTok{\textquotesingle{}No common prefix\textquotesingle{}}\NormalTok{)}
+    \FunctionTok{return}\NormalTok{ (}\StringTok{\textquotesingle{}\textquotesingle{}}\NormalTok{)}
 \NormalTok{  \}}
   \ControlFlowTok{for}\NormalTok{ (i }\ControlFlowTok{in} \DecValTok{2}\SpecialCharTok{:}\NormalTok{min\_length)\{}
     \ControlFlowTok{if}\NormalTok{ (sequence1[i] }\SpecialCharTok{!=}\NormalTok{ sequence2[i])\{}
@@ -389,6 +389,86 @@ On this account we will simply add new boolean argument \texttt{glued} to our fu
 \begin{Highlighting}[]
 \FunctionTok{longest\_common\_prefix}\NormalTok{(}\StringTok{\textquotesingle{}ACTG\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}ACCC\textquotesingle{}}\NormalTok{, }\AttributeTok{glued =} \ConstantTok{TRUE}\NormalTok{)}
 \CommentTok{\#\textgreater{} [1] "A" "C"}
+
+\FunctionTok{longest\_common\_prefix}\NormalTok{(}\StringTok{\textquotesingle{}TCTG\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}ACCC\textquotesingle{}}\NormalTok{, }\AttributeTok{glued =} \ConstantTok{TRUE}\NormalTok{)}
+\CommentTok{\#\textgreater{} [1] ""}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{advanced}{%
+\chapter{More advanced problems}\label{advanced}}
+
+This chapter is devoted to a little more specific problems, like managing fasta or fastq files. Throughout the section we will operate on three different files which are available on NCBI, but are also included in the \texttt{files} directory:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\item
+  MK028861.fasta - Zika virus
+\item
+  NC\_001416.fasta - Enterobacteria phage lambda
+\end{enumerate}
+
+\hypertarget{read-fasta-file}{%
+\section{Read fasta file}\label{read-fasta-file}}
+
+Fasta file consist of two parts - header, that describes the sequence, and sequence itself. In order to load the first file we will use a very basic \texttt{leadLines()} function.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{zika }\OtherTok{\textless{}{-}} \FunctionTok{readLines}\NormalTok{(}\StringTok{\textquotesingle{}files/MK028861.fasta\textquotesingle{}}\NormalTok{)}
+
+\NormalTok{zika[}\DecValTok{1}\SpecialCharTok{:}\DecValTok{4}\NormalTok{]}
+\CommentTok{\#\textgreater{} [1] "\textgreater{}MK028861.1 Zika virus isolate Zika virus/H.sapiens{-}tc/Panama/2015/259359 polyprotein gene, complete cds"}
+\CommentTok{\#\textgreater{} [2] "TGACTAAGACTGCGACAGTTCGAGTTTGAAGCGAAAGCTAGCAACAGTATCAACAGGTTTTATTTTGGAT"                                  }
+\CommentTok{\#\textgreater{} [3] "TTGGAAACGAGAGTTTCTGGTCATGAAAAACCCAAAAAAGAAATCCGGAGGATTCCGGATTGTCAATATG"                                  }
+\CommentTok{\#\textgreater{} [4] "CTAAAACGCGGAGTAGCCCGTGTGAGCCCCTTTGGGGGCTTGAAGAGGCTGCCAGCCGGACTTCTGCTGG"}
+
+\FunctionTok{length}\NormalTok{(zika)}
+\CommentTok{\#\textgreater{} [1] 151}
+\end{Highlighting}
+\end{Shaded}
+
+As one can see at this point we have a vector of 151 elements. Each entry represents a single line in from the loaded file. We are going to remold our output to more convenient form, namely to a list of two elements (header and sequence).
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{zika }\OtherTok{\textless{}{-}} \FunctionTok{list}\NormalTok{(}\StringTok{\textquotesingle{}header\textquotesingle{}} \OtherTok{=} \FunctionTok{substr}\NormalTok{(zika[}\DecValTok{1}\NormalTok{], }\DecValTok{2}\NormalTok{, }\FunctionTok{nchar}\NormalTok{(zika[}\DecValTok{1}\NormalTok{])), }
+             \StringTok{\textquotesingle{}sequence\textquotesingle{}} \OtherTok{=} \FunctionTok{do.call}\NormalTok{(paste0, }\FunctionTok{as.list}\NormalTok{(zika[}\DecValTok{2}\SpecialCharTok{:}\FunctionTok{length}\NormalTok{(zika)])))}
+\end{Highlighting}
+\end{Shaded}
+
+Let's talk trough \texttt{substr(zika{[}1{]},\ 2,\ nchar(zika{[}1{]}))} and \texttt{do.call(paste0,\ as.list(zika{[}2:length(zika){]}))}. We create a header on the basis of initial line of the fasta file, i.e.~first element of our vector. One could simply write \texttt{\textquotesingle{}header\textquotesingle{}\ =\ zika{[}1{]}} but we also want to remove \texttt{\textgreater{}} character from the very beginning. Therefore we take a substring that starting from the second character and ends at the end (position equal to the number of characters).
+
+\texttt{do.call(paste0,\ as.list(zika{[}2:length(zika){]}))} needs a little more explanation. As we know one can use a paste0 function to concatenate strings. Unfortunately, if imputing a vector of strings won't concatenate all element together
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{paste0}\NormalTok{(}\StringTok{\textquotesingle{}A\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}B\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}C\textquotesingle{}}\NormalTok{)}
+\CommentTok{\#\textgreater{} [1] "ABC"}
+
+\FunctionTok{paste0}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\StringTok{\textquotesingle{}A\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}B\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}C\textquotesingle{}}\NormalTok{))}
+\CommentTok{\#\textgreater{} [1] "A" "B" "C"}
+\end{Highlighting}
+\end{Shaded}
+
+This is the reason for employing \texttt{do.call()}. The function takes two arguments - name of function to execute and \textbf{list} of elements.
+
+Fortunately, there is a smoother to solve this exercise - \texttt{str\_c()} function the the stringr package.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{stringr}\SpecialCharTok{::}\FunctionTok{str\_c}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\StringTok{\textquotesingle{}A\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}B\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}C\textquotesingle{}}\NormalTok{), }\AttributeTok{collapse =} \StringTok{\textquotesingle{}\textquotesingle{}}\NormalTok{)}
+\CommentTok{\#\textgreater{} [1] "ABC"}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{zika}\SpecialCharTok{$}\NormalTok{header}
+\CommentTok{\#\textgreater{} [1] "MK028861.1 Zika virus isolate Zika virus/H.sapiens{-}tc/Panama/2015/259359 polyprotein gene, complete cds"}
+
+\FunctionTok{substr}\NormalTok{(zika}\SpecialCharTok{$}\NormalTok{sequence, }\DecValTok{1}\NormalTok{, }\DecValTok{100}\NormalTok{)}
+\CommentTok{\#\textgreater{} [1] "TGACTAAGACTGCGACAGTTCGAGTTTGAAGCGAAAGCTAGCAACAGTATCAACAGGTTTTATTTTGGATTTGGAAACGAGAGTTTCTGGTCATGAAAAA"}
 \end{Highlighting}
 \end{Shaded}
 
