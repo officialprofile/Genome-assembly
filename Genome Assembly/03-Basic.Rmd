@@ -162,6 +162,60 @@ longest_common_prefix('ACTG', 'ACCC', glued = TRUE)
 longest_common_prefix('TCTG', 'ACCC', glued = TRUE)
 ```
 
+## Exact matching
+
+We will construct a naive algorithm for exact pattern matching
+
+```{r}
+exact_matching <- function(pattern, template, glued = FALSE){
+  if (glued){
+    pattern <- strsplit(pattern, '')[[1]]
+    template <- strsplit(template, '')[[1]]
+  }
+  positions = c()
+  for (i in 1:(length(template) - length(pattern) + 1)){
+    match = TRUE
+    for (j in 1:length(pattern)){
+      if (pattern[j] != template[j + i - 1]){
+        match = FALSE
+        break
+      }
+    }
+    if (match){
+      positions = c(positions, i)
+    }
+  }
+  return(positions)
+}
+```
+
+```{r}
+exact_matching('ACTG', 'ACTGTTGACTGACTGGGGGGGGACTGAACTG', glued = TRUE)
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

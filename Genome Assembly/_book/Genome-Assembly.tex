@@ -117,7 +117,7 @@
 
 \title{Genome Assembly}
 \author{officialprofile}
-\date{2021-09-05}
+\date{2021-09-10}
 
 \begin{document}
 \maketitle
@@ -129,11 +129,11 @@
 \hypertarget{preface}{%
 \chapter{Preface}\label{preface}}
 
-This mini textbook describes selected algorithms that play a main role in the \emph{de novo} genome assembly. The premise of this book is to construct these algorithms from the very bottom and explain step by step the main ideas that stand behind them.
+This mini textbook describes selected algorithms that play a fundamental role in genome assembly. The premise of this book is to construct the algorithms from the very bottom and explain step by step main ideas that stand behind them.
 
-We will try to avoid as mcuch as possible ready-to-use implementations, which are, of course, available, but their use wouldn't serve the educational purpose. Naturally, many applications are included as well.
+We will try to avoid as much as possible ready-to-use implementations, which are of course available and of good quality, but their use wouldn't serve the educational purpose. Naturally, many applications are included as well.
 
-By default the code is written in R, but at certain points python is also mentioned.
+By default the code is written in R, but at certain points python is also being mentioned.
 
 \begin{center}\includegraphics[width=0.8\linewidth]{img/cover} \end{center}
 
@@ -142,16 +142,16 @@ A HiFi De Bruijn graph for a pile of reads from Drosophila genome sequencing. Ea
 \hypertarget{prerequisites}{%
 \section{Prerequisites}\label{prerequisites}}
 
-It is assumed that the reader
+It is assumed that the reader:
 
 \begin{enumerate}
 \def\labelenumi{\arabic{enumi}.}
 \item
-  has a basic understanding of genetics;
+  Has a basic understanding of genetics;
 \item
-  has some experience with programming in R (is familiar with pipe syntax, etc.)
+  Has some experience with programming in R (is familiar with loops, data structures, etc.).
 \item
-  had some contact with higher mathematics, e.g.~statistics, graph theory.
+  Had some contact with higher mathematics, e.g.~statistics, graph theory. Expertise in this field is by no means required though.
 \end{enumerate}
 
 Throughout the book the following libraries are being used and it is assumed that the reader has them loaded.
@@ -165,25 +165,25 @@ Throughout the book the following libraries are being used and it is assumed tha
 \end{Shaded}
 
 \hypertarget{introduction}{%
-\chapter{Introduction to genome assembly}\label{introduction}}
+\chapter{Introduction}\label{introduction}}
 
-Genome assembly has been regarded as one of the most important and most challenging problems in bioinformatics, at least since the late 80's, when the Human Genome Project was announced.
+Genome assembly has been regarded as one of the most important and most challenging problems in bioinformatics, perhaps at least since the late 80's, when the Human Genome Project was announced. Due to exponential growth of technology this topic is still relevant and there are still quite a few problems we have to face.
 
-Genomes tend to be almost inconceivably long. Human DNA for example is approximately thousand times longer than the Bible, and some species have their genome even dozens times longer than ours. Yet the algorithmic part of the problem arises not mainly because of their length. This was definitely the case for the biotechnologicians, who few decades ago were constrained within insufficiently effective sequencing techniques. From bioinformaticians perspective though the core of the problem is located deeper.
+Genomes tend to be almost inconceivably long. Human DNA for example is approximately thousand times longer than the Bible (letter-wise), and some species have their genomes even orders of magnitude longer. Yet the algorithmic part of the problem arises not mainly because of the length. This was definitely the case for the biotechnologicians, who few decades ago were constrained within low-thorughput sequencing techniques. For bioinformaticians though the core of the problem is located a bit deeper.
 
-A good analogy, explaining the nature of the challenge, is a schredded newspaper. De novo assembly resembles reconstruction of the original document from a set of its unarranged pieces, like on the figure below.
+Good analogy, that explains the nature of our challenge, is a shredded newspaper (some authors call it the newspaper problem, others use book as an example). Namely, genome assembly resembles reconstruction of the original document from a set of unarranged newspaper pieces, like on the figure below.
 
-As one can imagine the problem is difficult, but not because the newspaper has twenty or fourty pages. If we had just one the assembly still wouldn't be easy. The length of the genome, although far from being irrelevant, is for us more of a secondary issue. On the other hand, repetitive patterns, which for biotechnologicians are not a problem at all, will complicate our journey substantially. Reader will perhaps come up to the very similar conclusions as the succeeding topics will uncover.
+As one can imagine the problem is difficult, but not because the newspaper is twenty or forty pages long. With just a single sheet the task still wouldn't be easy. The length of the genome, although far from being irrelevant, for us is more of a secondary issue. On the other hand, repetitive patterns, which for biotechnologicians are not a problem at all, will complicate our journey substantially.
 
-One should also underline the fact that transcriptome assembly is not the same as the genome assembly. Read coverage of the latter is relatively uniform, whereas transcriptome can be differentially expressed and therefore the frequency of its reads can vary a lot. In genome assembly non-uniform abundance of the reads simply indicates existence of repetitions. In the case of transcription product it is much less straightforward. Methods that overcome this issue exist but they are beyond of the scope of this textbook.
+One should also underline the fact that transcriptome assembly is not the same as the genome assembly. Read coverage of the latter is relatively uniform, whereas transcriptome can be differentially expressed and therefore the frequency of its reads varies a lot. In genome assembly non-uniform abundance of the reads simply indicates presence of repetitive patterns. In the case of transcription product it is much less straightforward. Methods that overcome this issue exist but they are beyond of the scope of this textbook.
 
 \hypertarget{basic}{%
 \chapter{Basic string manipulations}\label{basic}}
 
-Before we dive into the main topics let's warm up with few basic exercises. On the one hand some of these problems might be regarded as a form of general familiarization with string manipulations. Being able to get through them is in a sense a must, at least from a perspective of algorithms that will be discussed later. On the other hand some of the problems, like generating k-mers or suffixes, are absolutely crucial in genome assembly and one has to know them to a tee. So, without further ado, let's do the warm up.
+Before we dive into the main topics let's warm up with few basic exercises. Some of these problems may be regarded as a form of general familiarization with string manipulations. Having them in the bioinformatics repertoire is here in a sense required. From a perspective of the algorithms that will be discussed later some of the problems, like generating k-mers or suffixes, are absolutely essential and one has to know them like the back of one's hand.
 
-\hypertarget{generating-random-dna-sequence}{%
-\section{Generating random DNA sequence}\label{generating-random-dna-sequence}}
+\hypertarget{random-dna-sequence}{%
+\section{Random DNA sequence}\label{random-dna-sequence}}
 
 Let's start with writing a function that, for a given integer n \textgreater{} 0, returns randomly generated DNA sequence.
 
@@ -194,7 +194,7 @@ Let's start with writing a function that, for a given integer n \textgreater{} 0
 \NormalTok{\}}
 
 \FunctionTok{random\_sequence}\NormalTok{(}\DecValTok{10}\NormalTok{)}
-\CommentTok{\#\textgreater{}  [1] "G" "A" "C" "C" "G" "T" "G" "A" "T" "C"}
+\CommentTok{\#\textgreater{}  [1] "T" "C" "C" "G" "T" "C" "T" "G" "G" "G"}
 \end{Highlighting}
 \end{Shaded}
 
@@ -203,16 +203,16 @@ If we want our returned sequence to be in a form of a single string we can use \
 \begin{Shaded}
 \begin{Highlighting}[]
 \FunctionTok{paste}\NormalTok{(}\FunctionTok{random\_sequence}\NormalTok{(}\DecValTok{10}\NormalTok{), }\AttributeTok{collapse =} \StringTok{\textquotesingle{}\textquotesingle{}}\NormalTok{)}
-\CommentTok{\#\textgreater{} [1] "TCAACACTCG"}
+\CommentTok{\#\textgreater{} [1] "TTGATACTTA"}
 \end{Highlighting}
 \end{Shaded}
 
-For now we will try to stick to the first form, mainly because base R is not that good at manipulating strings (at this point we try to not employ any additional libraries like stringr). If a \texttt{DNA} is equal to \texttt{\textquotesingle{}ACGTG\textquotesingle{}} then we won't get a substring \texttt{\textquotesingle{}CG\textquotesingle{}} simply by writing \texttt{DNA{[}2:3{]}} (one could to this in python). On the other hand, if DNA is a vector \texttt{c(\textquotesingle{}A\textquotesingle{},\ \textquotesingle{}C\textquotesingle{},\ \textquotesingle{}G\textquotesingle{},\ \textquotesingle{}T\textquotesingle{},\ \textquotesingle{}G\textquotesingle{})} then \texttt{DNA{[}2:3{]}} will return \texttt{c(\textquotesingle{}C\textquotesingle{},\ \textquotesingle{}G\textquotesingle{})} that in turn can be easily merged into \texttt{\textquotesingle{}CG\textquotesingle{}}.
+Unfortunately, there is no convenient way to retrieve a substring. If a \texttt{DNA} variable is equal to \texttt{\textquotesingle{}ACGTG\textquotesingle{}} then we won't get a substring \texttt{\textquotesingle{}CG\textquotesingle{}} simply by writing \texttt{DNA{[}2:3{]}} (one could to this in python). One could do this by employing the \texttt{substr()} function, i.e.~\texttt{substr(DNA,\ 2,\ 3)}. On the other hand, if DNA is a vector \texttt{c(\textquotesingle{}A\textquotesingle{},\ \textquotesingle{}C\textquotesingle{},\ \textquotesingle{}G\textquotesingle{},\ \textquotesingle{}T\textquotesingle{},\ \textquotesingle{}G\textquotesingle{})} then \texttt{DNA{[}2:3{]}} will return \texttt{c(\textquotesingle{}C\textquotesingle{},\ \textquotesingle{}G\textquotesingle{})} that in turn can be merged into \texttt{\textquotesingle{}CG\textquotesingle{}} by \texttt{paste()}. Either way, one must use a certain function in order to glue the letters or to split the sequence.
 
-\hypertarget{finding-cdna}{%
-\section{Finding cDNA}\label{finding-cdna}}
+\hypertarget{find-cdna}{%
+\section{Find cDNA}\label{find-cdna}}
 
-One must know that C (cytosine) is complementary to G (guanine), and A (adenine) is complementary to T (thymine). In order to create a cDNA we will at first construct a list (in Python it would be a dictionary) of complementary nucleobases.
+To find the complementary sequence one must know that C (cytosine) is complementary to G (guanine), and A (adenine) is complementary to T (thymine). Also, before creating the cDNA we will at first construct a list (in Python it would be a dictionary) of complementary nucleobases.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -223,7 +223,7 @@ One must know that C (cytosine) is complementary to G (guanine), and A (adenine)
 \end{Highlighting}
 \end{Shaded}
 
-This data structure will allows us to directly pull out complementary bases. Let's build a function utilizes this.
+This data structure allows us to directly access complementary bases. Let's build a function that utilizes this.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -237,16 +237,16 @@ This data structure will allows us to directly pull out complementary bases. Let
 \end{Highlighting}
 \end{Shaded}
 
-Please note that we append complementary nucleobase in a seemingly non-optimal way, namely \texttt{sequence\ =\ c(sequence,\ new\_nucleobase)}. One could argue that this should be done with \texttt{append()}, i. e. \texttt{sequence\ =\ append(sequence,\ new\_nucleobase)}, but in fact the append in R is regarded as a relatively slow function and our solution is usually more recommended.
+Please note that we append complementary nucleobase in a seemingly non-optimal way, namely by writing \texttt{sequence\ =\ c(sequence,\ new\_nucleobase)}. One could argue that this should be done with \texttt{append()}, i. e. \texttt{sequence\ =\ append(sequence,\ new\_nucleobase)}, but in fact the append in R is regarded as a relatively slow function and our solution is usually more recommended (in python using append is fine).
 
 \begin{Shaded}
 \begin{Highlighting}[]
 \NormalTok{seq }\OtherTok{\textless{}{-}} \FunctionTok{random\_sequence}\NormalTok{(}\DecValTok{20}\NormalTok{)}
 \FunctionTok{cat}\NormalTok{(}\StringTok{\textquotesingle{} DNA =\textquotesingle{}}\NormalTok{, seq, }\StringTok{\textquotesingle{}}\SpecialCharTok{\textbackslash{}n}\StringTok{\textquotesingle{}}\NormalTok{)}
-\CommentTok{\#\textgreater{}  DNA = G T C G C G C T C T A G A G G T C G G G}
+\CommentTok{\#\textgreater{}  DNA = C A A A T G C C A G A A C C G C A T G C}
 \NormalTok{cseq }\OtherTok{\textless{}{-}} \FunctionTok{complementary\_sequence}\NormalTok{(seq)}
 \FunctionTok{cat}\NormalTok{(}\StringTok{\textquotesingle{}cDNA =\textquotesingle{}}\NormalTok{, cseq)}
-\CommentTok{\#\textgreater{} cDNA = C A G C G C G A G A T C T C C A G C C C}
+\CommentTok{\#\textgreater{} cDNA = G T T T A C G G T C T T G G C G T A C G}
 \end{Highlighting}
 \end{Shaded}
 
@@ -260,12 +260,12 @@ There is also a neater way to compute, and in a way avoid, these kind of loops. 
 \end{Highlighting}
 \end{Shaded}
 
-The clear downside of using functions like the one above is loss of legibility. Applying them can also be not as straightforward and intuitive as writing a conventional loop. Advanced programmers though find these functions very handy, fast and as readable as standard for or while loop. For that reason we will try to balance these two approaches out. We don't want our code to be too hermetic, but also we should not limit ourselves by deliberately avoiding legitimate solutions.
+The clear downside of using functions like the one above is loss of legibility. Applying them can also be not as straightforward and intuitive as writing a conventional loop. However, more advanced programmers find these functions very handy, fast and as readable as standard for or while loop. For that reason we will try to balance these two approaches out. We don't want our code to be too hermetic, but also we should not limit ourselves by deliberately avoiding legitimate solutions.
 
-\hypertarget{finding-reverse-complementary}{%
-\section{Finding reverse complementary}\label{finding-reverse-complementary}}
+\hypertarget{reverse-complementary}{%
+\section{Reverse complementary}\label{reverse-complementary}}
 
-Obtaining reverse complementary is very similar. The only difference is that instead of appending complementary nucleobases we will prepend them.
+Obtaining reverse complementary is very similar to the previous excercise. The only difference is that instead of appending complementary nucleobases we will prepend them.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -283,10 +283,229 @@ Obtaining reverse complementary is very similar. The only difference is that ins
 \begin{Highlighting}[]
 \NormalTok{seq }\OtherTok{\textless{}{-}} \FunctionTok{random\_sequence}\NormalTok{(}\DecValTok{20}\NormalTok{)}
 \FunctionTok{cat}\NormalTok{(}\StringTok{\textquotesingle{} DNA =\textquotesingle{}}\NormalTok{, seq, }\StringTok{\textquotesingle{}}\SpecialCharTok{\textbackslash{}n}\StringTok{\textquotesingle{}}\NormalTok{)}
-\CommentTok{\#\textgreater{}  DNA = A G T C C A G C C G T G C A C T A C T T}
+\CommentTok{\#\textgreater{}  DNA = T G A C A G C G T C A T T T A T A G C C}
 \NormalTok{rcseq }\OtherTok{\textless{}{-}} \FunctionTok{reverse\_complementary}\NormalTok{(seq)}
 \FunctionTok{cat}\NormalTok{(}\StringTok{\textquotesingle{}cDNA =\textquotesingle{}}\NormalTok{, rcseq)}
-\CommentTok{\#\textgreater{} cDNA = A A G T A G T G C A C G G C T G G A C T}
+\CommentTok{\#\textgreater{} cDNA = G G C T A T A A A T G A C G C T G T C A}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{frequency-of-the-nucleobases}{%
+\section{Frequency of the nucleobases}\label{frequency-of-the-nucleobases}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{frequency }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(sequence, }\AttributeTok{percents =} \ConstantTok{FALSE}\NormalTok{)\{}
+\NormalTok{  counts }\OtherTok{\textless{}{-}} \FunctionTok{table}\NormalTok{(sequence)}
+\NormalTok{  divide\_counts }\OtherTok{\textless{}{-}} \FunctionTok{ifelse}\NormalTok{(percents, }\FunctionTok{sum}\NormalTok{(counts), }\DecValTok{1}\NormalTok{)}
+  \FunctionTok{return}\NormalTok{ (counts}\SpecialCharTok{/}\NormalTok{divide\_counts)}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{frequency}\NormalTok{(seq, }\AttributeTok{percents =} \ConstantTok{TRUE}\NormalTok{)}
+\CommentTok{\#\textgreater{} sequence}
+\CommentTok{\#\textgreater{}    A    C    G    T }
+\CommentTok{\#\textgreater{} 0.25 0.25 0.20 0.30}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{longest-common-prefix}{%
+\section{Longest common prefix}\label{longest-common-prefix}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{longest\_common\_prefix }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(sequence1, sequence2)\{}
+\NormalTok{  min\_length }\OtherTok{=} \FunctionTok{min}\NormalTok{(}\FunctionTok{length}\NormalTok{(sequence1), }\FunctionTok{length}\NormalTok{(sequence2))}
+\NormalTok{  index }\OtherTok{=} \DecValTok{0}
+  \ControlFlowTok{if}\NormalTok{ (sequence1[}\DecValTok{1}\NormalTok{] }\SpecialCharTok{!=}\NormalTok{ sequence2[}\DecValTok{1}\NormalTok{])\{}
+    \FunctionTok{return}\NormalTok{ (}\StringTok{\textquotesingle{}No common prefix\textquotesingle{}}\NormalTok{)}
+\NormalTok{  \}}
+  \ControlFlowTok{for}\NormalTok{ (i }\ControlFlowTok{in} \DecValTok{2}\SpecialCharTok{:}\NormalTok{min\_length)\{}
+    \ControlFlowTok{if}\NormalTok{ (sequence1[i] }\SpecialCharTok{!=}\NormalTok{ sequence2[i])\{}
+      \FunctionTok{return}\NormalTok{ (sequence1[}\DecValTok{1}\SpecialCharTok{:}\NormalTok{i}\DecValTok{{-}1}\NormalTok{])}
+\NormalTok{    \}}
+\NormalTok{  \}}
+  \FunctionTok{return}\NormalTok{ (sequence1[}\DecValTok{1}\SpecialCharTok{:}\NormalTok{min\_length])}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{longest\_common\_prefix}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\StringTok{\textquotesingle{}A\textquotesingle{}}\NormalTok{,}\StringTok{\textquotesingle{}C\textquotesingle{}}\NormalTok{,}\StringTok{\textquotesingle{}T\textquotesingle{}}\NormalTok{,}\StringTok{\textquotesingle{}G\textquotesingle{}}\NormalTok{), }\FunctionTok{c}\NormalTok{(}\StringTok{\textquotesingle{}A\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}C\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}T\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}T\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}T\textquotesingle{}}\NormalTok{))}
+\CommentTok{\#\textgreater{} [1] "A" "C" "T"}
+
+\FunctionTok{longest\_common\_prefix}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\StringTok{\textquotesingle{}C\textquotesingle{}}\NormalTok{,}\StringTok{\textquotesingle{}C\textquotesingle{}}\NormalTok{,}\StringTok{\textquotesingle{}T\textquotesingle{}}\NormalTok{,}\StringTok{\textquotesingle{}G\textquotesingle{}}\NormalTok{), }\FunctionTok{c}\NormalTok{(}\StringTok{\textquotesingle{}A\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}C\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}T\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}T\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}T\textquotesingle{}}\NormalTok{))}
+\CommentTok{\#\textgreater{} [1] "No common prefix"}
+\end{Highlighting}
+\end{Shaded}
+
+Imputing strings that are in fact consisted of vectors of characters may not be particularly convenient. We will therefore add a functionally that detects type of inputs and converts them if it is needed.
+
+Unfortunately, R does not differentiates between \texttt{c(\textquotesingle{}a\textquotesingle{},\textquotesingle{}c\textquotesingle{},\textquotesingle{}t\textquotesingle{},\textquotesingle{}g\textquotesingle{})} and \texttt{\textquotesingle{}ACTG\textquotesingle{}}, e.g.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{typeof}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\StringTok{\textquotesingle{}A\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}C\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}G\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}T\textquotesingle{}}\NormalTok{))}
+\CommentTok{\#\textgreater{} [1] "character"}
+\FunctionTok{typeof}\NormalTok{(}\StringTok{\textquotesingle{}ACGT\textquotesingle{}}\NormalTok{)}
+\CommentTok{\#\textgreater{} [1] "character"}
+
+\FunctionTok{length}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\StringTok{\textquotesingle{}A\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}C\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}G\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}T\textquotesingle{}}\NormalTok{))}
+\CommentTok{\#\textgreater{} [1] 4}
+\FunctionTok{length}\NormalTok{(}\StringTok{\textquotesingle{}ACGT\textquotesingle{}}\NormalTok{)}
+\CommentTok{\#\textgreater{} [1] 1}
+\end{Highlighting}
+\end{Shaded}
+
+On this account we will simply add new boolean argument \texttt{glued} to our function (by default equal to FALSE). This solution is far from perfect, but for now is good enough.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{longest\_common\_prefix }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(sequence1, sequence2, }\AttributeTok{glued =} \ConstantTok{FALSE}\NormalTok{)\{}
+  \ControlFlowTok{if}\NormalTok{ (glued)\{}
+\NormalTok{    sequence1 }\OtherTok{\textless{}{-}} \FunctionTok{strsplit}\NormalTok{(sequence1, }\StringTok{\textquotesingle{}\textquotesingle{}}\NormalTok{)[[}\DecValTok{1}\NormalTok{]]}
+\NormalTok{    sequence2 }\OtherTok{\textless{}{-}} \FunctionTok{strsplit}\NormalTok{(sequence2, }\StringTok{\textquotesingle{}\textquotesingle{}}\NormalTok{)[[}\DecValTok{1}\NormalTok{]]}
+\NormalTok{  \}}
+\NormalTok{  min\_length }\OtherTok{=} \FunctionTok{min}\NormalTok{(}\FunctionTok{length}\NormalTok{(sequence1), }\FunctionTok{length}\NormalTok{(sequence2))}
+\NormalTok{  index }\OtherTok{=} \DecValTok{0}
+  \ControlFlowTok{if}\NormalTok{ (sequence1[}\DecValTok{1}\NormalTok{] }\SpecialCharTok{!=}\NormalTok{ sequence2[}\DecValTok{1}\NormalTok{])\{}
+    \FunctionTok{return}\NormalTok{ (}\StringTok{\textquotesingle{}\textquotesingle{}}\NormalTok{)}
+\NormalTok{  \}}
+  \ControlFlowTok{for}\NormalTok{ (i }\ControlFlowTok{in} \DecValTok{2}\SpecialCharTok{:}\NormalTok{min\_length)\{}
+    \ControlFlowTok{if}\NormalTok{ (sequence1[i] }\SpecialCharTok{!=}\NormalTok{ sequence2[i])\{}
+      \FunctionTok{return}\NormalTok{ (sequence1[}\DecValTok{1}\SpecialCharTok{:}\NormalTok{i}\DecValTok{{-}1}\NormalTok{])}
+\NormalTok{    \}}
+\NormalTok{  \}}
+  \FunctionTok{return}\NormalTok{ (sequence1[}\DecValTok{1}\SpecialCharTok{:}\NormalTok{min\_length])}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{longest\_common\_prefix}\NormalTok{(}\StringTok{\textquotesingle{}ACTG\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}ACCC\textquotesingle{}}\NormalTok{, }\AttributeTok{glued =} \ConstantTok{TRUE}\NormalTok{)}
+\CommentTok{\#\textgreater{} [1] "A" "C"}
+
+\FunctionTok{longest\_common\_prefix}\NormalTok{(}\StringTok{\textquotesingle{}TCTG\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}ACCC\textquotesingle{}}\NormalTok{, }\AttributeTok{glued =} \ConstantTok{TRUE}\NormalTok{)}
+\CommentTok{\#\textgreater{} [1] ""}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{exact-matching}{%
+\section{Exact matching}\label{exact-matching}}
+
+We will construct a naive algorithm for exact pattern matching
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{exact\_matching }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(pattern, template, }\AttributeTok{glued =} \ConstantTok{FALSE}\NormalTok{)\{}
+  \ControlFlowTok{if}\NormalTok{ (glued)\{}
+\NormalTok{    pattern }\OtherTok{\textless{}{-}} \FunctionTok{strsplit}\NormalTok{(pattern, }\StringTok{\textquotesingle{}\textquotesingle{}}\NormalTok{)[[}\DecValTok{1}\NormalTok{]]}
+\NormalTok{    template }\OtherTok{\textless{}{-}} \FunctionTok{strsplit}\NormalTok{(template, }\StringTok{\textquotesingle{}\textquotesingle{}}\NormalTok{)[[}\DecValTok{1}\NormalTok{]]}
+\NormalTok{  \}}
+\NormalTok{  positions }\OtherTok{=} \FunctionTok{c}\NormalTok{()}
+  \ControlFlowTok{for}\NormalTok{ (i }\ControlFlowTok{in} \DecValTok{1}\SpecialCharTok{:}\NormalTok{(}\FunctionTok{length}\NormalTok{(template) }\SpecialCharTok{{-}} \FunctionTok{length}\NormalTok{(pattern) }\SpecialCharTok{+} \DecValTok{1}\NormalTok{))\{}
+\NormalTok{    match }\OtherTok{=} \ConstantTok{TRUE}
+    \ControlFlowTok{for}\NormalTok{ (j }\ControlFlowTok{in} \DecValTok{1}\SpecialCharTok{:}\FunctionTok{length}\NormalTok{(pattern))\{}
+      \ControlFlowTok{if}\NormalTok{ (pattern[j] }\SpecialCharTok{!=}\NormalTok{ template[j }\SpecialCharTok{+}\NormalTok{ i }\SpecialCharTok{{-}} \DecValTok{1}\NormalTok{])\{}
+\NormalTok{        match }\OtherTok{=} \ConstantTok{FALSE}
+        \ControlFlowTok{break}
+\NormalTok{      \}}
+\NormalTok{    \}}
+    \ControlFlowTok{if}\NormalTok{ (match)\{}
+\NormalTok{      positions }\OtherTok{=} \FunctionTok{c}\NormalTok{(positions, i)}
+\NormalTok{    \}}
+\NormalTok{  \}}
+  \FunctionTok{return}\NormalTok{(positions)}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{exact\_matching}\NormalTok{(}\StringTok{\textquotesingle{}ACTG\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}ACTGTTGACTGACTGGGGGGGGACTGAACTG\textquotesingle{}}\NormalTok{, }\AttributeTok{glued =} \ConstantTok{TRUE}\NormalTok{)}
+\CommentTok{\#\textgreater{} [1]  1  8 12 23 28}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{advanced}{%
+\chapter{More advanced problems}\label{advanced}}
+
+This chapter is devoted to a little more specific problems, like managing fasta or fastq files. Throughout the section we will operate on three different files which are available on NCBI, but are also included in the \texttt{files} directory:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\item
+  MK028861.fasta - Zika virus
+\item
+  NC\_001416.fasta - Enterobacteria phage lambda
+\end{enumerate}
+
+\hypertarget{read-fasta-file}{%
+\section{Read fasta file}\label{read-fasta-file}}
+
+Fasta file consist of two parts - header, that describes the sequence, and sequence itself. In order to load the first file we will use a very basic \texttt{leadLines()} function.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{zika }\OtherTok{\textless{}{-}} \FunctionTok{readLines}\NormalTok{(}\StringTok{\textquotesingle{}files/MK028861.fasta\textquotesingle{}}\NormalTok{)}
+
+\NormalTok{zika[}\DecValTok{1}\SpecialCharTok{:}\DecValTok{4}\NormalTok{]}
+\CommentTok{\#\textgreater{} [1] "\textgreater{}MK028861.1 Zika virus isolate Zika virus/H.sapiens{-}tc/Panama/2015/259359 polyprotein gene, complete cds"}
+\CommentTok{\#\textgreater{} [2] "TGACTAAGACTGCGACAGTTCGAGTTTGAAGCGAAAGCTAGCAACAGTATCAACAGGTTTTATTTTGGAT"                                  }
+\CommentTok{\#\textgreater{} [3] "TTGGAAACGAGAGTTTCTGGTCATGAAAAACCCAAAAAAGAAATCCGGAGGATTCCGGATTGTCAATATG"                                  }
+\CommentTok{\#\textgreater{} [4] "CTAAAACGCGGAGTAGCCCGTGTGAGCCCCTTTGGGGGCTTGAAGAGGCTGCCAGCCGGACTTCTGCTGG"}
+
+\FunctionTok{length}\NormalTok{(zika)}
+\CommentTok{\#\textgreater{} [1] 151}
+\end{Highlighting}
+\end{Shaded}
+
+As one can see at this point we have a vector of 151 elements. Each entry represents a single line in from the loaded file. We are going to remold our output to more convenient form, namely to a list of two elements (header and sequence).
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{zika }\OtherTok{\textless{}{-}} \FunctionTok{list}\NormalTok{(}\StringTok{\textquotesingle{}header\textquotesingle{}} \OtherTok{=} \FunctionTok{substr}\NormalTok{(zika[}\DecValTok{1}\NormalTok{], }\DecValTok{2}\NormalTok{, }\FunctionTok{nchar}\NormalTok{(zika[}\DecValTok{1}\NormalTok{])), }
+             \StringTok{\textquotesingle{}sequence\textquotesingle{}} \OtherTok{=} \FunctionTok{do.call}\NormalTok{(paste0, }\FunctionTok{as.list}\NormalTok{(zika[}\DecValTok{2}\SpecialCharTok{:}\FunctionTok{length}\NormalTok{(zika)])))}
+\end{Highlighting}
+\end{Shaded}
+
+Let's talk trough \texttt{substr(zika{[}1{]},\ 2,\ nchar(zika{[}1{]}))} and \texttt{do.call(paste0,\ as.list(zika{[}2:length(zika){]}))}. We create a header on the basis of initial line of the fasta file, i.e.~first element of our vector. One could simply write \texttt{\textquotesingle{}header\textquotesingle{}\ =\ zika{[}1{]}} but we also want to remove \texttt{\textgreater{}} character from the very beginning. Therefore we take a substring that starting from the second character and ends at the end (position equal to the number of characters).
+
+The second part, which is \texttt{do.call(paste0,\ as.list(zika{[}2:length(zika){]}))}, needs a little more explanation. As we know one can use the paste0 function to concatenate strings. Unfortunately, imputing a vector of strings won't concatenate all element together. For paste0 this vector is simply a one element.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{paste0}\NormalTok{(}\StringTok{\textquotesingle{}A\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}B\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}C\textquotesingle{}}\NormalTok{)}
+\CommentTok{\#\textgreater{} [1] "ABC"}
+
+\FunctionTok{paste0}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\StringTok{\textquotesingle{}A\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}B\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}C\textquotesingle{}}\NormalTok{))}
+\CommentTok{\#\textgreater{} [1] "A" "B" "C"}
+\end{Highlighting}
+\end{Shaded}
+
+This is the reason for employing \texttt{do.call()}. The function takes two arguments - name of function to execute and \textbf{list} of elements.
+
+Fortunately, there is a smoother to solve this exercise - \texttt{str\_c()} function the the stringr package.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{stringr}\SpecialCharTok{::}\FunctionTok{str\_c}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\StringTok{\textquotesingle{}A\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}B\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}C\textquotesingle{}}\NormalTok{), }\AttributeTok{collapse =} \StringTok{\textquotesingle{}\textquotesingle{}}\NormalTok{)}
+\CommentTok{\#\textgreater{} [1] "ABC"}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{zika}\SpecialCharTok{$}\NormalTok{header}
+\CommentTok{\#\textgreater{} [1] "MK028861.1 Zika virus isolate Zika virus/H.sapiens{-}tc/Panama/2015/259359 polyprotein gene, complete cds"}
+
+\FunctionTok{substr}\NormalTok{(zika}\SpecialCharTok{$}\NormalTok{sequence, }\DecValTok{1}\NormalTok{, }\DecValTok{100}\NormalTok{)}
+\CommentTok{\#\textgreater{} [1] "TGACTAAGACTGCGACAGTTCGAGTTTGAAGCGAAAGCTAGCAACAGTATCAACAGGTTTTATTTTGGATTTGGAAACGAGAGTTTCTGGTCATGAAAAA"}
 \end{Highlighting}
 \end{Shaded}
 

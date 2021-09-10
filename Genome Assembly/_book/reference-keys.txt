@@ -2,9 +2,14 @@ preface
 prerequisites
 introduction
 basic
-generating-random-dna-sequence
-finding-cdna
-finding-reverse-complementary
+random-dna-sequence
+find-cdna
+reverse-complementary
+frequency-of-the-nucleobases
+longest-common-prefix
+exact-matching
+advanced
+read-fasta-file
 graph
 bruijn
 bwt
