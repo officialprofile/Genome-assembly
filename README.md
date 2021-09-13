@@ -1,4 +1,4 @@
-## Genome assembly. Low-level approach with R 
+## Genome Assembly Cookbook. Low-level Recepies with R 
 
 [**Read the textbook online**](https://officialprofile.github.io/GenomeAssembly/) | **Download** [**PDF**](https://raw.githubusercontent.com/officialprofile/GenomeAssembly/main/Genome-Assembly.pdf) **or** [**epub**](https://raw.githubusercontent.com/officialprofile/GenomeAssembly/main/Genome-Assembly.epub) **version** | [Track the progress of this project](https://github.com/users/officialprofile/projects/2)
 
