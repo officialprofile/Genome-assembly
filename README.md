@@ -1,6 +1,8 @@
-## Genome Assembly Cookbook. Low-level Recipes with R 
+## Genome Assembly. Low-level Approach with R 
 
 [**Read the textbook online**](https://officialprofile.github.io/GenomeAssembly/) | **Download** [**PDF**](https://raw.githubusercontent.com/officialprofile/GenomeAssembly/main/Genome-Assembly.pdf) **or** [**epub**](https://raw.githubusercontent.com/officialprofile/GenomeAssembly/main/Genome-Assembly.epub) **version** | [Track the progress of this project](https://github.com/users/officialprofile/projects/2)
+
+<img align = "right" src="img/cover.jpg" width="300px" />
 
 This mini textbook describes selected algorithms that play a fundamental role in genome assembly. The premise of this book is to construct the algorithms from the very bottom and explain step by step main ideas that stand behind them.
 
