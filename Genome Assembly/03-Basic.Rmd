@@ -194,30 +194,27 @@ exact_matching('ACTG', 'ACTGTTGACTGACTGGGGGGGGACTGAACTG', glued = TRUE)
 ```
 
 
+## Generate all possible k-mers
 
+```{r}
+all_kmers <- function(k){
+  kmers <- c('A', 'C', 'G', 'T')
+  for (i in 1:(k-1)){
+    kmers_new = c()
+    for (j in 1:length(kmers)){
+      kmers_new <- c(kmers_new,
+                     paste(kmers[j], 'A', sep = ''),
+                     paste(kmers[j], 'C', sep = ''),
+                     paste(kmers[j], 'G', sep = ''),
+                     paste(kmers[j], 'T', sep = ''))
+    }
+    kmers = kmers_new
+  }
+  return(kmers)
+}
 
+```
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+```{r}
+all_kmers(3)
+```

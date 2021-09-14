@@ -117,7 +117,7 @@
 
 \title{Genome Assembly}
 \author{officialprofile}
-\date{2021-09-10}
+\date{2021-09-14}
 
 \begin{document}
 \maketitle
@@ -194,7 +194,7 @@ Let's start with writing a function that, for a given integer n \textgreater{} 0
 \NormalTok{\}}
 
 \FunctionTok{random\_sequence}\NormalTok{(}\DecValTok{10}\NormalTok{)}
-\CommentTok{\#\textgreater{}  [1] "T" "C" "C" "G" "T" "C" "T" "G" "G" "G"}
+\CommentTok{\#\textgreater{}  [1] "G" "A" "C" "T" "A" "T" "G" "A" "T" "G"}
 \end{Highlighting}
 \end{Shaded}
 
@@ -203,7 +203,7 @@ If we want our returned sequence to be in a form of a single string we can use \
 \begin{Shaded}
 \begin{Highlighting}[]
 \FunctionTok{paste}\NormalTok{(}\FunctionTok{random\_sequence}\NormalTok{(}\DecValTok{10}\NormalTok{), }\AttributeTok{collapse =} \StringTok{\textquotesingle{}\textquotesingle{}}\NormalTok{)}
-\CommentTok{\#\textgreater{} [1] "TTGATACTTA"}
+\CommentTok{\#\textgreater{} [1] "TGCCGCATTG"}
 \end{Highlighting}
 \end{Shaded}
 
@@ -243,10 +243,10 @@ Please note that we append complementary nucleobase in a seemingly non-optimal w
 \begin{Highlighting}[]
 \NormalTok{seq }\OtherTok{\textless{}{-}} \FunctionTok{random\_sequence}\NormalTok{(}\DecValTok{20}\NormalTok{)}
 \FunctionTok{cat}\NormalTok{(}\StringTok{\textquotesingle{} DNA =\textquotesingle{}}\NormalTok{, seq, }\StringTok{\textquotesingle{}}\SpecialCharTok{\textbackslash{}n}\StringTok{\textquotesingle{}}\NormalTok{)}
-\CommentTok{\#\textgreater{}  DNA = C A A A T G C C A G A A C C G C A T G C}
+\CommentTok{\#\textgreater{}  DNA = C C G T T G T A A C T C A C A G G G C A}
 \NormalTok{cseq }\OtherTok{\textless{}{-}} \FunctionTok{complementary\_sequence}\NormalTok{(seq)}
 \FunctionTok{cat}\NormalTok{(}\StringTok{\textquotesingle{}cDNA =\textquotesingle{}}\NormalTok{, cseq)}
-\CommentTok{\#\textgreater{} cDNA = G T T T A C G G T C T T G G C G T A C G}
+\CommentTok{\#\textgreater{} cDNA = G G C A A C A T T G A G T G T C C C G T}
 \end{Highlighting}
 \end{Shaded}
 
@@ -283,10 +283,10 @@ Obtaining reverse complementary is very similar to the previous excercise. The o
 \begin{Highlighting}[]
 \NormalTok{seq }\OtherTok{\textless{}{-}} \FunctionTok{random\_sequence}\NormalTok{(}\DecValTok{20}\NormalTok{)}
 \FunctionTok{cat}\NormalTok{(}\StringTok{\textquotesingle{} DNA =\textquotesingle{}}\NormalTok{, seq, }\StringTok{\textquotesingle{}}\SpecialCharTok{\textbackslash{}n}\StringTok{\textquotesingle{}}\NormalTok{)}
-\CommentTok{\#\textgreater{}  DNA = T G A C A G C G T C A T T T A T A G C C}
+\CommentTok{\#\textgreater{}  DNA = C T C G C C A A T T T T A G G A G T G C}
 \NormalTok{rcseq }\OtherTok{\textless{}{-}} \FunctionTok{reverse\_complementary}\NormalTok{(seq)}
 \FunctionTok{cat}\NormalTok{(}\StringTok{\textquotesingle{}cDNA =\textquotesingle{}}\NormalTok{, rcseq)}
-\CommentTok{\#\textgreater{} cDNA = G G C T A T A A A T G A C G C T G T C A}
+\CommentTok{\#\textgreater{} cDNA = G C A C T C C T A A A A T T G G C G A G}
 \end{Highlighting}
 \end{Shaded}
 
@@ -308,7 +308,7 @@ Obtaining reverse complementary is very similar to the previous excercise. The o
 \FunctionTok{frequency}\NormalTok{(seq, }\AttributeTok{percents =} \ConstantTok{TRUE}\NormalTok{)}
 \CommentTok{\#\textgreater{} sequence}
 \CommentTok{\#\textgreater{}    A    C    G    T }
-\CommentTok{\#\textgreater{} 0.25 0.25 0.20 0.30}
+\CommentTok{\#\textgreater{} 0.20 0.25 0.25 0.30}
 \end{Highlighting}
 \end{Shaded}
 
@@ -432,6 +432,43 @@ We will construct a naive algorithm for exact pattern matching
 \end{Highlighting}
 \end{Shaded}
 
+\hypertarget{generate-all-possible-k-mers}{%
+\section{Generate all possible k-mers}\label{generate-all-possible-k-mers}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{all\_kmers }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(k)\{}
+\NormalTok{  kmers }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\StringTok{\textquotesingle{}A\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}C\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}G\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}T\textquotesingle{}}\NormalTok{)}
+  \ControlFlowTok{for}\NormalTok{ (i }\ControlFlowTok{in} \DecValTok{1}\SpecialCharTok{:}\NormalTok{(k}\DecValTok{{-}1}\NormalTok{))\{}
+\NormalTok{    kmers\_new }\OtherTok{=} \FunctionTok{c}\NormalTok{()}
+    \ControlFlowTok{for}\NormalTok{ (j }\ControlFlowTok{in} \DecValTok{1}\SpecialCharTok{:}\FunctionTok{length}\NormalTok{(kmers))\{}
+\NormalTok{      kmers\_new }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(kmers\_new,}
+                     \FunctionTok{paste}\NormalTok{(kmers[j], }\StringTok{\textquotesingle{}A\textquotesingle{}}\NormalTok{, }\AttributeTok{sep =} \StringTok{\textquotesingle{}\textquotesingle{}}\NormalTok{),}
+                     \FunctionTok{paste}\NormalTok{(kmers[j], }\StringTok{\textquotesingle{}C\textquotesingle{}}\NormalTok{, }\AttributeTok{sep =} \StringTok{\textquotesingle{}\textquotesingle{}}\NormalTok{),}
+                     \FunctionTok{paste}\NormalTok{(kmers[j], }\StringTok{\textquotesingle{}G\textquotesingle{}}\NormalTok{, }\AttributeTok{sep =} \StringTok{\textquotesingle{}\textquotesingle{}}\NormalTok{),}
+                     \FunctionTok{paste}\NormalTok{(kmers[j], }\StringTok{\textquotesingle{}T\textquotesingle{}}\NormalTok{, }\AttributeTok{sep =} \StringTok{\textquotesingle{}\textquotesingle{}}\NormalTok{))}
+\NormalTok{    \}}
+\NormalTok{    kmers }\OtherTok{=}\NormalTok{ kmers\_new}
+\NormalTok{  \}}
+  \FunctionTok{return}\NormalTok{(kmers)}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{all\_kmers}\NormalTok{(}\DecValTok{3}\NormalTok{)}
+\CommentTok{\#\textgreater{}  [1] "AAA" "AAC" "AAG" "AAT" "ACA" "ACC" "ACG" "ACT" "AGA"}
+\CommentTok{\#\textgreater{} [10] "AGC" "AGG" "AGT" "ATA" "ATC" "ATG" "ATT" "CAA" "CAC"}
+\CommentTok{\#\textgreater{} [19] "CAG" "CAT" "CCA" "CCC" "CCG" "CCT" "CGA" "CGC" "CGG"}
+\CommentTok{\#\textgreater{} [28] "CGT" "CTA" "CTC" "CTG" "CTT" "GAA" "GAC" "GAG" "GAT"}
+\CommentTok{\#\textgreater{} [37] "GCA" "GCC" "GCG" "GCT" "GGA" "GGC" "GGG" "GGT" "GTA"}
+\CommentTok{\#\textgreater{} [46] "GTC" "GTG" "GTT" "TAA" "TAC" "TAG" "TAT" "TCA" "TCC"}
+\CommentTok{\#\textgreater{} [55] "TCG" "TCT" "TGA" "TGC" "TGG" "TGT" "TTA" "TTC" "TTG"}
+\CommentTok{\#\textgreater{} [64] "TTT"}
+\end{Highlighting}
+\end{Shaded}
+
 \hypertarget{advanced}{%
 \chapter{More advanced problems}\label{advanced}}
 
@@ -508,6 +545,65 @@ Fortunately, there is a smoother to solve this exercise - \texttt{str\_c()} func
 \CommentTok{\#\textgreater{} [1] "TGACTAAGACTGCGACAGTTCGAGTTTGAAGCGAAAGCTAGCAACAGTATCAACAGGTTTTATTTTGGATTTGGAAACGAGAGTTTCTGGTCATGAAAAA"}
 \end{Highlighting}
 \end{Shaded}
+
+\hypertarget{count-k-mers}{%
+\section{Count k-mers}\label{count-k-mers}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{count\_kmers }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(sequence, k, }\AttributeTok{glued =} \ConstantTok{TRUE}\NormalTok{)\{}
+  \ControlFlowTok{if}\NormalTok{ (glued)\{}
+\NormalTok{    sequence }\OtherTok{\textless{}{-}} \FunctionTok{strsplit}\NormalTok{(sequence, }\StringTok{\textquotesingle{}\textquotesingle{}}\NormalTok{)[[}\DecValTok{1}\NormalTok{]]}
+\NormalTok{  \}}
+\NormalTok{  kmer\_count }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{()}
+  \ControlFlowTok{for}\NormalTok{ (i }\ControlFlowTok{in} \DecValTok{1}\SpecialCharTok{:}\NormalTok{(}\FunctionTok{length}\NormalTok{(sequence)}\SpecialCharTok{{-}}\NormalTok{k}\SpecialCharTok{+}\DecValTok{1}\NormalTok{))\{}
+\NormalTok{    kmer\_count }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(kmer\_count, }\FunctionTok{paste}\NormalTok{(sequence[i}\SpecialCharTok{:}\NormalTok{(i}\SpecialCharTok{+}\NormalTok{k}\DecValTok{{-}1}\NormalTok{)], }\AttributeTok{collapse =} \StringTok{\textquotesingle{}\textquotesingle{}}\NormalTok{))}
+\NormalTok{  \}}
+  \FunctionTok{return}\NormalTok{(kmer\_count)}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{plot}\NormalTok{(}\FunctionTok{table}\NormalTok{(}\FunctionTok{count\_kmers}\NormalTok{(zika}\SpecialCharTok{$}\NormalTok{sequence, }\DecValTok{3}\NormalTok{)), }
+     \AttributeTok{ylab =} \StringTok{\textquotesingle{}k{-}mer requency\textquotesingle{}}\NormalTok{, }\AttributeTok{type =} \StringTok{\textquotesingle{}h\textquotesingle{}}\NormalTok{, }\AttributeTok{lwd =} \DecValTok{3}\NormalTok{, }\AttributeTok{las =} \DecValTok{2}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{04-Basic2_files/figure-latex/unnamed-chunk-7-1.pdf}
+
+\hypertarget{skew}{%
+\section{Skew}\label{skew}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{plot\_skew }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(sequence, }\AttributeTok{glued =} \ConstantTok{TRUE}\NormalTok{)\{}
+\NormalTok{  kmer\_skew }\OtherTok{\textless{}{-}} \DecValTok{0}
+  \ControlFlowTok{if}\NormalTok{ (glued)\{}
+\NormalTok{    sequence }\OtherTok{\textless{}{-}} \FunctionTok{strsplit}\NormalTok{(sequence, }\StringTok{\textquotesingle{}\textquotesingle{}}\NormalTok{)[[}\DecValTok{1}\NormalTok{]]}
+\NormalTok{  \}}
+  \ControlFlowTok{for}\NormalTok{ (i }\ControlFlowTok{in} \DecValTok{2}\SpecialCharTok{:}\FunctionTok{length}\NormalTok{(sequence))\{}
+\NormalTok{    kmer\_skew[i] }\OtherTok{=} \FunctionTok{ifelse}\NormalTok{(sequence[i] }\SpecialCharTok{\%in\%} \FunctionTok{c}\NormalTok{(}\StringTok{\textquotesingle{}A\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}T\textquotesingle{}}\NormalTok{), kmer\_skew[i}\DecValTok{{-}1}\NormalTok{],}
+                     \FunctionTok{ifelse}\NormalTok{(sequence[i] }\SpecialCharTok{==} \StringTok{\textquotesingle{}C\textquotesingle{}}\NormalTok{, kmer\_skew[i}\DecValTok{{-}1}\NormalTok{]}\SpecialCharTok{+}\DecValTok{1}\NormalTok{, kmer\_skew[i}\DecValTok{{-}1}\NormalTok{]}\SpecialCharTok{{-}}\DecValTok{1}\NormalTok{))}
+\NormalTok{  \}}
+  \FunctionTok{return}\NormalTok{(}\FunctionTok{plot}\NormalTok{(}\DecValTok{1}\SpecialCharTok{:}\FunctionTok{length}\NormalTok{(sequence), kmer\_skew, }\AttributeTok{type =} \StringTok{\textquotesingle{}l\textquotesingle{}}\NormalTok{, }
+              \AttributeTok{ylab =} \StringTok{\textquotesingle{}CG difference\textquotesingle{}}\NormalTok{, }\AttributeTok{xlab =} \StringTok{\textquotesingle{}Position\textquotesingle{}}\NormalTok{,}
+              \AttributeTok{main =} \StringTok{\textquotesingle{}Skew plot\textquotesingle{}}\NormalTok{))}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{plot\_skew}\NormalTok{(zika}\SpecialCharTok{$}\NormalTok{sequence)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{04-Basic2_files/figure-latex/unnamed-chunk-9-1.pdf}
+
+\hypertarget{index}{%
+\section{Index}\label{index}}
 
 \hypertarget{graph}{%
 \chapter{Graph theory}\label{graph}}

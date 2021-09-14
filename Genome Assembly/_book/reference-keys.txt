@@ -8,8 +8,12 @@ reverse-complementary
 frequency-of-the-nucleobases
 longest-common-prefix
 exact-matching
+generate-all-possible-k-mers
 advanced
 read-fasta-file
+count-k-mers
+skew
+index
 graph
 bruijn
 bwt

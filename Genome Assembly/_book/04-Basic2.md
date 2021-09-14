@@ -64,3 +64,55 @@ substr(zika$sequence, 1, 100)
 ```
 
 
+## Count k-mers
+
+
+```r
+count_kmers <- function(sequence, k, glued = TRUE){
+  if (glued){
+    sequence <- strsplit(sequence, '')[[1]]
+  }
+  kmer_count <- c()
+  for (i in 1:(length(sequence)-k+1)){
+    kmer_count <- c(kmer_count, paste(sequence[i:(i+k-1)], collapse = ''))
+  }
+  return(kmer_count)
+}
+```
+
+
+
+```r
+plot(table(count_kmers(zika$sequence, 3)), 
+     ylab = 'k-mer requency', type = 'h', lwd = 3, las = 2)
+```
+
+![](04-Basic2_files/figure-epub3/unnamed-chunk-7-1.png)<!-- -->
+
+## Skew
+
+
+```r
+plot_skew <- function(sequence, glued = TRUE){
+  kmer_skew <- 0
+  if (glued){
+    sequence <- strsplit(sequence, '')[[1]]
+  }
+  for (i in 2:length(sequence)){
+    kmer_skew[i] = ifelse(sequence[i] %in% c('A', 'T'), kmer_skew[i-1],
+                     ifelse(sequence[i] == 'C', kmer_skew[i-1]+1, kmer_skew[i-1]-1))
+  }
+  return(plot(1:length(sequence), kmer_skew, type = 'l', 
+              ylab = 'CG difference', xlab = 'Position',
+              main = 'Skew plot'))
+}
+```
+
+
+```r
+plot_skew(zika$sequence)
+```
+
+![](04-Basic2_files/figure-epub3/unnamed-chunk-9-1.png)<!-- -->
+
+## Index
