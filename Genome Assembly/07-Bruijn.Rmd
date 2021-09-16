@@ -1,3 +1,69 @@
 # De Bruijn graph {#bruijn}
 
+```{r}
+seq     <- 'GATTACAGATTACAGAAAGATACA'
+k       <- 4
+kmers   <- c()
+km1mers <- c()
+```
+
+```{r}
+
+generate_kmers <-
+for (i in 1:(nchar(seq)-k+1)){
+  kmers = c(kmers, substr(seq, i, i+k-1))
+}
+
+for (i in 1:(nchar(seq)-k+2)){
+  km1mers = c(km1mers, substr(seq, i, i+k-2))
+}
+```
+
+```{r}
+kmers
+```
+
+```{r}
+km1mers
+```
+```{r}
+unique(km1mers)
+```
+
+```{r}
+adjacency_matrix = matrix(0, length(unique(km1mers)), length(unique(km1mers)))
+rownames(adjacency_matrix) = sort(unique(km1mers))
+colnames(adjacency_matrix) = sort(unique(km1mers))
+
+adjacency_matrix
+```
+
+```{r}
+for (i in 1:(length(km1mers)-1)){
+  adjacency_matrix[km1mers[i], km1mers[i+1]] = adjacency_matrix[km1mers[i], km1mers[i+1]] + 1
+}
+
+adjacency_matrix
+```
+
+```{r}
+debruijn <- igraph::graph_from_adjacency_matrix(adjacency_matrix, mode = 'directed')
+igraph::plot.igraph(debruijn, vertex.label.cex=1, arrow.size = .05,
+     vertex.size = .1, vertex.color = 'white',
+     curved = TRUE, label.cex = .5)
+```
+```{r}
+library(GGally)
+library(ggnet)
+library(network)
+library(sna)
+library(ggplot2)
+
+#net = rgraph(10, mode = "graph", tprob = 0.5)
+net = network(adjacency_matrix, directed = TRUE)
+
+# vertex names
+ggnet2(net, color = '#E1AF00', label = colnames(adjacency_matrix), size = 15, arrow.size = 12, arrow.gap = 0.05)
+
+```
 
