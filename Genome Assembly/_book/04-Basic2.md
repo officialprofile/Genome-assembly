@@ -19,7 +19,6 @@ zika[1:4]
 #> [2] "TGACTAAGACTGCGACAGTTCGAGTTTGAAGCGAAAGCTAGCAACAGTATCAACAGGTTTTATTTTGGAT"                                  
 #> [3] "TTGGAAACGAGAGTTTCTGGTCATGAAAAACCCAAAAAAGAAATCCGGAGGATTCCGGATTGTCAATATG"                                  
 #> [4] "CTAAAACGCGGAGTAGCCCGTGTGAGCCCCTTTGGGGGCTTGAAGAGGCTGCCAGCCGGACTTCTGCTGG"
-
 length(zika)
 #> [1] 151
 ```
@@ -40,7 +39,6 @@ The second part, which is `do.call(paste0, as.list(zika[2:length(zika)]))`, need
 ```r
 paste0('A', 'B', 'C')
 #> [1] "ABC"
-
 paste0(c('A', 'B', 'C'))
 #> [1] "A" "B" "C"
 ```
@@ -58,7 +56,6 @@ stringr::str_c(c('A', 'B', 'C'), collapse = '')
 ```r
 zika$header
 #> [1] "MK028861.1 Zika virus isolate Zika virus/H.sapiens-tc/Panama/2015/259359 polyprotein gene, complete cds"
-
 substr(zika$sequence, 1, 100)
 #> [1] "TGACTAAGACTGCGACAGTTCGAGTTTGAAGCGAAAGCTAGCAACAGTATCAACAGGTTTTATTTTGGATTTGGAAACGAGAGTTTCTGGTCATGAAAAA"
 ```

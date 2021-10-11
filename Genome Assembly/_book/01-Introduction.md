@@ -1,6 +1,6 @@
 # Introduction {#introduction}
 
-Genome assembly has been regarded as one of the most important and most challenging problems in bioinformatics, perhaps at least since the late 80's, when the Human Genome Project was announced. Due to exponential growth of technology this topic is still relevant and there are still quite a few problems we have to face.
+Genome assembly has been regarded as one of the most important and most challenging problems in bioinformatics, perhaps at least since the late 80's, when the Human Genome Project was announced. Due to exponential growth of technology this topic is still relevant and there are still some major problems that need to be solved.
 
 Genomes tend to be almost inconceivably long. Human DNA for example is approximately thousand times longer than the Bible (letter-wise), and some species have their genomes even orders of magnitude longer. Yet the algorithmic part of the problem arises not mainly because of the length. This was definitely the case for the biotechnologicians, who few decades ago were constrained within low-thorughput sequencing techniques. For bioinformaticians though the core of the problem is located a bit deeper.
 
