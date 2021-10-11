@@ -15,7 +15,7 @@
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Chapter 4 More advanced problems | Genome Assembly">
 <meta name="twitter:description" content="This chapter is devoted to a little more specific problems, like managing fasta or fastq files. Throughout the section we will operate on three different files which are available on NCBI, but are...">
-<!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/header-attrs-2.10/header-attrs.js"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/header-attrs-2.11/header-attrs.js"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
 <script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.3.0/transition.js"></script><script src="libs/bs3compat-0.3.0/tabs.js"></script><script src="libs/bs3compat-0.3.0/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
 <script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- CSS --><link rel="stylesheet" href="bs4_style.css">
@@ -69,7 +69,7 @@
 <span class="header-section-number">4.1</span> Read fasta file<a class="anchor" aria-label="anchor" href="#read-fasta-file"><i class="fas fa-link"></i></a>
 </h2>
 <p>Fasta file consist of two parts - header, that describes the sequence, and sequence itself. In order to load the first file we will use a very basic <code>leadLines()</code> function.</p>
-<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">zika</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/readLines.html">readLines</a></span><span class="op">(</span><span class="st">'files/MK028861.fasta'</span><span class="op">)</span>
 
 <span class="va">zika</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">4</span><span class="op">]</span>
@@ -77,32 +77,76 @@
 <span class="co">#&gt; [2] "TGACTAAGACTGCGACAGTTCGAGTTTGAAGCGAAAGCTAGCAACAGTATCAACAGGTTTTATTTTGGAT"                                  </span>
 <span class="co">#&gt; [3] "TTGGAAACGAGAGTTTCTGGTCATGAAAAACCCAAAAAAGAAATCCGGAGGATTCCGGATTGTCAATATG"                                  </span>
 <span class="co">#&gt; [4] "CTAAAACGCGGAGTAGCCCGTGTGAGCCCCTTTGGGGGCTTGAAGAGGCTGCCAGCCGGACTTCTGCTGG"</span>
-
 <span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="va">zika</span><span class="op">)</span>
 <span class="co">#&gt; [1] 151</span></code></pre></div>
 <p>As one can see at this point we have a vector of 151 elements. Each entry represents a single line in from the loaded file. We are going to remold our output to more convenient form, namely to a list of two elements (header and sequence).</p>
-<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">zika</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="st">'header'</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/substr.html">substr</a></span><span class="op">(</span><span class="va">zika</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, <span class="fl">2</span>, <span class="fu"><a href="https://rdrr.io/r/base/nchar.html">nchar</a></span><span class="op">(</span><span class="va">zika</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span><span class="op">)</span><span class="op">)</span>, 
              <span class="st">'sequence'</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/do.call.html">do.call</a></span><span class="op">(</span><span class="va">paste0</span>, <span class="fu"><a href="https://rdrr.io/r/base/list.html">as.list</a></span><span class="op">(</span><span class="va">zika</span><span class="op">[</span><span class="fl">2</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="va">zika</span><span class="op">)</span><span class="op">]</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <p>Let’s talk trough <code><a href="https://rdrr.io/r/base/substr.html">substr(zika[1], 2, nchar(zika[1]))</a></code> and <code><a href="https://rdrr.io/r/base/do.call.html">do.call(paste0, as.list(zika[2:length(zika)]))</a></code>. We create a header on the basis of initial line of the fasta file, i.e. first element of our vector. One could simply write <code>'header' = zika[1]</code> but we also want to remove <code><a href="https://rdrr.io/r/base/Comparison.html">&gt;</a></code> character from the very beginning. Therefore we take a substring that starting from the second character and ends at the end (position equal to the number of characters).</p>
-<p><code><a href="https://rdrr.io/r/base/do.call.html">do.call(paste0, as.list(zika[2:length(zika)]))</a></code> needs a little more explanation. As we know one can use a paste0 function to concatenate strings. Unfortunately, if imputing a vector of strings won’t concatenate all element together</p>
-<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
+<p>The second part, which is <code><a href="https://rdrr.io/r/base/do.call.html">do.call(paste0, as.list(zika[2:length(zika)]))</a></code>, needs a little more explanation. As we know one can use the paste0 function to concatenate strings. Unfortunately, imputing a vector of strings won’t concatenate all element together. For paste0 this vector is simply a one element.</p>
+<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">'A'</span>, <span class="st">'B'</span>, <span class="st">'C'</span><span class="op">)</span>
 <span class="co">#&gt; [1] "ABC"</span>
-
 <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">'A'</span>, <span class="st">'B'</span>, <span class="st">'C'</span><span class="op">)</span><span class="op">)</span>
 <span class="co">#&gt; [1] "A" "B" "C"</span></code></pre></div>
 <p>This is the reason for employing <code><a href="https://rdrr.io/r/base/do.call.html">do.call()</a></code>. The function takes two arguments - name of function to execute and <strong>list</strong> of elements.</p>
 <p>Fortunately, there is a smoother to solve this exercise - <code><a href="https://stringr.tidyverse.org/reference/str_c.html">str_c()</a></code> function the the stringr package.</p>
-<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">stringr</span><span class="fu">::</span><span class="fu"><a href="https://stringr.tidyverse.org/reference/str_c.html">str_c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">'A'</span>, <span class="st">'B'</span>, <span class="st">'C'</span><span class="op">)</span>, collapse <span class="op">=</span> <span class="st">''</span><span class="op">)</span>
 <span class="co">#&gt; [1] "ABC"</span></code></pre></div>
-<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">zika</span><span class="op">$</span><span class="va">header</span>
 <span class="co">#&gt; [1] "MK028861.1 Zika virus isolate Zika virus/H.sapiens-tc/Panama/2015/259359 polyprotein gene, complete cds"</span>
-
 <span class="fu"><a href="https://rdrr.io/r/base/substr.html">substr</a></span><span class="op">(</span><span class="va">zika</span><span class="op">$</span><span class="va">sequence</span>, <span class="fl">1</span>, <span class="fl">100</span><span class="op">)</span>
 <span class="co">#&gt; [1] "TGACTAAGACTGCGACAGTTCGAGTTTGAAGCGAAAGCTAGCAACAGTATCAACAGGTTTTATTTTGGATTTGGAAACGAGAGTTTCTGGTCATGAAAAA"</span></code></pre></div>
+</div>
+<div id="count-k-mers" class="section level2" number="4.2">
+<h2>
+<span class="header-section-number">4.2</span> Count k-mers<a class="anchor" aria-label="anchor" href="#count-k-mers"><i class="fas fa-link"></i></a>
+</h2>
+<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">count_kmers</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">sequence</span>, <span class="va">k</span>, <span class="va">glued</span> <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">{</span>
+  <span class="kw">if</span> <span class="op">(</span><span class="va">glued</span><span class="op">)</span><span class="op">{</span>
+    <span class="va">sequence</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/strsplit.html">strsplit</a></span><span class="op">(</span><span class="va">sequence</span>, <span class="st">''</span><span class="op">)</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>
+  <span class="op">}</span>
+  <span class="va">kmer_count</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="op">)</span>
+  <span class="kw">for</span> <span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="va">sequence</span><span class="op">)</span><span class="op">-</span><span class="va">k</span><span class="op">+</span><span class="fl">1</span><span class="op">)</span><span class="op">)</span><span class="op">{</span>
+    <span class="va">kmer_count</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">kmer_count</span>, <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste</a></span><span class="op">(</span><span class="va">sequence</span><span class="op">[</span><span class="va">i</span><span class="op">:</span><span class="op">(</span><span class="va">i</span><span class="op">+</span><span class="va">k</span><span class="op">-</span><span class="fl">1</span><span class="op">)</span><span class="op">]</span>, collapse <span class="op">=</span> <span class="st">''</span><span class="op">)</span><span class="op">)</span>
+  <span class="op">}</span>
+  <span class="kw"><a href="https://rdrr.io/r/base/function.html">return</a></span><span class="op">(</span><span class="va">kmer_count</span><span class="op">)</span>
+<span class="op">}</span></code></pre></div>
+<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/table.html">table</a></span><span class="op">(</span><span class="fu">count_kmers</span><span class="op">(</span><span class="va">zika</span><span class="op">$</span><span class="va">sequence</span>, <span class="fl">3</span><span class="op">)</span><span class="op">)</span>, 
+     ylab <span class="op">=</span> <span class="st">'k-mer requency'</span>, type <span class="op">=</span> <span class="st">'h'</span>, lwd <span class="op">=</span> <span class="fl">3</span>, las <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></code></pre></div>
+<div class="inline-figure"><img src="04-Basic2_files/figure-html/unnamed-chunk-7-1.png" width="768"></div>
+</div>
+<div id="skew" class="section level2" number="4.3">
+<h2>
+<span class="header-section-number">4.3</span> Skew<a class="anchor" aria-label="anchor" href="#skew"><i class="fas fa-link"></i></a>
+</h2>
+<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">plot_skew</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">sequence</span>, <span class="va">glued</span> <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">{</span>
+  <span class="va">kmer_skew</span> <span class="op">&lt;-</span> <span class="fl">0</span>
+  <span class="kw">if</span> <span class="op">(</span><span class="va">glued</span><span class="op">)</span><span class="op">{</span>
+    <span class="va">sequence</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/strsplit.html">strsplit</a></span><span class="op">(</span><span class="va">sequence</span>, <span class="st">''</span><span class="op">)</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>
+  <span class="op">}</span>
+  <span class="kw">for</span> <span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fl">2</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="va">sequence</span><span class="op">)</span><span class="op">)</span><span class="op">{</span>
+    <span class="va">kmer_skew</span><span class="op">[</span><span class="va">i</span><span class="op">]</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html">ifelse</a></span><span class="op">(</span><span class="va">sequence</span><span class="op">[</span><span class="va">i</span><span class="op">]</span> <span class="op">%in%</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">'A'</span>, <span class="st">'T'</span><span class="op">)</span>, <span class="va">kmer_skew</span><span class="op">[</span><span class="va">i</span><span class="op">-</span><span class="fl">1</span><span class="op">]</span>,
+                     <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html">ifelse</a></span><span class="op">(</span><span class="va">sequence</span><span class="op">[</span><span class="va">i</span><span class="op">]</span> <span class="op">==</span> <span class="st">'C'</span>, <span class="va">kmer_skew</span><span class="op">[</span><span class="va">i</span><span class="op">-</span><span class="fl">1</span><span class="op">]</span><span class="op">+</span><span class="fl">1</span>, <span class="va">kmer_skew</span><span class="op">[</span><span class="va">i</span><span class="op">-</span><span class="fl">1</span><span class="op">]</span><span class="op">-</span><span class="fl">1</span><span class="op">)</span><span class="op">)</span>
+  <span class="op">}</span>
+  <span class="kw"><a href="https://rdrr.io/r/base/function.html">return</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="va">sequence</span><span class="op">)</span>, <span class="va">kmer_skew</span>, type <span class="op">=</span> <span class="st">'l'</span>, 
+              ylab <span class="op">=</span> <span class="st">'CG difference'</span>, xlab <span class="op">=</span> <span class="st">'Position'</span>,
+              main <span class="op">=</span> <span class="st">'Skew plot'</span><span class="op">)</span><span class="op">)</span>
+<span class="op">}</span></code></pre></div>
+<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">plot_skew</span><span class="op">(</span><span class="va">zika</span><span class="op">$</span><span class="va">sequence</span><span class="op">)</span></code></pre></div>
+<div class="inline-figure"><img src="04-Basic2_files/figure-html/unnamed-chunk-9-1.png" width="672"></div>
+</div>
+<div id="index" class="section level2" number="4.4">
+<h2>
+<span class="header-section-number">4.4</span> Index<a class="anchor" aria-label="anchor" href="#index"><i class="fas fa-link"></i></a>
+</h2>
 
 </div>
 </div>
@@ -114,6 +158,9 @@
       <ul class="nav navbar-nav">
 <li><a class="nav-link" href="#advanced"><span class="header-section-number">4</span> More advanced problems</a></li>
 <li><a class="nav-link" href="#read-fasta-file"><span class="header-section-number">4.1</span> Read fasta file</a></li>
+<li><a class="nav-link" href="#count-k-mers"><span class="header-section-number">4.2</span> Count k-mers</a></li>
+<li><a class="nav-link" href="#skew"><span class="header-section-number">4.3</span> Skew</a></li>
+<li><a class="nav-link" href="#index"><span class="header-section-number">4.4</span> Index</a></li>
 </ul>
 
       <div class="book-extra">
@@ -131,7 +178,7 @@
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Genome Assembly</strong>" was written by officialprofile. It was last built on 2021-09-10.</p>
+    <p>"<strong>Genome Assembly</strong>" was written by officialprofile. It was last built on 2021-10-11.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">

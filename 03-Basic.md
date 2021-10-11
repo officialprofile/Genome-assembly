@@ -13,7 +13,7 @@ random_sequence <- function(n){
 }
 
 random_sequence(10)
-#>  [1] "A" "C" "G" "C" "A" "C" "C" "A" "G" "G"
+#>  [1] "G" "G" "G" "C" "G" "G" "A" "T" "T" "A"
 ```
 
 If we want our returned sequence to be in a form of a single string we can use `paste()` function with collapse parameter equal to `''`.
@@ -21,7 +21,7 @@ If we want our returned sequence to be in a form of a single string we can use `
 
 ```r
 paste(random_sequence(10), collapse = '')
-#> [1] "TCGGCACAAC"
+#> [1] "CATTTTACGC"
 ```
 
 Unfortunately, there is no convenient way to retrieve a substring. If a `DNA` variable is equal to `'ACGTG'` then we won't get a substring `'CG'` simply by writing `DNA[2:3]` (one could to this in python). One could do this by employing the `substr()` function, i.e. `substr(DNA, 2, 3)`. On the other hand, if DNA is a vector `c('A', 'C', 'G', 'T', 'G')` then `DNA[2:3]` will return `c('C', 'G')` that in turn can be merged into `'CG'` by `paste()`. Either way, one must use a certain function in order to glue the letters or to split the sequence.
@@ -57,10 +57,10 @@ Please note that we append complementary nucleobase in a seemingly non-optimal w
 ```r
 seq <- random_sequence(20)
 cat(' DNA =', seq, '\n')
-#>  DNA = C T C C C G G T G G G G T G A C C C T A
+#>  DNA = A G C T A C A A C G A G G A G C C T G G
 cseq <- complementary_sequence(seq)
 cat('cDNA =', cseq)
-#> cDNA = G A G G G C C A C C C C A C T G G G A T
+#> cDNA = T C G A T G T T G C T C C T C G G A C C
 ```
 
 There is also a neater way to compute, and in a way avoid, these kind of loops. One can achieve this though functions like `apply()`, `sapply()` or `lapply()`.
@@ -93,10 +93,10 @@ reverse_complementary <- function(sequence){
 ```r
 seq <- random_sequence(20)
 cat(' DNA =', seq, '\n')
-#>  DNA = C C G G C G A T C G T G A A T G T C G T
+#>  DNA = T C C G A G A T C T G G A G G G G C A G
 rcseq <- reverse_complementary(seq)
 cat('cDNA =', rcseq)
-#> cDNA = A C G A C A T T C A C G A T C G C C G G
+#> cDNA = C T G C C C C T C C A G A T C T C G G A
 ```
 
 ## Frequency of the nucleobases
@@ -115,7 +115,7 @@ frequency <- function(sequence, percents = FALSE){
 frequency(seq, percents = TRUE)
 #> sequence
 #>    A    C    G    T 
-#> 0.15 0.25 0.35 0.25
+#> 0.20 0.20 0.45 0.15
 ```
 
 ## Longest common prefix
@@ -141,7 +141,6 @@ longest_common_prefix <- function(sequence1, sequence2){
 ```r
 longest_common_prefix(c('A','C','T','G'), c('A', 'C', 'T', 'T', 'T'))
 #> [1] "A" "C" "T"
-
 longest_common_prefix(c('C','C','T','G'), c('A', 'C', 'T', 'T', 'T'))
 #> [1] "No common prefix"
 ```
@@ -156,7 +155,6 @@ typeof(c('A', 'C', 'G', 'T'))
 #> [1] "character"
 typeof('ACGT')
 #> [1] "character"
-
 length(c('A', 'C', 'G', 'T'))
 #> [1] 4
 length('ACGT')
@@ -190,13 +188,75 @@ longest_common_prefix <- function(sequence1, sequence2, glued = FALSE){
 ```r
 longest_common_prefix('ACTG', 'ACCC', glued = TRUE)
 #> [1] "A" "C"
-
 longest_common_prefix('TCTG', 'ACCC', glued = TRUE)
 #> [1] ""
 ```
 
+## Exact matching
+
+We will construct a naive algorithm for exact pattern matching
 
 
+```r
+exact_matching <- function(pattern, template, glued = FALSE){
+  if (glued){
+    pattern <- strsplit(pattern, '')[[1]]
+    template <- strsplit(template, '')[[1]]
+  }
+  positions = c()
+  for (i in 1:(length(template) - length(pattern) + 1)){
+    match = TRUE
+    for (j in 1:length(pattern)){
+      if (pattern[j] != template[j + i - 1]){
+        match = FALSE
+        break
+      }
+    }
+    if (match){
+      positions = c(positions, i)
+    }
+  }
+  return(positions)
+}
+```
 
 
+```r
+exact_matching('ACTG', 'ACTGTTGACTGACTGGGGGGGGACTGAACTG', glued = TRUE)
+#> [1]  1  8 12 23 28
+```
 
+
+## Generate all possible k-mers
+
+
+```r
+all_kmers <- function(k){
+  kmers <- c('A', 'C', 'G', 'T')
+  for (i in 1:(k-1)){
+    kmers_new = c()
+    for (j in 1:length(kmers)){
+      kmers_new <- c(kmers_new,
+                     paste(kmers[j], 'A', sep = ''),
+                     paste(kmers[j], 'C', sep = ''),
+                     paste(kmers[j], 'G', sep = ''),
+                     paste(kmers[j], 'T', sep = ''))
+    }
+    kmers = kmers_new
+  }
+  return(kmers)
+}
+```
+
+
+```r
+all_kmers(3)
+#>  [1] "AAA" "AAC" "AAG" "AAT" "ACA" "ACC" "ACG" "ACT" "AGA"
+#> [10] "AGC" "AGG" "AGT" "ATA" "ATC" "ATG" "ATT" "CAA" "CAC"
+#> [19] "CAG" "CAT" "CCA" "CCC" "CCG" "CCT" "CGA" "CGC" "CGG"
+#> [28] "CGT" "CTA" "CTC" "CTG" "CTT" "GAA" "GAC" "GAG" "GAT"
+#> [37] "GCA" "GCC" "GCG" "GCT" "GGA" "GGC" "GGG" "GGT" "GTA"
+#> [46] "GTC" "GTG" "GTT" "TAA" "TAC" "TAG" "TAT" "TCA" "TCC"
+#> [55] "TCG" "TCT" "TGA" "TGC" "TGG" "TGT" "TTA" "TTC" "TTG"
+#> [64] "TTT"
+```

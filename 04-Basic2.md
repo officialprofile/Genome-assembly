@@ -19,7 +19,6 @@ zika[1:4]
 #> [2] "TGACTAAGACTGCGACAGTTCGAGTTTGAAGCGAAAGCTAGCAACAGTATCAACAGGTTTTATTTTGGAT"                                  
 #> [3] "TTGGAAACGAGAGTTTCTGGTCATGAAAAACCCAAAAAAGAAATCCGGAGGATTCCGGATTGTCAATATG"                                  
 #> [4] "CTAAAACGCGGAGTAGCCCGTGTGAGCCCCTTTGGGGGCTTGAAGAGGCTGCCAGCCGGACTTCTGCTGG"
-
 length(zika)
 #> [1] 151
 ```
@@ -34,13 +33,12 @@ zika <- list('header' = substr(zika[1], 2, nchar(zika[1])),
 
 Let's talk trough `substr(zika[1], 2, nchar(zika[1]))` and `do.call(paste0, as.list(zika[2:length(zika)]))`. We create a header on the basis of initial line of the fasta file, i.e. first element of our vector. One could simply write `'header' = zika[1]` but we also want to remove `>` character from the very beginning. Therefore we take a substring that starting from the second character and ends at the end (position equal to the number of characters). 
 
-`do.call(paste0, as.list(zika[2:length(zika)]))` needs a little more explanation. As we know one can use a paste0 function to concatenate strings. Unfortunately, if imputing a vector of strings won't concatenate all element together
+The second part, which is `do.call(paste0, as.list(zika[2:length(zika)]))`, needs a little more explanation. As we know one can use the paste0 function to concatenate strings. Unfortunately, imputing a vector of strings won't concatenate all element together. For paste0 this vector is simply a one element.
 
 
 ```r
 paste0('A', 'B', 'C')
 #> [1] "ABC"
-
 paste0(c('A', 'B', 'C'))
 #> [1] "A" "B" "C"
 ```
@@ -58,9 +56,60 @@ stringr::str_c(c('A', 'B', 'C'), collapse = '')
 ```r
 zika$header
 #> [1] "MK028861.1 Zika virus isolate Zika virus/H.sapiens-tc/Panama/2015/259359 polyprotein gene, complete cds"
-
 substr(zika$sequence, 1, 100)
 #> [1] "TGACTAAGACTGCGACAGTTCGAGTTTGAAGCGAAAGCTAGCAACAGTATCAACAGGTTTTATTTTGGATTTGGAAACGAGAGTTTCTGGTCATGAAAAA"
 ```
 
 
+## Count k-mers
+
+
+```r
+count_kmers <- function(sequence, k, glued = TRUE){
+  if (glued){
+    sequence <- strsplit(sequence, '')[[1]]
+  }
+  kmer_count <- c()
+  for (i in 1:(length(sequence)-k+1)){
+    kmer_count <- c(kmer_count, paste(sequence[i:(i+k-1)], collapse = ''))
+  }
+  return(kmer_count)
+}
+```
+
+
+
+```r
+plot(table(count_kmers(zika$sequence, 3)), 
+     ylab = 'k-mer requency', type = 'h', lwd = 3, las = 2)
+```
+
+![](04-Basic2_files/figure-epub3/unnamed-chunk-7-1.png)<!-- -->
+
+## Skew
+
+
+```r
+plot_skew <- function(sequence, glued = TRUE){
+  kmer_skew <- 0
+  if (glued){
+    sequence <- strsplit(sequence, '')[[1]]
+  }
+  for (i in 2:length(sequence)){
+    kmer_skew[i] = ifelse(sequence[i] %in% c('A', 'T'), kmer_skew[i-1],
+                     ifelse(sequence[i] == 'C', kmer_skew[i-1]+1, kmer_skew[i-1]-1))
+  }
+  return(plot(1:length(sequence), kmer_skew, type = 'l', 
+              ylab = 'CG difference', xlab = 'Position',
+              main = 'Skew plot'))
+}
+```
+
+
+```r
+plot_skew(zika$sequence)
+```
+
+![](04-Basic2_files/figure-epub3/unnamed-chunk-9-1.png)<!-- -->
+
+## Index

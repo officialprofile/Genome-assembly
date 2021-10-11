@@ -117,7 +117,7 @@
 
 \title{Genome Assembly}
 \author{officialprofile}
-\date{2021-09-10}
+\date{2021-10-11}
 
 \begin{document}
 \maketitle
@@ -167,7 +167,7 @@ Throughout the book the following libraries are being used and it is assumed tha
 \hypertarget{introduction}{%
 \chapter{Introduction}\label{introduction}}
 
-Genome assembly has been regarded as one of the most important and most challenging problems in bioinformatics, perhaps at least since the late 80's, when the Human Genome Project was announced. Due to exponential growth of technology this topic is still relevant and there are still quite a few problems we have to face.
+Genome assembly has been regarded as one of the most important and most challenging problems in bioinformatics, perhaps at least since the late 80's, when the Human Genome Project was announced. Due to exponential growth of technology this topic is still relevant and there are still some major problems that need to be solved.
 
 Genomes tend to be almost inconceivably long. Human DNA for example is approximately thousand times longer than the Bible (letter-wise), and some species have their genomes even orders of magnitude longer. Yet the algorithmic part of the problem arises not mainly because of the length. This was definitely the case for the biotechnologicians, who few decades ago were constrained within low-thorughput sequencing techniques. For bioinformaticians though the core of the problem is located a bit deeper.
 
@@ -194,7 +194,7 @@ Let's start with writing a function that, for a given integer n \textgreater{} 0
 \NormalTok{\}}
 
 \FunctionTok{random\_sequence}\NormalTok{(}\DecValTok{10}\NormalTok{)}
-\CommentTok{\#\textgreater{}  [1] "C" "T" "C" "T" "C" "T" "G" "C" "G" "A"}
+\CommentTok{\#\textgreater{}  [1] "G" "T" "T" "T" "G" "T" "G" "A" "C" "C"}
 \end{Highlighting}
 \end{Shaded}
 
@@ -203,7 +203,7 @@ If we want our returned sequence to be in a form of a single string we can use \
 \begin{Shaded}
 \begin{Highlighting}[]
 \FunctionTok{paste}\NormalTok{(}\FunctionTok{random\_sequence}\NormalTok{(}\DecValTok{10}\NormalTok{), }\AttributeTok{collapse =} \StringTok{\textquotesingle{}\textquotesingle{}}\NormalTok{)}
-\CommentTok{\#\textgreater{} [1] "AAACCTTGTT"}
+\CommentTok{\#\textgreater{} [1] "ATCCGATTAA"}
 \end{Highlighting}
 \end{Shaded}
 
@@ -243,10 +243,10 @@ Please note that we append complementary nucleobase in a seemingly non-optimal w
 \begin{Highlighting}[]
 \NormalTok{seq }\OtherTok{\textless{}{-}} \FunctionTok{random\_sequence}\NormalTok{(}\DecValTok{20}\NormalTok{)}
 \FunctionTok{cat}\NormalTok{(}\StringTok{\textquotesingle{} DNA =\textquotesingle{}}\NormalTok{, seq, }\StringTok{\textquotesingle{}}\SpecialCharTok{\textbackslash{}n}\StringTok{\textquotesingle{}}\NormalTok{)}
-\CommentTok{\#\textgreater{}  DNA = C T G A A T C G A C A C G C T A G C A C}
+\CommentTok{\#\textgreater{}  DNA = G A A G G G C C T C T C G A T C C C C A}
 \NormalTok{cseq }\OtherTok{\textless{}{-}} \FunctionTok{complementary\_sequence}\NormalTok{(seq)}
 \FunctionTok{cat}\NormalTok{(}\StringTok{\textquotesingle{}cDNA =\textquotesingle{}}\NormalTok{, cseq)}
-\CommentTok{\#\textgreater{} cDNA = G A C T T A G C T G T G C G A T C G T G}
+\CommentTok{\#\textgreater{} cDNA = C T T C C C G G A G A G C T A G G G G T}
 \end{Highlighting}
 \end{Shaded}
 
@@ -283,10 +283,10 @@ Obtaining reverse complementary is very similar to the previous excercise. The o
 \begin{Highlighting}[]
 \NormalTok{seq }\OtherTok{\textless{}{-}} \FunctionTok{random\_sequence}\NormalTok{(}\DecValTok{20}\NormalTok{)}
 \FunctionTok{cat}\NormalTok{(}\StringTok{\textquotesingle{} DNA =\textquotesingle{}}\NormalTok{, seq, }\StringTok{\textquotesingle{}}\SpecialCharTok{\textbackslash{}n}\StringTok{\textquotesingle{}}\NormalTok{)}
-\CommentTok{\#\textgreater{}  DNA = G A C C C G G A A T A T T C G C G G G G}
+\CommentTok{\#\textgreater{}  DNA = C C G G A G A C T G A A T T G G C T C T}
 \NormalTok{rcseq }\OtherTok{\textless{}{-}} \FunctionTok{reverse\_complementary}\NormalTok{(seq)}
 \FunctionTok{cat}\NormalTok{(}\StringTok{\textquotesingle{}cDNA =\textquotesingle{}}\NormalTok{, rcseq)}
-\CommentTok{\#\textgreater{} cDNA = C C C C G C G A A T A T T C C G G G T C}
+\CommentTok{\#\textgreater{} cDNA = A G A G C C A A T T C A G T C T C C G G}
 \end{Highlighting}
 \end{Shaded}
 
@@ -308,7 +308,7 @@ Obtaining reverse complementary is very similar to the previous excercise. The o
 \FunctionTok{frequency}\NormalTok{(seq, }\AttributeTok{percents =} \ConstantTok{TRUE}\NormalTok{)}
 \CommentTok{\#\textgreater{} sequence}
 \CommentTok{\#\textgreater{}    A    C    G    T }
-\CommentTok{\#\textgreater{} 0.20 0.25 0.40 0.15}
+\CommentTok{\#\textgreater{} 0.20 0.25 0.30 0.25}
 \end{Highlighting}
 \end{Shaded}
 
@@ -337,7 +337,6 @@ Obtaining reverse complementary is very similar to the previous excercise. The o
 \begin{Highlighting}[]
 \FunctionTok{longest\_common\_prefix}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\StringTok{\textquotesingle{}A\textquotesingle{}}\NormalTok{,}\StringTok{\textquotesingle{}C\textquotesingle{}}\NormalTok{,}\StringTok{\textquotesingle{}T\textquotesingle{}}\NormalTok{,}\StringTok{\textquotesingle{}G\textquotesingle{}}\NormalTok{), }\FunctionTok{c}\NormalTok{(}\StringTok{\textquotesingle{}A\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}C\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}T\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}T\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}T\textquotesingle{}}\NormalTok{))}
 \CommentTok{\#\textgreater{} [1] "A" "C" "T"}
-
 \FunctionTok{longest\_common\_prefix}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\StringTok{\textquotesingle{}C\textquotesingle{}}\NormalTok{,}\StringTok{\textquotesingle{}C\textquotesingle{}}\NormalTok{,}\StringTok{\textquotesingle{}T\textquotesingle{}}\NormalTok{,}\StringTok{\textquotesingle{}G\textquotesingle{}}\NormalTok{), }\FunctionTok{c}\NormalTok{(}\StringTok{\textquotesingle{}A\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}C\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}T\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}T\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}T\textquotesingle{}}\NormalTok{))}
 \CommentTok{\#\textgreater{} [1] "No common prefix"}
 \end{Highlighting}
@@ -353,7 +352,6 @@ Unfortunately, R does not differentiates between \texttt{c(\textquotesingle{}a\t
 \CommentTok{\#\textgreater{} [1] "character"}
 \FunctionTok{typeof}\NormalTok{(}\StringTok{\textquotesingle{}ACGT\textquotesingle{}}\NormalTok{)}
 \CommentTok{\#\textgreater{} [1] "character"}
-
 \FunctionTok{length}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\StringTok{\textquotesingle{}A\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}C\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}G\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}T\textquotesingle{}}\NormalTok{))}
 \CommentTok{\#\textgreater{} [1] 4}
 \FunctionTok{length}\NormalTok{(}\StringTok{\textquotesingle{}ACGT\textquotesingle{}}\NormalTok{)}
@@ -389,9 +387,82 @@ On this account we will simply add new boolean argument \texttt{glued} to our fu
 \begin{Highlighting}[]
 \FunctionTok{longest\_common\_prefix}\NormalTok{(}\StringTok{\textquotesingle{}ACTG\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}ACCC\textquotesingle{}}\NormalTok{, }\AttributeTok{glued =} \ConstantTok{TRUE}\NormalTok{)}
 \CommentTok{\#\textgreater{} [1] "A" "C"}
-
 \FunctionTok{longest\_common\_prefix}\NormalTok{(}\StringTok{\textquotesingle{}TCTG\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}ACCC\textquotesingle{}}\NormalTok{, }\AttributeTok{glued =} \ConstantTok{TRUE}\NormalTok{)}
 \CommentTok{\#\textgreater{} [1] ""}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{exact-matching}{%
+\section{Exact matching}\label{exact-matching}}
+
+We will construct a naive algorithm for exact pattern matching
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{exact\_matching }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(pattern, template, }\AttributeTok{glued =} \ConstantTok{FALSE}\NormalTok{)\{}
+  \ControlFlowTok{if}\NormalTok{ (glued)\{}
+\NormalTok{    pattern }\OtherTok{\textless{}{-}} \FunctionTok{strsplit}\NormalTok{(pattern, }\StringTok{\textquotesingle{}\textquotesingle{}}\NormalTok{)[[}\DecValTok{1}\NormalTok{]]}
+\NormalTok{    template }\OtherTok{\textless{}{-}} \FunctionTok{strsplit}\NormalTok{(template, }\StringTok{\textquotesingle{}\textquotesingle{}}\NormalTok{)[[}\DecValTok{1}\NormalTok{]]}
+\NormalTok{  \}}
+\NormalTok{  positions }\OtherTok{=} \FunctionTok{c}\NormalTok{()}
+  \ControlFlowTok{for}\NormalTok{ (i }\ControlFlowTok{in} \DecValTok{1}\SpecialCharTok{:}\NormalTok{(}\FunctionTok{length}\NormalTok{(template) }\SpecialCharTok{{-}} \FunctionTok{length}\NormalTok{(pattern) }\SpecialCharTok{+} \DecValTok{1}\NormalTok{))\{}
+\NormalTok{    match }\OtherTok{=} \ConstantTok{TRUE}
+    \ControlFlowTok{for}\NormalTok{ (j }\ControlFlowTok{in} \DecValTok{1}\SpecialCharTok{:}\FunctionTok{length}\NormalTok{(pattern))\{}
+      \ControlFlowTok{if}\NormalTok{ (pattern[j] }\SpecialCharTok{!=}\NormalTok{ template[j }\SpecialCharTok{+}\NormalTok{ i }\SpecialCharTok{{-}} \DecValTok{1}\NormalTok{])\{}
+\NormalTok{        match }\OtherTok{=} \ConstantTok{FALSE}
+        \ControlFlowTok{break}
+\NormalTok{      \}}
+\NormalTok{    \}}
+    \ControlFlowTok{if}\NormalTok{ (match)\{}
+\NormalTok{      positions }\OtherTok{=} \FunctionTok{c}\NormalTok{(positions, i)}
+\NormalTok{    \}}
+\NormalTok{  \}}
+  \FunctionTok{return}\NormalTok{(positions)}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{exact\_matching}\NormalTok{(}\StringTok{\textquotesingle{}ACTG\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}ACTGTTGACTGACTGGGGGGGGACTGAACTG\textquotesingle{}}\NormalTok{, }\AttributeTok{glued =} \ConstantTok{TRUE}\NormalTok{)}
+\CommentTok{\#\textgreater{} [1]  1  8 12 23 28}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{generate-all-possible-k-mers}{%
+\section{Generate all possible k-mers}\label{generate-all-possible-k-mers}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{all\_kmers }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(k)\{}
+\NormalTok{  kmers }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\StringTok{\textquotesingle{}A\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}C\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}G\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}T\textquotesingle{}}\NormalTok{)}
+  \ControlFlowTok{for}\NormalTok{ (i }\ControlFlowTok{in} \DecValTok{1}\SpecialCharTok{:}\NormalTok{(k}\DecValTok{{-}1}\NormalTok{))\{}
+\NormalTok{    kmers\_new }\OtherTok{=} \FunctionTok{c}\NormalTok{()}
+    \ControlFlowTok{for}\NormalTok{ (j }\ControlFlowTok{in} \DecValTok{1}\SpecialCharTok{:}\FunctionTok{length}\NormalTok{(kmers))\{}
+\NormalTok{      kmers\_new }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(kmers\_new,}
+                     \FunctionTok{paste}\NormalTok{(kmers[j], }\StringTok{\textquotesingle{}A\textquotesingle{}}\NormalTok{, }\AttributeTok{sep =} \StringTok{\textquotesingle{}\textquotesingle{}}\NormalTok{),}
+                     \FunctionTok{paste}\NormalTok{(kmers[j], }\StringTok{\textquotesingle{}C\textquotesingle{}}\NormalTok{, }\AttributeTok{sep =} \StringTok{\textquotesingle{}\textquotesingle{}}\NormalTok{),}
+                     \FunctionTok{paste}\NormalTok{(kmers[j], }\StringTok{\textquotesingle{}G\textquotesingle{}}\NormalTok{, }\AttributeTok{sep =} \StringTok{\textquotesingle{}\textquotesingle{}}\NormalTok{),}
+                     \FunctionTok{paste}\NormalTok{(kmers[j], }\StringTok{\textquotesingle{}T\textquotesingle{}}\NormalTok{, }\AttributeTok{sep =} \StringTok{\textquotesingle{}\textquotesingle{}}\NormalTok{))}
+\NormalTok{    \}}
+\NormalTok{    kmers }\OtherTok{=}\NormalTok{ kmers\_new}
+\NormalTok{  \}}
+  \FunctionTok{return}\NormalTok{(kmers)}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{all\_kmers}\NormalTok{(}\DecValTok{3}\NormalTok{)}
+\CommentTok{\#\textgreater{}  [1] "AAA" "AAC" "AAG" "AAT" "ACA" "ACC" "ACG" "ACT" "AGA"}
+\CommentTok{\#\textgreater{} [10] "AGC" "AGG" "AGT" "ATA" "ATC" "ATG" "ATT" "CAA" "CAC"}
+\CommentTok{\#\textgreater{} [19] "CAG" "CAT" "CCA" "CCC" "CCG" "CCT" "CGA" "CGC" "CGG"}
+\CommentTok{\#\textgreater{} [28] "CGT" "CTA" "CTC" "CTG" "CTT" "GAA" "GAC" "GAG" "GAT"}
+\CommentTok{\#\textgreater{} [37] "GCA" "GCC" "GCG" "GCT" "GGA" "GGC" "GGG" "GGT" "GTA"}
+\CommentTok{\#\textgreater{} [46] "GTC" "GTG" "GTT" "TAA" "TAC" "TAG" "TAT" "TCA" "TCC"}
+\CommentTok{\#\textgreater{} [55] "TCG" "TCT" "TGA" "TGC" "TGG" "TGT" "TTA" "TTC" "TTG"}
+\CommentTok{\#\textgreater{} [64] "TTT"}
 \end{Highlighting}
 \end{Shaded}
 
@@ -422,7 +493,6 @@ Fasta file consist of two parts - header, that describes the sequence, and seque
 \CommentTok{\#\textgreater{} [2] "TGACTAAGACTGCGACAGTTCGAGTTTGAAGCGAAAGCTAGCAACAGTATCAACAGGTTTTATTTTGGAT"                                  }
 \CommentTok{\#\textgreater{} [3] "TTGGAAACGAGAGTTTCTGGTCATGAAAAACCCAAAAAAGAAATCCGGAGGATTCCGGATTGTCAATATG"                                  }
 \CommentTok{\#\textgreater{} [4] "CTAAAACGCGGAGTAGCCCGTGTGAGCCCCTTTGGGGGCTTGAAGAGGCTGCCAGCCGGACTTCTGCTGG"}
-
 \FunctionTok{length}\NormalTok{(zika)}
 \CommentTok{\#\textgreater{} [1] 151}
 \end{Highlighting}
@@ -439,13 +509,12 @@ As one can see at this point we have a vector of 151 elements. Each entry repres
 
 Let's talk trough \texttt{substr(zika{[}1{]},\ 2,\ nchar(zika{[}1{]}))} and \texttt{do.call(paste0,\ as.list(zika{[}2:length(zika){]}))}. We create a header on the basis of initial line of the fasta file, i.e.~first element of our vector. One could simply write \texttt{\textquotesingle{}header\textquotesingle{}\ =\ zika{[}1{]}} but we also want to remove \texttt{\textgreater{}} character from the very beginning. Therefore we take a substring that starting from the second character and ends at the end (position equal to the number of characters).
 
-\texttt{do.call(paste0,\ as.list(zika{[}2:length(zika){]}))} needs a little more explanation. As we know one can use a paste0 function to concatenate strings. Unfortunately, if imputing a vector of strings won't concatenate all element together
+The second part, which is \texttt{do.call(paste0,\ as.list(zika{[}2:length(zika){]}))}, needs a little more explanation. As we know one can use the paste0 function to concatenate strings. Unfortunately, imputing a vector of strings won't concatenate all element together. For paste0 this vector is simply a one element.
 
 \begin{Shaded}
 \begin{Highlighting}[]
 \FunctionTok{paste0}\NormalTok{(}\StringTok{\textquotesingle{}A\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}B\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}C\textquotesingle{}}\NormalTok{)}
 \CommentTok{\#\textgreater{} [1] "ABC"}
-
 \FunctionTok{paste0}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\StringTok{\textquotesingle{}A\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}B\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}C\textquotesingle{}}\NormalTok{))}
 \CommentTok{\#\textgreater{} [1] "A" "B" "C"}
 \end{Highlighting}
@@ -466,17 +535,298 @@ Fortunately, there is a smoother to solve this exercise - \texttt{str\_c()} func
 \begin{Highlighting}[]
 \NormalTok{zika}\SpecialCharTok{$}\NormalTok{header}
 \CommentTok{\#\textgreater{} [1] "MK028861.1 Zika virus isolate Zika virus/H.sapiens{-}tc/Panama/2015/259359 polyprotein gene, complete cds"}
-
 \FunctionTok{substr}\NormalTok{(zika}\SpecialCharTok{$}\NormalTok{sequence, }\DecValTok{1}\NormalTok{, }\DecValTok{100}\NormalTok{)}
 \CommentTok{\#\textgreater{} [1] "TGACTAAGACTGCGACAGTTCGAGTTTGAAGCGAAAGCTAGCAACAGTATCAACAGGTTTTATTTTGGATTTGGAAACGAGAGTTTCTGGTCATGAAAAA"}
 \end{Highlighting}
 \end{Shaded}
 
+\hypertarget{count-k-mers}{%
+\section{Count k-mers}\label{count-k-mers}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{count\_kmers }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(sequence, k, }\AttributeTok{glued =} \ConstantTok{TRUE}\NormalTok{)\{}
+  \ControlFlowTok{if}\NormalTok{ (glued)\{}
+\NormalTok{    sequence }\OtherTok{\textless{}{-}} \FunctionTok{strsplit}\NormalTok{(sequence, }\StringTok{\textquotesingle{}\textquotesingle{}}\NormalTok{)[[}\DecValTok{1}\NormalTok{]]}
+\NormalTok{  \}}
+\NormalTok{  kmer\_count }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{()}
+  \ControlFlowTok{for}\NormalTok{ (i }\ControlFlowTok{in} \DecValTok{1}\SpecialCharTok{:}\NormalTok{(}\FunctionTok{length}\NormalTok{(sequence)}\SpecialCharTok{{-}}\NormalTok{k}\SpecialCharTok{+}\DecValTok{1}\NormalTok{))\{}
+\NormalTok{    kmer\_count }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(kmer\_count, }\FunctionTok{paste}\NormalTok{(sequence[i}\SpecialCharTok{:}\NormalTok{(i}\SpecialCharTok{+}\NormalTok{k}\DecValTok{{-}1}\NormalTok{)], }\AttributeTok{collapse =} \StringTok{\textquotesingle{}\textquotesingle{}}\NormalTok{))}
+\NormalTok{  \}}
+  \FunctionTok{return}\NormalTok{(kmer\_count)}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{plot}\NormalTok{(}\FunctionTok{table}\NormalTok{(}\FunctionTok{count\_kmers}\NormalTok{(zika}\SpecialCharTok{$}\NormalTok{sequence, }\DecValTok{3}\NormalTok{)), }
+     \AttributeTok{ylab =} \StringTok{\textquotesingle{}k{-}mer requency\textquotesingle{}}\NormalTok{, }\AttributeTok{type =} \StringTok{\textquotesingle{}h\textquotesingle{}}\NormalTok{, }\AttributeTok{lwd =} \DecValTok{3}\NormalTok{, }\AttributeTok{las =} \DecValTok{2}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{04-Basic2_files/figure-latex/unnamed-chunk-7-1.pdf}
+
+\hypertarget{skew}{%
+\section{Skew}\label{skew}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{plot\_skew }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(sequence, }\AttributeTok{glued =} \ConstantTok{TRUE}\NormalTok{)\{}
+\NormalTok{  kmer\_skew }\OtherTok{\textless{}{-}} \DecValTok{0}
+  \ControlFlowTok{if}\NormalTok{ (glued)\{}
+\NormalTok{    sequence }\OtherTok{\textless{}{-}} \FunctionTok{strsplit}\NormalTok{(sequence, }\StringTok{\textquotesingle{}\textquotesingle{}}\NormalTok{)[[}\DecValTok{1}\NormalTok{]]}
+\NormalTok{  \}}
+  \ControlFlowTok{for}\NormalTok{ (i }\ControlFlowTok{in} \DecValTok{2}\SpecialCharTok{:}\FunctionTok{length}\NormalTok{(sequence))\{}
+\NormalTok{    kmer\_skew[i] }\OtherTok{=} \FunctionTok{ifelse}\NormalTok{(sequence[i] }\SpecialCharTok{\%in\%} \FunctionTok{c}\NormalTok{(}\StringTok{\textquotesingle{}A\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}T\textquotesingle{}}\NormalTok{), kmer\_skew[i}\DecValTok{{-}1}\NormalTok{],}
+                     \FunctionTok{ifelse}\NormalTok{(sequence[i] }\SpecialCharTok{==} \StringTok{\textquotesingle{}C\textquotesingle{}}\NormalTok{, kmer\_skew[i}\DecValTok{{-}1}\NormalTok{]}\SpecialCharTok{+}\DecValTok{1}\NormalTok{, kmer\_skew[i}\DecValTok{{-}1}\NormalTok{]}\SpecialCharTok{{-}}\DecValTok{1}\NormalTok{))}
+\NormalTok{  \}}
+  \FunctionTok{return}\NormalTok{(}\FunctionTok{plot}\NormalTok{(}\DecValTok{1}\SpecialCharTok{:}\FunctionTok{length}\NormalTok{(sequence), kmer\_skew, }\AttributeTok{type =} \StringTok{\textquotesingle{}l\textquotesingle{}}\NormalTok{, }
+              \AttributeTok{ylab =} \StringTok{\textquotesingle{}CG difference\textquotesingle{}}\NormalTok{, }\AttributeTok{xlab =} \StringTok{\textquotesingle{}Position\textquotesingle{}}\NormalTok{,}
+              \AttributeTok{main =} \StringTok{\textquotesingle{}Skew plot\textquotesingle{}}\NormalTok{))}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{plot\_skew}\NormalTok{(zika}\SpecialCharTok{$}\NormalTok{sequence)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{04-Basic2_files/figure-latex/unnamed-chunk-9-1.pdf}
+
+\hypertarget{index}{%
+\section{Index}\label{index}}
+
 \hypertarget{graph}{%
 \chapter{Graph theory}\label{graph}}
 
+Graph can be simply regarded as a set of vertices and edges connecting them. One can define this structure in a various ways, but for us graph will virtually always be represented by a square matrix called adjacency matrix. Each row/column of the matrix represents a given vertice and its connections to remaining ones. Consider for example a following adjacency matrix:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{adjacency\_matrix }\OtherTok{\textless{}{-}} \FunctionTok{matrix}\NormalTok{(}\DecValTok{0}\NormalTok{, }\DecValTok{3}\NormalTok{, }\DecValTok{3}\NormalTok{)}
+\NormalTok{adjacency\_matrix[}\DecValTok{1}\NormalTok{, }\DecValTok{2}\NormalTok{] }\OtherTok{\textless{}{-}} \DecValTok{1}
+\NormalTok{adjacency\_matrix[}\DecValTok{1}\NormalTok{, }\DecValTok{3}\NormalTok{] }\OtherTok{\textless{}{-}} \DecValTok{1}
+\NormalTok{adjacency\_matrix[}\DecValTok{3}\NormalTok{, }\DecValTok{2}\NormalTok{] }\OtherTok{\textless{}{-}} \DecValTok{1}
+
+\NormalTok{adjacency\_matrix}
+\CommentTok{\#\textgreater{}      [,1] [,2] [,3]}
+\CommentTok{\#\textgreater{} [1,]    0    1    1}
+\CommentTok{\#\textgreater{} [2,]    0    0    0}
+\CommentTok{\#\textgreater{} [3,]    0    1    0}
+\end{Highlighting}
+\end{Shaded}
+
+Now we are going to convert the matrix to a form of complex list. This step is not required in general. We will do this only for the sake of visualization.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{graph }\OtherTok{\textless{}{-}}\NormalTok{ igraph}\SpecialCharTok{::}\FunctionTok{graph.adjacency}\NormalTok{(adjacency\_matrix, }\AttributeTok{mode =} \StringTok{\textquotesingle{}directed\textquotesingle{}}\NormalTok{, }\AttributeTok{weighted =} \ConstantTok{TRUE}\NormalTok{)}
+
+\FunctionTok{plot}\NormalTok{(graph)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{05-Graph_files/figure-latex/unnamed-chunk-2-1.pdf}
+
+Notice the relationship between direction of the vertices and their position in the adjacency matrix. Row represents vertice from which edge begins and the column where it ends. This is only the case when we deal with directed graphs, for the undirected ones we have symmetrix matrix or deal only with its lower or upper part.
+
+For us the most fundamental part of graph theory is related to path finding. Let's consider the following, randomly generated graph (each edge is of length 1):
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{random\_edges }\OtherTok{\textless{}{-}} \FunctionTok{sample}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{,}\DecValTok{1}\NormalTok{), }\DecValTok{100}\NormalTok{, }\AttributeTok{replace =} \ConstantTok{TRUE}\NormalTok{, }\AttributeTok{prob =} \FunctionTok{c}\NormalTok{(}\FloatTok{0.9}\NormalTok{, }\FloatTok{0.1}\NormalTok{))}
+\NormalTok{adjacency\_matrix }\OtherTok{\textless{}{-}} \FunctionTok{matrix}\NormalTok{(random\_edges, }\DecValTok{10}\NormalTok{, }\DecValTok{10}\NormalTok{)}
+\FunctionTok{rownames}\NormalTok{(adjacency\_matrix) }\OtherTok{=}\NormalTok{ LETTERS[}\DecValTok{1}\SpecialCharTok{:}\DecValTok{10}\NormalTok{]}
+\FunctionTok{colnames}\NormalTok{(adjacency\_matrix) }\OtherTok{=}\NormalTok{ LETTERS[}\DecValTok{1}\SpecialCharTok{:}\DecValTok{10}\NormalTok{]}
+\NormalTok{graph }\OtherTok{\textless{}{-}}\NormalTok{ igraph}\SpecialCharTok{::}\FunctionTok{graph.adjacency}\NormalTok{(adjacency\_matrix, }\AttributeTok{mode =} \StringTok{\textquotesingle{}undirected\textquotesingle{}}\NormalTok{, }
+                                 \AttributeTok{diag =} \ConstantTok{FALSE}\NormalTok{)}
+
+\FunctionTok{plot}\NormalTok{(graph)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{05-Graph_files/figure-latex/unnamed-chunk-3-1.pdf}
+
+Having such graph we want to be able to answer few questions.
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Is there a path connecting vertice A with B?
+\item
+  How many paths with such connection exist?
+\item
+  Which one has the shortest distance?
+\item
+  Is there a path from A to B within which one can visit every vertice?
+\item
+  Is there a path from A to B within which one can visit every vertice exactly once?
+\end{enumerate}
+
 \hypertarget{bruijn}{%
 \chapter{De Bruijn graph}\label{bruijn}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{seq     }\OtherTok{\textless{}{-}} \StringTok{\textquotesingle{}GATTACAGATTACAGAAAGATACA\textquotesingle{}}
+\NormalTok{k       }\OtherTok{\textless{}{-}} \DecValTok{4}
+\NormalTok{kmers   }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{()}
+\NormalTok{km1mers }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{generate\_kmers }\OtherTok{\textless{}{-}}
+\ControlFlowTok{for}\NormalTok{ (i }\ControlFlowTok{in} \DecValTok{1}\SpecialCharTok{:}\NormalTok{(}\FunctionTok{nchar}\NormalTok{(seq)}\SpecialCharTok{{-}}\NormalTok{k}\SpecialCharTok{+}\DecValTok{1}\NormalTok{))\{}
+\NormalTok{  kmers }\OtherTok{=} \FunctionTok{c}\NormalTok{(kmers, }\FunctionTok{substr}\NormalTok{(seq, i, i}\SpecialCharTok{+}\NormalTok{k}\DecValTok{{-}1}\NormalTok{))}
+\NormalTok{\}}
+
+\ControlFlowTok{for}\NormalTok{ (i }\ControlFlowTok{in} \DecValTok{1}\SpecialCharTok{:}\NormalTok{(}\FunctionTok{nchar}\NormalTok{(seq)}\SpecialCharTok{{-}}\NormalTok{k}\SpecialCharTok{+}\DecValTok{2}\NormalTok{))\{}
+\NormalTok{  km1mers }\OtherTok{=} \FunctionTok{c}\NormalTok{(km1mers, }\FunctionTok{substr}\NormalTok{(seq, i, i}\SpecialCharTok{+}\NormalTok{k}\DecValTok{{-}2}\NormalTok{))}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{kmers}
+\CommentTok{\#\textgreater{}  [1] "GATT" "ATTA" "TTAC" "TACA" "ACAG" "CAGA" "AGAT" "GATT"}
+\CommentTok{\#\textgreater{}  [9] "ATTA" "TTAC" "TACA" "ACAG" "CAGA" "AGAA" "GAAA" "AAAG"}
+\CommentTok{\#\textgreater{} [17] "AAGA" "AGAT" "GATA" "ATAC" "TACA"}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{km1mers}
+\CommentTok{\#\textgreater{}  [1] "GAT" "ATT" "TTA" "TAC" "ACA" "CAG" "AGA" "GAT" "ATT"}
+\CommentTok{\#\textgreater{} [10] "TTA" "TAC" "ACA" "CAG" "AGA" "GAA" "AAA" "AAG" "AGA"}
+\CommentTok{\#\textgreater{} [19] "GAT" "ATA" "TAC" "ACA"}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{unique}\NormalTok{(km1mers)}
+\CommentTok{\#\textgreater{}  [1] "GAT" "ATT" "TTA" "TAC" "ACA" "CAG" "AGA" "GAA" "AAA"}
+\CommentTok{\#\textgreater{} [10] "AAG" "ATA"}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{adjacency\_matrix }\OtherTok{=} \FunctionTok{matrix}\NormalTok{(}\DecValTok{0}\NormalTok{, }\FunctionTok{length}\NormalTok{(}\FunctionTok{unique}\NormalTok{(km1mers)), }\FunctionTok{length}\NormalTok{(}\FunctionTok{unique}\NormalTok{(km1mers)))}
+\FunctionTok{rownames}\NormalTok{(adjacency\_matrix) }\OtherTok{=} \FunctionTok{sort}\NormalTok{(}\FunctionTok{unique}\NormalTok{(km1mers))}
+\FunctionTok{colnames}\NormalTok{(adjacency\_matrix) }\OtherTok{=} \FunctionTok{sort}\NormalTok{(}\FunctionTok{unique}\NormalTok{(km1mers))}
+
+\NormalTok{adjacency\_matrix}
+\CommentTok{\#\textgreater{}     AAA AAG ACA AGA ATA ATT CAG GAA GAT TAC TTA}
+\CommentTok{\#\textgreater{} AAA   0   0   0   0   0   0   0   0   0   0   0}
+\CommentTok{\#\textgreater{} AAG   0   0   0   0   0   0   0   0   0   0   0}
+\CommentTok{\#\textgreater{} ACA   0   0   0   0   0   0   0   0   0   0   0}
+\CommentTok{\#\textgreater{} AGA   0   0   0   0   0   0   0   0   0   0   0}
+\CommentTok{\#\textgreater{} ATA   0   0   0   0   0   0   0   0   0   0   0}
+\CommentTok{\#\textgreater{} ATT   0   0   0   0   0   0   0   0   0   0   0}
+\CommentTok{\#\textgreater{} CAG   0   0   0   0   0   0   0   0   0   0   0}
+\CommentTok{\#\textgreater{} GAA   0   0   0   0   0   0   0   0   0   0   0}
+\CommentTok{\#\textgreater{} GAT   0   0   0   0   0   0   0   0   0   0   0}
+\CommentTok{\#\textgreater{} TAC   0   0   0   0   0   0   0   0   0   0   0}
+\CommentTok{\#\textgreater{} TTA   0   0   0   0   0   0   0   0   0   0   0}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ControlFlowTok{for}\NormalTok{ (i }\ControlFlowTok{in} \DecValTok{1}\SpecialCharTok{:}\NormalTok{(}\FunctionTok{length}\NormalTok{(km1mers)}\SpecialCharTok{{-}}\DecValTok{1}\NormalTok{))\{}
+\NormalTok{  adjacency\_matrix[km1mers[i], km1mers[i}\SpecialCharTok{+}\DecValTok{1}\NormalTok{]] }\OtherTok{=}\NormalTok{ adjacency\_matrix[km1mers[i], km1mers[i}\SpecialCharTok{+}\DecValTok{1}\NormalTok{]] }\SpecialCharTok{+} \DecValTok{1}
+\NormalTok{\}}
+
+\NormalTok{adjacency\_matrix}
+\CommentTok{\#\textgreater{}     AAA AAG ACA AGA ATA ATT CAG GAA GAT TAC TTA}
+\CommentTok{\#\textgreater{} AAA   0   1   0   0   0   0   0   0   0   0   0}
+\CommentTok{\#\textgreater{} AAG   0   0   0   1   0   0   0   0   0   0   0}
+\CommentTok{\#\textgreater{} ACA   0   0   0   0   0   0   2   0   0   0   0}
+\CommentTok{\#\textgreater{} AGA   0   0   0   0   0   0   0   1   2   0   0}
+\CommentTok{\#\textgreater{} ATA   0   0   0   0   0   0   0   0   0   1   0}
+\CommentTok{\#\textgreater{} ATT   0   0   0   0   0   0   0   0   0   0   2}
+\CommentTok{\#\textgreater{} CAG   0   0   0   2   0   0   0   0   0   0   0}
+\CommentTok{\#\textgreater{} GAA   1   0   0   0   0   0   0   0   0   0   0}
+\CommentTok{\#\textgreater{} GAT   0   0   0   0   1   2   0   0   0   0   0}
+\CommentTok{\#\textgreater{} TAC   0   0   3   0   0   0   0   0   0   0   0}
+\CommentTok{\#\textgreater{} TTA   0   0   0   0   0   0   0   0   0   2   0}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{debruijn }\OtherTok{\textless{}{-}}\NormalTok{ igraph}\SpecialCharTok{::}\FunctionTok{graph\_from\_adjacency\_matrix}\NormalTok{(adjacency\_matrix, }\AttributeTok{mode =} \StringTok{\textquotesingle{}directed\textquotesingle{}}\NormalTok{)}
+\NormalTok{igraph}\SpecialCharTok{::}\FunctionTok{plot.igraph}\NormalTok{(debruijn, }\AttributeTok{vertex.label.cex=}\DecValTok{1}\NormalTok{, }\AttributeTok{arrow.size =}\NormalTok{ .}\DecValTok{05}\NormalTok{,}
+     \AttributeTok{vertex.size =}\NormalTok{ .}\DecValTok{1}\NormalTok{, }\AttributeTok{vertex.color =} \StringTok{\textquotesingle{}white\textquotesingle{}}\NormalTok{,}
+     \AttributeTok{curved =} \ConstantTok{TRUE}\NormalTok{, }\AttributeTok{label.cex =}\NormalTok{ .}\DecValTok{5}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{07-Bruijn_files/figure-latex/unnamed-chunk-8-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(GGally)}
+\CommentTok{\#\textgreater{} Ładowanie wymaganego pakietu: ggplot2}
+\CommentTok{\#\textgreater{} Registered S3 method overwritten by \textquotesingle{}GGally\textquotesingle{}:}
+\CommentTok{\#\textgreater{}   method from   }
+\CommentTok{\#\textgreater{}   +.gg   ggplot2}
+\FunctionTok{library}\NormalTok{(ggnet)}
+\CommentTok{\#\textgreater{} }
+\CommentTok{\#\textgreater{} Dołączanie pakietu: \textquotesingle{}ggnet\textquotesingle{}}
+\CommentTok{\#\textgreater{} Następujące obiekty zostały zakryte z \textquotesingle{}package:GGally\textquotesingle{}:}
+\CommentTok{\#\textgreater{} }
+\CommentTok{\#\textgreater{}     ggnet, ggnet2}
+\FunctionTok{library}\NormalTok{(network)}
+\CommentTok{\#\textgreater{} }
+\CommentTok{\#\textgreater{} \textquotesingle{}network\textquotesingle{} 1.17.1 (2021{-}06{-}12), part of the Statnet Project}
+\CommentTok{\#\textgreater{} * \textquotesingle{}news(package="network")\textquotesingle{} for changes since last version}
+\CommentTok{\#\textgreater{} * \textquotesingle{}citation("network")\textquotesingle{} for citation information}
+\CommentTok{\#\textgreater{} * \textquotesingle{}https://statnet.org\textquotesingle{} for help, support, and other information}
+\FunctionTok{library}\NormalTok{(sna)}
+\CommentTok{\#\textgreater{} Ładowanie wymaganego pakietu: statnet.common}
+\CommentTok{\#\textgreater{} }
+\CommentTok{\#\textgreater{} Dołączanie pakietu: \textquotesingle{}statnet.common\textquotesingle{}}
+\CommentTok{\#\textgreater{} Następujące obiekty zostały zakryte z \textquotesingle{}package:base\textquotesingle{}:}
+\CommentTok{\#\textgreater{} }
+\CommentTok{\#\textgreater{}     attr, order}
+\CommentTok{\#\textgreater{} sna: Tools for Social Network Analysis}
+\CommentTok{\#\textgreater{} Version 2.6 created on 2020{-}10{-}5.}
+\CommentTok{\#\textgreater{} copyright (c) 2005, Carter T. Butts, University of California{-}Irvine}
+\CommentTok{\#\textgreater{}  For citation information, type citation("sna").}
+\CommentTok{\#\textgreater{}  Type help(package="sna") to get started.}
+\FunctionTok{library}\NormalTok{(ggplot2)}
+
+\CommentTok{\#net = rgraph(10, mode = "graph", tprob = 0.5)}
+\NormalTok{net }\OtherTok{=} \FunctionTok{network}\NormalTok{(adjacency\_matrix, }\AttributeTok{directed =} \ConstantTok{TRUE}\NormalTok{)}
+
+\CommentTok{\# vertex names}
+\FunctionTok{ggnet2}\NormalTok{(net, }\AttributeTok{color =} \StringTok{\textquotesingle{}\#E1AF00\textquotesingle{}}\NormalTok{, }\AttributeTok{label =} \FunctionTok{colnames}\NormalTok{(adjacency\_matrix), }\AttributeTok{size =} \DecValTok{15}\NormalTok{, }\AttributeTok{arrow.size =} \DecValTok{12}\NormalTok{, }\AttributeTok{arrow.gap =} \FloatTok{0.05}\NormalTok{)}
+\CommentTok{\#\textgreater{} Ładowanie wymaganego pakietu: scales}
+\CommentTok{\#\textgreater{} Warning: \textasciigrave{}guides(\textless{}scale\textgreater{} = FALSE)\textasciigrave{} is deprecated. Please use}
+\CommentTok{\#\textgreater{} \textasciigrave{}guides(\textless{}scale\textgreater{} = "none")\textasciigrave{} instead.}
+
+\CommentTok{\#\textgreater{} Warning: \textasciigrave{}guides(\textless{}scale\textgreater{} = FALSE)\textasciigrave{} is deprecated. Please use}
+\CommentTok{\#\textgreater{} \textasciigrave{}guides(\textless{}scale\textgreater{} = "none")\textasciigrave{} instead.}
+
+\CommentTok{\#\textgreater{} Warning: \textasciigrave{}guides(\textless{}scale\textgreater{} = FALSE)\textasciigrave{} is deprecated. Please use}
+\CommentTok{\#\textgreater{} \textasciigrave{}guides(\textless{}scale\textgreater{} = "none")\textasciigrave{} instead.}
+
+\CommentTok{\#\textgreater{} Warning: \textasciigrave{}guides(\textless{}scale\textgreater{} = FALSE)\textasciigrave{} is deprecated. Please use}
+\CommentTok{\#\textgreater{} \textasciigrave{}guides(\textless{}scale\textgreater{} = "none")\textasciigrave{} instead.}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{07-Bruijn_files/figure-latex/unnamed-chunk-9-1.pdf}
 
 \hypertarget{bwt}{%
 \chapter{Burrows-Wheeler transform}\label{bwt}}
