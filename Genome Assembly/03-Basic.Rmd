@@ -218,3 +218,5 @@ all_kmers <- function(k){
 ```{r}
 all_kmers(3)
 ```
+
+

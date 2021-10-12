@@ -26,6 +26,7 @@ kmers
 ```{r}
 km1mers
 ```
+
 ```{r}
 unique(km1mers)
 ```
@@ -48,10 +49,12 @@ adjacency_matrix
 
 ```{r}
 debruijn <- igraph::graph_from_adjacency_matrix(adjacency_matrix, mode = 'directed')
-igraph::plot.igraph(debruijn, vertex.label.cex=1, arrow.size = .05,
-     vertex.size = .1, vertex.color = 'white',
-     curved = TRUE, label.cex = .5)
+igraph::plot.igraph(debruijn, vertex.label.cex=.5, 
+     vertex.size = 20, vertex.color = 'white',
+     curved = TRUE, label.cex = .1)
 ```
+
+
 ```{r}
 library(GGally)
 library(ggnet)
