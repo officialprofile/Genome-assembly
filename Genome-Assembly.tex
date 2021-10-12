@@ -117,7 +117,7 @@
 
 \title{Genome Assembly}
 \author{officialprofile}
-\date{2021-10-11}
+\date{2021-10-12}
 
 \begin{document}
 \maketitle
@@ -194,7 +194,7 @@ Let's start with writing a function that, for a given integer n \textgreater{} 0
 \NormalTok{\}}
 
 \FunctionTok{random\_sequence}\NormalTok{(}\DecValTok{10}\NormalTok{)}
-\CommentTok{\#\textgreater{}  [1] "G" "T" "T" "T" "G" "T" "G" "A" "C" "C"}
+\CommentTok{\#\textgreater{}  [1] "G" "T" "T" "C" "T" "G" "T" "T" "G" "C"}
 \end{Highlighting}
 \end{Shaded}
 
@@ -203,7 +203,7 @@ If we want our returned sequence to be in a form of a single string we can use \
 \begin{Shaded}
 \begin{Highlighting}[]
 \FunctionTok{paste}\NormalTok{(}\FunctionTok{random\_sequence}\NormalTok{(}\DecValTok{10}\NormalTok{), }\AttributeTok{collapse =} \StringTok{\textquotesingle{}\textquotesingle{}}\NormalTok{)}
-\CommentTok{\#\textgreater{} [1] "ATCCGATTAA"}
+\CommentTok{\#\textgreater{} [1] "GGTTCGTAAA"}
 \end{Highlighting}
 \end{Shaded}
 
@@ -243,10 +243,10 @@ Please note that we append complementary nucleobase in a seemingly non-optimal w
 \begin{Highlighting}[]
 \NormalTok{seq }\OtherTok{\textless{}{-}} \FunctionTok{random\_sequence}\NormalTok{(}\DecValTok{20}\NormalTok{)}
 \FunctionTok{cat}\NormalTok{(}\StringTok{\textquotesingle{} DNA =\textquotesingle{}}\NormalTok{, seq, }\StringTok{\textquotesingle{}}\SpecialCharTok{\textbackslash{}n}\StringTok{\textquotesingle{}}\NormalTok{)}
-\CommentTok{\#\textgreater{}  DNA = G A A G G G C C T C T C G A T C C C C A}
+\CommentTok{\#\textgreater{}  DNA = C C C A A C G T A A T T A G T A C T T T}
 \NormalTok{cseq }\OtherTok{\textless{}{-}} \FunctionTok{complementary\_sequence}\NormalTok{(seq)}
 \FunctionTok{cat}\NormalTok{(}\StringTok{\textquotesingle{}cDNA =\textquotesingle{}}\NormalTok{, cseq)}
-\CommentTok{\#\textgreater{} cDNA = C T T C C C G G A G A G C T A G G G G T}
+\CommentTok{\#\textgreater{} cDNA = G G G T T G C A T T A A T C A T G A A A}
 \end{Highlighting}
 \end{Shaded}
 
@@ -283,10 +283,10 @@ Obtaining reverse complementary is very similar to the previous excercise. The o
 \begin{Highlighting}[]
 \NormalTok{seq }\OtherTok{\textless{}{-}} \FunctionTok{random\_sequence}\NormalTok{(}\DecValTok{20}\NormalTok{)}
 \FunctionTok{cat}\NormalTok{(}\StringTok{\textquotesingle{} DNA =\textquotesingle{}}\NormalTok{, seq, }\StringTok{\textquotesingle{}}\SpecialCharTok{\textbackslash{}n}\StringTok{\textquotesingle{}}\NormalTok{)}
-\CommentTok{\#\textgreater{}  DNA = C C G G A G A C T G A A T T G G C T C T}
+\CommentTok{\#\textgreater{}  DNA = G A T T T T T G A A C A T G C T A C A G}
 \NormalTok{rcseq }\OtherTok{\textless{}{-}} \FunctionTok{reverse\_complementary}\NormalTok{(seq)}
 \FunctionTok{cat}\NormalTok{(}\StringTok{\textquotesingle{}cDNA =\textquotesingle{}}\NormalTok{, rcseq)}
-\CommentTok{\#\textgreater{} cDNA = A G A G C C A A T T C A G T C T C C G G}
+\CommentTok{\#\textgreater{} cDNA = C T G T A G C A T G T T C A A A A A T C}
 \end{Highlighting}
 \end{Shaded}
 
@@ -308,7 +308,7 @@ Obtaining reverse complementary is very similar to the previous excercise. The o
 \FunctionTok{frequency}\NormalTok{(seq, }\AttributeTok{percents =} \ConstantTok{TRUE}\NormalTok{)}
 \CommentTok{\#\textgreater{} sequence}
 \CommentTok{\#\textgreater{}    A    C    G    T }
-\CommentTok{\#\textgreater{} 0.20 0.25 0.30 0.25}
+\CommentTok{\#\textgreater{} 0.30 0.15 0.20 0.35}
 \end{Highlighting}
 \end{Shaded}
 
@@ -337,6 +337,7 @@ Obtaining reverse complementary is very similar to the previous excercise. The o
 \begin{Highlighting}[]
 \FunctionTok{longest\_common\_prefix}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\StringTok{\textquotesingle{}A\textquotesingle{}}\NormalTok{,}\StringTok{\textquotesingle{}C\textquotesingle{}}\NormalTok{,}\StringTok{\textquotesingle{}T\textquotesingle{}}\NormalTok{,}\StringTok{\textquotesingle{}G\textquotesingle{}}\NormalTok{), }\FunctionTok{c}\NormalTok{(}\StringTok{\textquotesingle{}A\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}C\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}T\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}T\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}T\textquotesingle{}}\NormalTok{))}
 \CommentTok{\#\textgreater{} [1] "A" "C" "T"}
+
 \FunctionTok{longest\_common\_prefix}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\StringTok{\textquotesingle{}C\textquotesingle{}}\NormalTok{,}\StringTok{\textquotesingle{}C\textquotesingle{}}\NormalTok{,}\StringTok{\textquotesingle{}T\textquotesingle{}}\NormalTok{,}\StringTok{\textquotesingle{}G\textquotesingle{}}\NormalTok{), }\FunctionTok{c}\NormalTok{(}\StringTok{\textquotesingle{}A\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}C\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}T\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}T\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}T\textquotesingle{}}\NormalTok{))}
 \CommentTok{\#\textgreater{} [1] "No common prefix"}
 \end{Highlighting}
@@ -352,6 +353,7 @@ Unfortunately, R does not differentiates between \texttt{c(\textquotesingle{}a\t
 \CommentTok{\#\textgreater{} [1] "character"}
 \FunctionTok{typeof}\NormalTok{(}\StringTok{\textquotesingle{}ACGT\textquotesingle{}}\NormalTok{)}
 \CommentTok{\#\textgreater{} [1] "character"}
+
 \FunctionTok{length}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\StringTok{\textquotesingle{}A\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}C\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}G\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}T\textquotesingle{}}\NormalTok{))}
 \CommentTok{\#\textgreater{} [1] 4}
 \FunctionTok{length}\NormalTok{(}\StringTok{\textquotesingle{}ACGT\textquotesingle{}}\NormalTok{)}
@@ -387,6 +389,7 @@ On this account we will simply add new boolean argument \texttt{glued} to our fu
 \begin{Highlighting}[]
 \FunctionTok{longest\_common\_prefix}\NormalTok{(}\StringTok{\textquotesingle{}ACTG\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}ACCC\textquotesingle{}}\NormalTok{, }\AttributeTok{glued =} \ConstantTok{TRUE}\NormalTok{)}
 \CommentTok{\#\textgreater{} [1] "A" "C"}
+
 \FunctionTok{longest\_common\_prefix}\NormalTok{(}\StringTok{\textquotesingle{}TCTG\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}ACCC\textquotesingle{}}\NormalTok{, }\AttributeTok{glued =} \ConstantTok{TRUE}\NormalTok{)}
 \CommentTok{\#\textgreater{} [1] ""}
 \end{Highlighting}
@@ -493,6 +496,7 @@ Fasta file consist of two parts - header, that describes the sequence, and seque
 \CommentTok{\#\textgreater{} [2] "TGACTAAGACTGCGACAGTTCGAGTTTGAAGCGAAAGCTAGCAACAGTATCAACAGGTTTTATTTTGGAT"                                  }
 \CommentTok{\#\textgreater{} [3] "TTGGAAACGAGAGTTTCTGGTCATGAAAAACCCAAAAAAGAAATCCGGAGGATTCCGGATTGTCAATATG"                                  }
 \CommentTok{\#\textgreater{} [4] "CTAAAACGCGGAGTAGCCCGTGTGAGCCCCTTTGGGGGCTTGAAGAGGCTGCCAGCCGGACTTCTGCTGG"}
+
 \FunctionTok{length}\NormalTok{(zika)}
 \CommentTok{\#\textgreater{} [1] 151}
 \end{Highlighting}
@@ -515,6 +519,7 @@ The second part, which is \texttt{do.call(paste0,\ as.list(zika{[}2:length(zika)
 \begin{Highlighting}[]
 \FunctionTok{paste0}\NormalTok{(}\StringTok{\textquotesingle{}A\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}B\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}C\textquotesingle{}}\NormalTok{)}
 \CommentTok{\#\textgreater{} [1] "ABC"}
+
 \FunctionTok{paste0}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\StringTok{\textquotesingle{}A\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}B\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}C\textquotesingle{}}\NormalTok{))}
 \CommentTok{\#\textgreater{} [1] "A" "B" "C"}
 \end{Highlighting}
@@ -535,6 +540,7 @@ Fortunately, there is a smoother to solve this exercise - \texttt{str\_c()} func
 \begin{Highlighting}[]
 \NormalTok{zika}\SpecialCharTok{$}\NormalTok{header}
 \CommentTok{\#\textgreater{} [1] "MK028861.1 Zika virus isolate Zika virus/H.sapiens{-}tc/Panama/2015/259359 polyprotein gene, complete cds"}
+
 \FunctionTok{substr}\NormalTok{(zika}\SpecialCharTok{$}\NormalTok{sequence, }\DecValTok{1}\NormalTok{, }\DecValTok{100}\NormalTok{)}
 \CommentTok{\#\textgreater{} [1] "TGACTAAGACTGCGACAGTTCGAGTTTGAAGCGAAAGCTAGCAACAGTATCAACAGGTTTTATTTTGGATTTGGAAACGAGAGTTTCTGGTCATGAAAAA"}
 \end{Highlighting}
@@ -602,7 +608,7 @@ Fortunately, there is a smoother to solve this exercise - \texttt{str\_c()} func
 \hypertarget{graph}{%
 \chapter{Graph theory}\label{graph}}
 
-Graph can be simply regarded as a set of vertices and edges connecting them. One can define this structure in a various ways, but for us graph will virtually always be represented by a square matrix called adjacency matrix. Each row/column of the matrix represents a given vertice and its connections to remaining ones. Consider for example a following adjacency matrix:
+Graph can be regarded simply as a set of vertices and edges connecting them. Although this mathematical structure can be defined in a various ways, for us graph will virtually always be a square matrix called adjacency matrix. Each row and column of the matrix represents a given vertex and its connections to remaining ones. Consider for example a following adjacency matrix:
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -610,30 +616,33 @@ Graph can be simply regarded as a set of vertices and edges connecting them. One
 \NormalTok{adjacency\_matrix[}\DecValTok{1}\NormalTok{, }\DecValTok{2}\NormalTok{] }\OtherTok{\textless{}{-}} \DecValTok{1}
 \NormalTok{adjacency\_matrix[}\DecValTok{1}\NormalTok{, }\DecValTok{3}\NormalTok{] }\OtherTok{\textless{}{-}} \DecValTok{1}
 \NormalTok{adjacency\_matrix[}\DecValTok{3}\NormalTok{, }\DecValTok{2}\NormalTok{] }\OtherTok{\textless{}{-}} \DecValTok{1}
+\NormalTok{adjacency\_matrix[}\DecValTok{3}\NormalTok{, }\DecValTok{3}\NormalTok{] }\OtherTok{\textless{}{-}} \DecValTok{1}
 
 \NormalTok{adjacency\_matrix}
 \CommentTok{\#\textgreater{}      [,1] [,2] [,3]}
 \CommentTok{\#\textgreater{} [1,]    0    1    1}
 \CommentTok{\#\textgreater{} [2,]    0    0    0}
-\CommentTok{\#\textgreater{} [3,]    0    1    0}
+\CommentTok{\#\textgreater{} [3,]    0    1    1}
 \end{Highlighting}
 \end{Shaded}
 
-Now we are going to convert the matrix to a form of complex list. This step is not required in general. We will do this only for the sake of visualization.
+From the matrix above we can deduce that, for example, vertex 1 is adjacent to vertex 2 and 3, or that vertex 3 is connected to itself. Please note that this matrix is not symmetric. This implies that we can go from one vertex to another, albeit walk in the opposite direction may not be possible.
+
+Now we are going to convert our adjacency matrix. This step is not required in general, we do this only for the sake of visualization.
 
 \begin{Shaded}
 \begin{Highlighting}[]
 \NormalTok{graph }\OtherTok{\textless{}{-}}\NormalTok{ igraph}\SpecialCharTok{::}\FunctionTok{graph.adjacency}\NormalTok{(adjacency\_matrix, }\AttributeTok{mode =} \StringTok{\textquotesingle{}directed\textquotesingle{}}\NormalTok{, }\AttributeTok{weighted =} \ConstantTok{TRUE}\NormalTok{)}
 
-\FunctionTok{plot}\NormalTok{(graph)}
+\NormalTok{igraph}\SpecialCharTok{::}\FunctionTok{plot.igraph}\NormalTok{(graph, }\AttributeTok{vertex.size =} \DecValTok{30}\NormalTok{, }\AttributeTok{vertex.color =} \StringTok{\textquotesingle{}lightblue\textquotesingle{}}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
 \includegraphics{05-Graph_files/figure-latex/unnamed-chunk-2-1.pdf}
 
-Notice the relationship between direction of the vertices and their position in the adjacency matrix. Row represents vertice from which edge begins and the column where it ends. This is only the case when we deal with directed graphs, for the undirected ones we have symmetrix matrix or deal only with its lower or upper part.
+Notice the relationship between direction of the vertices and their position in the adjacency matrix. Row represents vertex from which the edge begins, while the column is the place of its ending. This is the case only for the directed graphs, for the undirected ones we have symmetric matrix or we deal either with its lower or upper part.
 
-For us the most fundamental part of graph theory is related to path finding. Let's consider the following, randomly generated graph (each edge is of length 1):
+For our needs the most fundamental part of graph theory concerns path finding. Let's consider the following, randomly generated graph (each edge is of length 1):
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -644,7 +653,7 @@ For us the most fundamental part of graph theory is related to path finding. Let
 \NormalTok{graph }\OtherTok{\textless{}{-}}\NormalTok{ igraph}\SpecialCharTok{::}\FunctionTok{graph.adjacency}\NormalTok{(adjacency\_matrix, }\AttributeTok{mode =} \StringTok{\textquotesingle{}undirected\textquotesingle{}}\NormalTok{, }
                                  \AttributeTok{diag =} \ConstantTok{FALSE}\NormalTok{)}
 
-\FunctionTok{plot}\NormalTok{(graph)}
+\NormalTok{igraph}\SpecialCharTok{::}\FunctionTok{plot.igraph}\NormalTok{(graph, }\AttributeTok{vertex.size =} \DecValTok{30}\NormalTok{, }\AttributeTok{vertex.color =} \StringTok{\textquotesingle{}lightblue\textquotesingle{}}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -656,15 +665,15 @@ Having such graph we want to be able to answer few questions.
 \def\labelenumi{\arabic{enumi}.}
 \tightlist
 \item
-  Is there a path connecting vertice A with B?
+  Is there a path connecting vertex A with B?
 \item
   How many paths with such connection exist?
 \item
   Which one has the shortest distance?
 \item
-  Is there a path from A to B within which one can visit every vertice?
+  Is there a path from A to B within which one can visit every vertex?
 \item
-  Is there a path from A to B within which one can visit every vertice exactly once?
+  Is there a path from A to B within which one can visit every vertex exactly once?
 \end{enumerate}
 
 \hypertarget{bruijn}{%
@@ -681,6 +690,7 @@ Having such graph we want to be able to answer few questions.
 
 \begin{Shaded}
 \begin{Highlighting}[]
+
 \NormalTok{generate\_kmers }\OtherTok{\textless{}{-}}
 \ControlFlowTok{for}\NormalTok{ (i }\ControlFlowTok{in} \DecValTok{1}\SpecialCharTok{:}\NormalTok{(}\FunctionTok{nchar}\NormalTok{(seq)}\SpecialCharTok{{-}}\NormalTok{k}\SpecialCharTok{+}\DecValTok{1}\NormalTok{))\{}
 \NormalTok{  kmers }\OtherTok{=} \FunctionTok{c}\NormalTok{(kmers, }\FunctionTok{substr}\NormalTok{(seq, i, i}\SpecialCharTok{+}\NormalTok{k}\DecValTok{{-}1}\NormalTok{))}
@@ -765,9 +775,9 @@ Having such graph we want to be able to answer few questions.
 \begin{Shaded}
 \begin{Highlighting}[]
 \NormalTok{debruijn }\OtherTok{\textless{}{-}}\NormalTok{ igraph}\SpecialCharTok{::}\FunctionTok{graph\_from\_adjacency\_matrix}\NormalTok{(adjacency\_matrix, }\AttributeTok{mode =} \StringTok{\textquotesingle{}directed\textquotesingle{}}\NormalTok{)}
-\NormalTok{igraph}\SpecialCharTok{::}\FunctionTok{plot.igraph}\NormalTok{(debruijn, }\AttributeTok{vertex.label.cex=}\DecValTok{1}\NormalTok{, }\AttributeTok{arrow.size =}\NormalTok{ .}\DecValTok{05}\NormalTok{,}
-     \AttributeTok{vertex.size =}\NormalTok{ .}\DecValTok{1}\NormalTok{, }\AttributeTok{vertex.color =} \StringTok{\textquotesingle{}white\textquotesingle{}}\NormalTok{,}
-     \AttributeTok{curved =} \ConstantTok{TRUE}\NormalTok{, }\AttributeTok{label.cex =}\NormalTok{ .}\DecValTok{5}\NormalTok{)}
+\NormalTok{igraph}\SpecialCharTok{::}\FunctionTok{plot.igraph}\NormalTok{(debruijn, }\AttributeTok{vertex.label.cex=}\NormalTok{.}\DecValTok{5}\NormalTok{, }
+     \AttributeTok{vertex.size =} \DecValTok{20}\NormalTok{, }\AttributeTok{vertex.color =} \StringTok{\textquotesingle{}white\textquotesingle{}}\NormalTok{,}
+     \AttributeTok{curved =} \ConstantTok{TRUE}\NormalTok{, }\AttributeTok{label.cex =}\NormalTok{ .}\DecValTok{1}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 

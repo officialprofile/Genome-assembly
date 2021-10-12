@@ -17,7 +17,7 @@
 <meta name="twitter:description" content="Before we dive into the main topics let’s warm up with few basic exercises. Some of these problems may be regarded as a form of general familiarization with string manipulations. Having them in...">
 <!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/header-attrs-2.11/header-attrs.js"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
-<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.3.0/transition.js"></script><script src="libs/bs3compat-0.3.0/tabs.js"></script><script src="libs/bs3compat-0.3.0/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
+<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.3.1/transition.js"></script><script src="libs/bs3compat-0.3.1/tabs.js"></script><script src="libs/bs3compat-0.3.1/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
 <script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- CSS --><link rel="stylesheet" href="bs4_style.css">
 </head>
 <body data-spy="scroll" data-target="#toc">
@@ -71,11 +71,11 @@
 <span class="op">}</span>
 
 <span class="fu">random_sequence</span><span class="op">(</span><span class="fl">10</span><span class="op">)</span>
-<span class="co">#&gt;  [1] "G" "C" "G" "A" "T" "G" "T" "A" "T" "G"</span></code></pre></div>
+<span class="co">#&gt;  [1] "G" "T" "G" "T" "A" "G" "T" "C" "A" "A"</span></code></pre></div>
 <p>If we want our returned sequence to be in a form of a single string we can use <code><a href="https://rdrr.io/r/base/paste.html">paste()</a></code> function with collapse parameter equal to <code>''</code>.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste</a></span><span class="op">(</span><span class="fu">random_sequence</span><span class="op">(</span><span class="fl">10</span><span class="op">)</span>, collapse <span class="op">=</span> <span class="st">''</span><span class="op">)</span>
-<span class="co">#&gt; [1] "GTGCACTACG"</span></code></pre></div>
+<span class="co">#&gt; [1] "TATGGGAACG"</span></code></pre></div>
 <p>Unfortunately, there is no convenient way to retrieve a substring. If a <code>DNA</code> variable is equal to <code>'ACGTG'</code> then we won’t get a substring <code>'CG'</code> simply by writing <code>DNA[2:3]</code> (one could to this in python). One could do this by employing the <code><a href="https://rdrr.io/r/base/substr.html">substr()</a></code> function, i.e. <code><a href="https://rdrr.io/r/base/substr.html">substr(DNA, 2, 3)</a></code>. On the other hand, if DNA is a vector <code><a href="https://rdrr.io/r/base/c.html">c('A', 'C', 'G', 'T', 'G')</a></code> then <code>DNA[2:3]</code> will return <code><a href="https://rdrr.io/r/base/c.html">c('C', 'G')</a></code> that in turn can be merged into <code>'CG'</code> by <code><a href="https://rdrr.io/r/base/paste.html">paste()</a></code>. Either way, one must use a certain function in order to glue the letters or to split the sequence.</p>
 </div>
 <div id="find-cdna" class="section level2" number="3.2">
@@ -101,10 +101,10 @@
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">seq</span> <span class="op">&lt;-</span> <span class="fu">random_sequence</span><span class="op">(</span><span class="fl">20</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span><span class="op">(</span><span class="st">' DNA ='</span>, <span class="va">seq</span>, <span class="st">'\n'</span><span class="op">)</span>
-<span class="co">#&gt;  DNA = A A A G G G C T C C T C A C A G C G G T</span>
+<span class="co">#&gt;  DNA = A G T G T C C G C A G G A A T C C A G A</span>
 <span class="va">cseq</span> <span class="op">&lt;-</span> <span class="fu">complementary_sequence</span><span class="op">(</span><span class="va">seq</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span><span class="op">(</span><span class="st">'cDNA ='</span>, <span class="va">cseq</span><span class="op">)</span>
-<span class="co">#&gt; cDNA = T T T C C C G A G G A G T G T C G C C A</span></code></pre></div>
+<span class="co">#&gt; cDNA = T C A C A G G C G T C C T T A G G T C T</span></code></pre></div>
 <p>There is also a neater way to compute, and in a way avoid, these kind of loops. One can achieve this though functions like <code><a href="https://rdrr.io/r/base/apply.html">apply()</a></code>, <code><a href="https://rdrr.io/r/base/lapply.html">sapply()</a></code> or <code><a href="https://rdrr.io/r/base/lapply.html">lapply()</a></code>.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">complementary_sequence</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">sequence</span><span class="op">)</span><span class="op">{</span>
@@ -128,10 +128,10 @@
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">seq</span> <span class="op">&lt;-</span> <span class="fu">random_sequence</span><span class="op">(</span><span class="fl">20</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span><span class="op">(</span><span class="st">' DNA ='</span>, <span class="va">seq</span>, <span class="st">'\n'</span><span class="op">)</span>
-<span class="co">#&gt;  DNA = G A G T C A A G T T T T C T T G G T C G</span>
+<span class="co">#&gt;  DNA = A T T A G C C C T G C C C A A G C T T C</span>
 <span class="va">rcseq</span> <span class="op">&lt;-</span> <span class="fu">reverse_complementary</span><span class="op">(</span><span class="va">seq</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span><span class="op">(</span><span class="st">'cDNA ='</span>, <span class="va">rcseq</span><span class="op">)</span>
-<span class="co">#&gt; cDNA = C G A C C A A G A A A A C T T G A C T C</span></code></pre></div>
+<span class="co">#&gt; cDNA = G A A G C T T G G G C A G G G C T A A T</span></code></pre></div>
 </div>
 <div id="frequency-of-the-nucleobases" class="section level2" number="3.4">
 <h2>
@@ -147,7 +147,7 @@
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/stats/time.html">frequency</a></span><span class="op">(</span><span class="va">seq</span>, percents <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
 <span class="co">#&gt; sequence</span>
 <span class="co">#&gt;    A    C    G    T </span>
-<span class="co">#&gt; 0.15 0.15 0.30 0.40</span></code></pre></div>
+<span class="co">#&gt; 0.20 0.40 0.15 0.25</span></code></pre></div>
 </div>
 <div id="longest-common-prefix" class="section level2" number="3.5">
 <h2>
@@ -170,6 +170,7 @@
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">longest_common_prefix</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">'A'</span>,<span class="st">'C'</span>,<span class="st">'T'</span>,<span class="st">'G'</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">'A'</span>, <span class="st">'C'</span>, <span class="st">'T'</span>, <span class="st">'T'</span>, <span class="st">'T'</span><span class="op">)</span><span class="op">)</span>
 <span class="co">#&gt; [1] "A" "C" "T"</span>
+
 <span class="fu">longest_common_prefix</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">'C'</span>,<span class="st">'C'</span>,<span class="st">'T'</span>,<span class="st">'G'</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">'A'</span>, <span class="st">'C'</span>, <span class="st">'T'</span>, <span class="st">'T'</span>, <span class="st">'T'</span><span class="op">)</span><span class="op">)</span>
 <span class="co">#&gt; [1] "No common prefix"</span></code></pre></div>
 <p>Imputing strings that are in fact consisted of vectors of characters may not be particularly convenient. We will therefore add a functionally that detects type of inputs and converts them if it is needed.</p>
@@ -179,6 +180,7 @@
 <span class="co">#&gt; [1] "character"</span>
 <span class="fu"><a href="https://rdrr.io/r/base/typeof.html">typeof</a></span><span class="op">(</span><span class="st">'ACGT'</span><span class="op">)</span>
 <span class="co">#&gt; [1] "character"</span>
+
 <span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">'A'</span>, <span class="st">'C'</span>, <span class="st">'G'</span>, <span class="st">'T'</span><span class="op">)</span><span class="op">)</span>
 <span class="co">#&gt; [1] 4</span>
 <span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="st">'ACGT'</span><span class="op">)</span>
@@ -205,6 +207,7 @@
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">longest_common_prefix</span><span class="op">(</span><span class="st">'ACTG'</span>, <span class="st">'ACCC'</span>, glued <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
 <span class="co">#&gt; [1] "A" "C"</span>
+
 <span class="fu">longest_common_prefix</span><span class="op">(</span><span class="st">'TCTG'</span>, <span class="st">'ACCC'</span>, glued <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
 <span class="co">#&gt; [1] ""</span></code></pre></div>
 </div>
@@ -302,7 +305,7 @@
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Genome Assembly</strong>" was written by officialprofile. It was last built on 2021-10-11.</p>
+    <p>"<strong>Genome Assembly</strong>" was written by officialprofile. It was last built on 2021-10-12.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">

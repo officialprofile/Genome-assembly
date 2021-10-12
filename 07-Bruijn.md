@@ -10,6 +10,7 @@ km1mers <- c()
 
 
 ```r
+
 generate_kmers <-
 for (i in 1:(nchar(seq)-k+1)){
   kmers = c(kmers, substr(seq, i, i+k-1))
@@ -35,6 +36,7 @@ km1mers
 #> [10] "TTA" "TAC" "ACA" "CAG" "AGA" "GAA" "AAA" "AAG" "AGA"
 #> [19] "GAT" "ATA" "TAC" "ACA"
 ```
+
 
 ```r
 unique(km1mers)
@@ -87,12 +89,14 @@ adjacency_matrix
 
 ```r
 debruijn <- igraph::graph_from_adjacency_matrix(adjacency_matrix, mode = 'directed')
-igraph::plot.igraph(debruijn, vertex.label.cex=1, arrow.size = .05,
-     vertex.size = .1, vertex.color = 'white',
-     curved = TRUE, label.cex = .5)
+igraph::plot.igraph(debruijn, vertex.label.cex=.5, 
+     vertex.size = 20, vertex.color = 'white',
+     curved = TRUE, label.cex = .1)
 ```
 
 ![](07-Bruijn_files/figure-epub3/unnamed-chunk-8-1.png)<!-- -->
+
+
 
 ```r
 library(GGally)
