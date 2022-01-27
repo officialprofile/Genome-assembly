@@ -2,8 +2,6 @@
 
 [**Read the textbook online**](https://officialprofile.github.io/GenomeAssembly/) | **Download** [**PDF**](https://raw.githubusercontent.com/officialprofile/GenomeAssembly/main/Genome-Assembly.pdf) **or** [**epub**](https://raw.githubusercontent.com/officialprofile/GenomeAssembly/main/Genome-Assembly.epub) **version** | [Track the progress of this project](https://github.com/users/officialprofile/projects/2)
 
-<img align = "right" src="img/cover.jpg" width="300px" />
-
 This mini textbook describes selected algorithms that play a fundamental role in genome assembly. The premise of this book is to construct the algorithms from the very bottom and explain step by step main ideas that stand behind them.
 
 We will try to avoid as much as possible ready-to-use implementations, which are of course available and of good quality, but their use wouldn't serve the educational purpose. Naturally, many applications are included as well.
